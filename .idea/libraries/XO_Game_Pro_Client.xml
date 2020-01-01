@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="XO-Game-Pro-Client">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/run908375162/XO-Game-Pro-Client.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
