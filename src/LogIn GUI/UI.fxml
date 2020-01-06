@@ -14,82 +14,83 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="770.0" style="-fx-background-color: fff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FXMLDocumentController">
-   <children>
-      <HBox alignment="CENTER_LEFT" layoutX="225.0" layoutY="204.0" prefHeight="35.0" prefWidth="321.0" style="-fx-border-color: #bebfc1; -fx-background-radius: 5px; -fx-border-radius: 5px;">
-         <children>
-            <FontAwesomeIcon glyphName="ENVELOPE" glyphStyle="-fx-fill:#bebfc1" size="1.2em">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </FontAwesomeIcon>
-            <TextField prefHeight="33.0" prefWidth="294.0" promptText="Email Address" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </TextField>
-         </children>
-         <opaqueInsets>
-            <Insets left="10.0" />
-         </opaqueInsets>
-         <padding>
-            <Insets left="10.0" />
-         </padding></HBox>
-      <Label layoutX="334.0" layoutY="160.0" prefHeight="30.0" prefWidth="102.0" text="Sign In" textFill="#ff8262">
-         <font>
-            <Font name="Bodoni MT Black Italic" size="24.0" />
-         </font>
-      </Label>
-      <HBox alignment="CENTER_LEFT" layoutX="225.0" layoutY="258.0" prefHeight="35.0" prefWidth="321.0" style="-fx-border-color: #bebfc1; -fx-background-radius: 5px; -fx-border-radius: 5px;">
-         <padding>
-            <Insets left="10.0" />
-         </padding>
-         <children>
-            <FontAwesomeIcon glyphName="LOCK" glyphStyle="-fx-fill:#bebfc1" size="1.2em">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </FontAwesomeIcon>
-            <PasswordField prefHeight="62.0" prefWidth="309.0" promptText="Password" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </PasswordField>
-         </children>
-         <opaqueInsets>
-            <Insets left="10.0" />
-         </opaqueInsets>
-      </HBox>
-      <JFXButton layoutX="225.0" layoutY="315.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #41eac1; -fx-background-radius: 5px;" text="LOGIN">
-         <font>
-            <Font name="Microsoft Sans Serif" size="12.0" />
-         </font>
-      </JFXButton>
-      <JFXCheckBox layoutX="411.0" layoutY="322.0" text="Remember Me" unCheckedColor="#bebfc1" />
-      <Pane layoutY="450.0" prefHeight="50.0" prefWidth="770.0" style="-fx-background-color: #f3f4f6;">
-         <children>
-            <JFXButton layoutX="14.0" layoutY="14.0" text="New User? Register" underline="true">
-               <font>
-                  <Font name="Microsoft Sans Serif" size="12.0" />
-               </font>
-            </JFXButton>
-            <JFXButton layoutX="642.0" layoutY="14.0" text="Forget Password?" underline="true">
-               <font>
-                  <Font name="Microsoft Sans Serif" size="12.0" />
-               </font>
-            </JFXButton>
-         </children>
-      </Pane>
-      <ImageView fitHeight="99.0" fitWidth="615.0" layoutX="251.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Java%20Programming/image2.png" />
-         </image>
-      </ImageView>
-   </children>
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="770.0" style="-fx-background-color: fff;" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FXMLDocumentController">
+    <children>
+        <ImageView fitHeight="502.0" fitWidth="509.0" layoutX="269.0" preserveRatio="true">
+            <image>
+                <Image url="@../../../../../../../../../../../home/ahares/Desktop/1.jpg" />
+            </image>
+        </ImageView>
+        <HBox alignment="CENTER_LEFT" layoutX="225.0" layoutY="204.0" prefHeight="35.0" prefWidth="321.0" style="-fx-border-color: #bebfc1; -fx-background-radius: 5px; -fx-border-radius: 5px;">
+            <children>
+                <FontAwesomeIcon glyphName="ENVELOPE" glyphStyle="-fx-fill:#bebfc1" size="1.2em">
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </FontAwesomeIcon>
+                <TextField prefHeight="33.0" prefWidth="294.0" promptText="Email Address" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </TextField>
+            </children>
+            <opaqueInsets>
+                <Insets left="10.0" />
+            </opaqueInsets>
+            <padding>
+                <Insets left="10.0" />
+            </padding>
+        </HBox>
+        <Label layoutX="334.0" layoutY="160.0" prefHeight="30.0" prefWidth="102.0" text="Sign In" textFill="#ff8262">
+            <font>
+                <Font name="Bodoni MT Black Italic" size="24.0" />
+            </font>
+        </Label>
+        <HBox alignment="CENTER_LEFT" layoutX="225.0" layoutY="258.0" prefHeight="35.0" prefWidth="321.0" style="-fx-border-color: #bebfc1; -fx-background-radius: 5px; -fx-border-radius: 5px;">
+            <padding>
+                <Insets left="10.0" />
+            </padding>
+            <children>
+                <FontAwesomeIcon glyphName="LOCK" glyphStyle="-fx-fill:#bebfc1" size="1.2em">
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </FontAwesomeIcon>
+                <PasswordField prefHeight="62.0" prefWidth="309.0" promptText="Password" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </PasswordField>
+            </children>
+            <opaqueInsets>
+                <Insets left="10.0" />
+            </opaqueInsets>
+        </HBox>
+        <JFXButton layoutX="225.0" layoutY="315.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #41eac1; -fx-background-radius: 5px;" text="LOGIN">
+            <font>
+                <Font name="Microsoft Sans Serif" size="12.0" />
+            </font>
+        </JFXButton>
+        <JFXCheckBox layoutX="411.0" layoutY="322.0" text="Remember Me" unCheckedColor="#bebfc1" />
+        <Pane layoutY="450.0" prefHeight="50.0" prefWidth="770.0">
+            <children>
+                <JFXButton layoutX="14.0" layoutY="14.0" text="New User? Register" underline="true">
+                    <font>
+                        <Font name="Microsoft Sans Serif" size="12.0" />
+                    </font>
+                </JFXButton>
+                <JFXButton layoutX="642.0" layoutY="14.0" text="Forget Password?" underline="true">
+                    <font>
+                        <Font name="Microsoft Sans Serif" size="12.0" />
+                    </font>
+                </JFXButton>
+            </children>
+        </Pane>
+    </children>
 </AnchorPane>
