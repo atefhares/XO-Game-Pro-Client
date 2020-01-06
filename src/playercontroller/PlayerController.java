@@ -192,13 +192,13 @@ public boolean Get_Response_JSON() {
                         RESPONSE = new JSONObject(GENRAL_IS.readLine());
                         String statusName = RESPONSE.getJSONObject("requestStatus").getString("statusName");
                         System.out.println(statusName);
-                        if("SignIn".equalsIgnoreCase(statusName))
+                        if("SignIn".equalsIgnoreCase(statusName.trim()))
                         {
                         //ToDO Player object 
                             Fill_player_Data();
                             SignIn_Status=true;
                         }
-                        else if("SignUp".equalsIgnoreCase(statusName))
+                        else if("SignUp".equalsIgnoreCase(statusName.trim()))
                         {
                         //ToDO Player object 
                             Fill_player_Data();
