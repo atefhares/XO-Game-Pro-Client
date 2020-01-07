@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="770.0" style="-fx-background-color: #2ec2a0;" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.itijavafinalprojectteam8.view.login.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="770.0" style="-fx-background-color: #2ec2a0;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.itijavafinalprojectteam8.view.login.LoginController">
     <children>
         <ImageView fitHeight="480.0" fitWidth="464.0" layoutX="306.0" layoutY="37.0" preserveRatio="true">
             <image>
@@ -84,7 +84,7 @@
             </effect>
         </JFXButton>
         
-      <Hyperlink layoutX="14.0" layoutY="463.0" text="New User? Register" textFill="WHITE" />
+      <Hyperlink fx:id="link" layoutX="14.0" layoutY="463.0" onAction="#changeScreenHyperLink" text="New User? Register" textFill="WHITE" />
       <Hyperlink layoutX="633.0" layoutY="463.0" text="forgot password?" textFill="WHITE" />
     </children>
 </AnchorPane>
