@@ -8,8 +8,12 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="XO-Game-Pro-Client.jar" size="1378" download="eager" />
+    <jar href="XO-Game-Pro-Client.jar" size="6303" download="eager" />
+    <jar href="lib\json-20190722.jar" size="65003" download="eager" />
   </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="XO-Game-Pro-Client" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
   <jfx:javafx-desc  width="800" height="600" main-class="com.itijavafinalprojectteam8.MainClass"  name="XO-Game-Pro-Client" />
   <update check="always"/>
 </jnlp>
