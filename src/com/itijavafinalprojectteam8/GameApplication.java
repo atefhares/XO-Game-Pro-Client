@@ -6,19 +6,26 @@
 package com.itijavafinalprojectteam8;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *
  * @author ahares
  */
-public class MainClass extends Application{
+public class GameApplication extends Application {
     public static void main(String[] args) {
         System.out.println("This is the client!");
+        launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-
+        stage.setTitle(Constants.GAME_TITLE);
+        Parent root = FXMLLoader.load(getClass().getResource("view/login/login.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }
