@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONArray;
@@ -40,6 +41,17 @@ public class PlayerController {
     private String Player_Email;
     private String Player_Name;
     private int Player_Points;
+    private int Player_Status;
+    public static Vector<PlayerController> Player_Vector = new Vector<PlayerController>();
+
+    public int getPlayer_Status() {
+        return Player_Status;
+    }
+
+    public void setPlayer_Status(int Player_Status) {
+        this.Player_Status = Player_Status;
+    }
+
 
     public String getPlayer_Email() {
         return Player_Email;
@@ -186,8 +198,6 @@ public boolean Get_Response_JSON() {
                         GENRAL_IS = new DataInputStream(SOCKET.getInputStream());
                         
                         
-                        
-                        
                     
                         RESPONSE = new JSONObject(GENRAL_IS.readLine());
                         String statusName = RESPONSE.getJSONObject("requestStatus").getString("statusName");
@@ -205,7 +215,21 @@ public boolean Get_Response_JSON() {
                             System.out.println(getPlayer_Name());
                             SignUp_Status=true;
                         }
-                    
+                        else if ("GetUsers".equalsIgnoreCase(statusName.trim()))
+                        {
+                           
+                            Data_Array= RESPONSE.getJSONArray("Data");
+                             for (int i = 0; i < Data_Array.length(); i++)
+                        {
+                            PlayerController player = new PlayerController();
+                            System.out.println("Data   "+Data_Array.getJSONObject(i).getString("Email"));
+                            player.setPlayer_Email(Data_Array.getJSONObject(i).getString("Email"));
+                            player.setPlayer_Name(Data_Array.getJSONObject(i).getString("Name"));
+                            player.setPlayer_Points(Integer.parseInt(Data_Array.getJSONObject(i).getString("Points")));
+                            player.setPlayer_Status(Integer.parseInt(Data_Array.getJSONObject(i).getString("Status")));
+                            Player_Vector.add(player);
+                        }
+                        }
                         
                     } 
                     catch (JSONException ex) {
