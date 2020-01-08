@@ -123,7 +123,7 @@
                         <Insets/>
                     </HBox.margin>
                 </FontAwesomeIcon>
-                <PasswordField prefHeight="62.0" prefWidth="309.0" promptText="Confirm password"
+                <PasswordField fx:id="confirmPassWordF" prefHeight="62.0" prefWidth="309.0" promptText="Confirm password"
                                style="-fx-background-color: transparent;-fx-prompt-text-fill: WHITE;"
                                HBox.hgrow="ALWAYS">
                     <font>

@@ -123,7 +123,7 @@
                         <Insets/>
                     </HBox.margin>
                 </FontAwesomeIcon>
-                <PasswordField prefHeight="62.0" prefWidth="309.0" promptText="Confirm password"
+                <PasswordField fx:id="confirmPassWordF" prefHeight="62.0" prefWidth="309.0" promptText="Confirm password"
                                style="-fx-background-color: transparent;-fx-prompt-text-fill: WHITE;"
                                HBox.hgrow="ALWAYS">
                     <font>
@@ -141,11 +141,10 @@
 
         <JFXButton onAction="#onLoginUp"  buttonType="RAISED" layoutX="33.0" layoutY="313.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="89.0" style="-fx-background-color: #41eac1; -fx-background-radius: 5px;" text="SignUp" textAlignment="RIGHT" textFill="WHITE" textOverrun="CLIP">
             <font>
-                <Font name="FreeSerif Bold" size="18.0"/>
+                <Font name="FreeSerif Bold" size="18.0" />
             </font>
             <effect>
-                <DropShadow blurType="GAUSSIAN" color="#1f8f75fc" height="93.11" offsetX="1.0" offsetY="2.0"
-                            radius="29.61" width="27.33"/>
+                <DropShadow blurType="GAUSSIAN" color="#1f8f75fc" height="93.11" offsetX="1.0" offsetY="2.0" radius="29.61" width="27.33" />
             </effect>
         </JFXButton>
 
