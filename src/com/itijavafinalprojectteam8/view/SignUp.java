@@ -22,7 +22,7 @@ public class SignUp  extends Application{
         //throw new UnsupportedOperationException("Not supported yet."); 
         System.out.println(getClass());
         //E:\Local Disk\ITI - 9 month\Java\Java Project\gitProject\src\com\itijavafinalprojectteam8\view\fxml\signUp_form.fxml
-            Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("UI.fxml"));
         primaryStage.setTitle("Sign Up");
         Scene scene =  new Scene(root, 400, 800);
         scene.getStylesheets().add("/CSS/signUpStyleForm.css");

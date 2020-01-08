@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="770.0" style="-fx-background-image: src/com/itijavafinalprojectteam8/view/res/1.jpg;" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.itijavafinalprojectteam8.MainClass">
+   <children>
+      <HBox alignment="CENTER_LEFT" layoutX="225.0" layoutY="182.0" prefHeight="35.0" prefWidth="321.0" style="-fx-border-color: #bebfc1; -fx-background-radius: 5px; -fx-border-radius: 5px;">
+         <children>
+<!--            <FontAwesomeIcon glyphName="ENVELOPE" glyphStyle="-fx-fill:#bebfc1" size="1.2em">-->
+<!--               <HBox.margin>-->
+<!--                  <Insets />-->
+<!--               </HBox.margin>-->
+<!--            </FontAwesomeIcon>-->
+            <TextField prefHeight="33.0" prefWidth="294.0" promptText="Email Address" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </TextField>
+         </children>
+         <opaqueInsets>
+            <Insets left="10.0" />
+         </opaqueInsets>
+         <padding>
+            <Insets left="10.0" />
+         </padding></HBox>
+      <Label layoutX="335.0" layoutY="140.0" prefHeight="30.0" prefWidth="103.0" text="New User">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_LEFT" layoutX="225.0" layoutY="236.0" prefHeight="35.0" prefWidth="321.0" style="-fx-border-color: #bebfc1; -fx-background-radius: 5px; -fx-border-radius: 5px;">
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+         <children>
+<!--            <FontAwesomeIcon glyphName="LOCK" glyphStyle="-fx-fill:#bebfc1" size="1.2em">-->
+<!--               <HBox.margin>-->
+<!--                  <Insets />-->
+<!--               </HBox.margin>-->
+<!--            </FontAwesomeIcon>-->
+            <PasswordField prefHeight="62.0" prefWidth="309.0" promptText="Password" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </PasswordField>
+         </children>
+         <opaqueInsets>
+            <Insets left="10.0" />
+         </opaqueInsets>
+      </HBox>
+      <JFXButton layoutX="346.0" layoutY="331.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #41eac1; -fx-background-color: ; -fx-background-radius: 5px;" text="Register">
+         <font>
+            <Font name="Microsoft Sans Serif" size="12.0" />
+         </font>
+      </JFXButton>
+      <HBox alignment="CENTER_LEFT" layoutX="225.0" layoutY="286.0" prefHeight="35.0" prefWidth="321.0" style="-fx-border-color: #bebfc1; -fx-background-radius: 5px; -fx-border-radius: 5px;">
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+         <children>
+            <PasswordField prefHeight="62.0" prefWidth="309.0" promptText="Confirm Password" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </PasswordField>
+         </children>
+         <opaqueInsets>
+            <Insets left="10.0" />
+         </opaqueInsets>
+      </HBox>
+      <ImageView fitHeight="104.0" fitWidth="400.0" layoutX="226.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../../../../../../../home/ahares/Downloads/111-1114842_tic-tac-toe-tic-tac-toe-clipart.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
