@@ -23,9 +23,7 @@ public class GameApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle(Constants.GAME_TITLE);
-     //   Parent root = FXMLLoader.load(getClass().getResource("itijavafinalprojectteam8/view/login/login.fxml"));
-                Parent root = FXMLLoader.load(getClass().getResource("view/login/login.fxml"));
-
+        Parent root = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
