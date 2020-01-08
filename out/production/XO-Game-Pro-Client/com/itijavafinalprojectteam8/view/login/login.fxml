@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="770.0" style="-fx-background-color: #2ec2a0;"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.itijavafinalprojectteam8.view.login.LoginController">
+    <children>
+        <ImageView fitHeight="480.0" fitWidth="464.0" layoutX="306.0" layoutY="37.0" preserveRatio="true">
+            <image>
+                <Image url="@../resources/xobg.jpg"/>
+            </image>
+        </ImageView>
+        <HBox alignment="CENTER_LEFT" layoutX="33.0" layoutY="202.0" prefHeight="35.0" prefWidth="321.0"
+              style="-fx-border-color: #fff; -fx-background-radius: 5px; -fx-border-radius: 5px;">
+            <children>
+                <FontAwesomeIcon fontSmoothingType="LCD" glyphName="ENVELOPE" glyphStyle="-fx-fill:#fff" size="1.2em"
+                                 text="">
+                    <HBox.margin>
+                        <Insets/>
+                    </HBox.margin>
+                </FontAwesomeIcon>
+                <TextField prefHeight="33.0" prefWidth="294.0" promptText="Email Address"
+                           style="-fx-background-color: transparent; -fx-prompt-text-fill: WHITE;" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font name="DejaVu Sans Condensed Bold" size="14.0"/>
+                    </font>
+                    <HBox.margin>
+                        <Insets/>
+                    </HBox.margin>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </TextField>
+            </children>
+            <opaqueInsets>
+                <Insets left="10.0"/>
+            </opaqueInsets>
+            <padding>
+                <Insets left="10.0"/>
+            </padding>
+        </HBox>
+        <Label graphicTextGap="2.0" layoutX="113.0" layoutY="121.0" prefHeight="62.0" prefWidth="162.0"
+               style="-fx-font-color: #fff;-fx-font-style: Neucha;" text="Sign In" textFill="WHITE" textOverrun="CLIP">
+            <font>
+                <Font name="Caladea Bold" size="50.0"/>
+            </font>
+        </Label>
+        <HBox alignment="CENTER_LEFT" layoutX="33.0" layoutY="256.0" prefHeight="35.0" prefWidth="321.0"
+              style="-fx-border-color: #fff; -fx-background-radius: 5px; -fx-border-radius: 5px;">
+            <padding>
+                <Insets left="10.0"/>
+            </padding>
+            <children>
+                <FontAwesomeIcon glyphName="LOCK" glyphStyle="-fx-fill:#fff" size="1.2em" text="">
+                    <HBox.margin>
+                        <Insets/>
+                    </HBox.margin>
+                </FontAwesomeIcon>
+                <PasswordField prefHeight="62.0" prefWidth="309.0" promptText="Password"
+                               style="-fx-background-color: transparent;-fx-prompt-text-fill: WHITE;"
+                               HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font name="DejaVu Sans Condensed Bold" size="14.0"/>
+                    </font>
+                    <HBox.margin>
+                        <Insets/>
+                    </HBox.margin>
+                </PasswordField>
+            </children>
+            <opaqueInsets>
+                <Insets left="10.0"/>
+            </opaqueInsets>
+        </HBox>
+        <JFXButton fx:id="loginBtn" buttonType="RAISED" layoutX="33.0" layoutY="313.0" maxHeight="-Infinity"
+                   maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="89.0"
+                   style="-fx-background-color: #41eac1; -fx-background-radius: 5px;" text="Login" textAlignment="RIGHT"
+                   textFill="WHITE" textOverrun="CLIP">
+            <font>
+                <Font name="FreeSerif Bold" size="18.0"/>
+            </font>
+            <effect>
+                <DropShadow blurType="GAUSSIAN" color="#1f8f75fc" height="93.11" offsetX="1.0" offsetY="2.0"
+                            radius="29.61" width="27.33"/>
+            </effect>
+        </JFXButton>
+
+        <Hyperlink layoutX="14.0" layoutY="463.0" onAction="#changeScreenHyperLink" text="New User? Register"
+                   textFill="WHITE"/>
+        <Hyperlink layoutX="633.0" layoutY="463.0" text="forgot password?" textFill="WHITE"/>
+    </children>
+</AnchorPane>
