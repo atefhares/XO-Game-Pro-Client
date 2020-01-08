@@ -23,8 +23,8 @@
                 <Image url="@../resources/xobg.jpg"/>
             </image>
         </ImageView>
-        <Label graphicTextGap="2.0" layoutX="104.0" layoutY="77.0" prefHeight="62.0" prefWidth="179.0"
-               style="-fx-font-color: #fff; -fx-font-style: Neucha;" text="Sign Up" textFill="WHITE" textOverrun="CLIP">
+
+        <Label graphicTextGap="2.0" layoutX="104.0" layoutY="77.0" prefHeight="62.0" prefWidth="179.0" style="-fx-font-color: #fff;" text="Sign Up" textFill="WHITE" textOverrun="CLIP">
             <font>
                 <Font name="Caladea Bold" size="50.0"/>
             </font>
@@ -67,8 +67,7 @@
                         <Insets/>
                     </HBox.margin>
                 </FontAwesomeIcon>
-                <TextField prefHeight="33.0" prefWidth="294.0" promptText="Email Address"
-                           style="-fx-background-color: transparent; -fx-prompt-text-fill: WHITE;" HBox.hgrow="ALWAYS">
+                <TextField fx:id="emailAddressTF" prefHeight="33.0" prefWidth="294.0" promptText="Email Address" style="-fx-background-color: transparent; -fx-prompt-text-fill: WHITE;" HBox.hgrow="ALWAYS">
                     <font>
                         <Font name="DejaVu Sans Condensed Bold" size="14.0"/>
                     </font>
@@ -98,9 +97,8 @@
                         <Insets/>
                     </HBox.margin>
                 </FontAwesomeIcon>
-                <PasswordField prefHeight="62.0" prefWidth="309.0" promptText="Password"
-                               style="-fx-background-color: transparent;-fx-prompt-text-fill: WHITE;"
-                               HBox.hgrow="ALWAYS">
+
+                <PasswordField fx:id="passWordF" prefHeight="62.0" prefWidth="309.0" promptText="Password" style="-fx-background-color: transparent;-fx-prompt-text-fill: WHITE;" HBox.hgrow="ALWAYS">
                     <font>
                         <Font name="DejaVu Sans Condensed Bold" size="14.0"/>
                     </font>
@@ -113,6 +111,7 @@
                 <Insets left="10.0"/>
             </opaqueInsets>
         </HBox>
+
         <HBox alignment="CENTER_LEFT" layoutX="33.0" layoutY="306.0" prefHeight="35.0" prefWidth="321.0"
               style="-fx-border-color: #fff; -fx-background-radius: 5px; -fx-border-radius: 5px;">
             <padding>
@@ -139,10 +138,8 @@
                 <Insets left="10.0"/>
             </opaqueInsets>
         </HBox>
-        <JFXButton buttonType="RAISED" layoutX="26.0" layoutY="392.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                   minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="89.0"
-                   style="-fx-background-color: #41eac1; -fx-background-radius: 5px;" text="SignUp"
-                   textAlignment="RIGHT" textFill="WHITE" textOverrun="CLIP">
+
+        <JFXButton onAction="#onLoginUp"  buttonType="RAISED" layoutX="33.0" layoutY="313.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="89.0" style="-fx-background-color: #41eac1; -fx-background-radius: 5px;" text="SignUp" textAlignment="RIGHT" textFill="WHITE" textOverrun="CLIP">
             <font>
                 <Font name="FreeSerif Bold" size="18.0"/>
             </font>
@@ -151,7 +148,7 @@
                             radius="29.61" width="27.33"/>
             </effect>
         </JFXButton>
-        <Hyperlink layoutX="14.0" layoutY="463.0" onAction="#changeScreenHyperLink" text="Already registered? login"
-                   textFill="WHITE"/>
+
+        <Hyperlink layoutX="14.0" layoutY="463.0" onAction="#changeScreen" text="Already registered? login" textFill="WHITE" />
     </children>
 </AnchorPane>
