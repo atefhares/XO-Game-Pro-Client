@@ -3,7 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/E:/ITI/JAVA/javaapp_master_client/src/GUI/GameFXMLController.java</file>
+            <file>file:/E:/ITI/JAVA/javaapp_master_client/src/GUI/GameFXML.fxml</file>
+            <file>file:/E:/ITI/JAVA/javaapp_master_client/src/GUI/Game.java</file>
             <file>file:/E:/ITI/JAVA/javaapp_master_client/src/playercontroller/PlayerController.java</file>
+            <file>file:/E:/ITI/JAVA/javaapp_master_client/src/playercontroller/Player.java</file>
         </group>
     </open-files>
 </project-private>

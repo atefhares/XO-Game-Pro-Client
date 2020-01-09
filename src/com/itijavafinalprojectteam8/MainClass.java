@@ -13,6 +13,7 @@ import javafx.stage.Stage;
  * @author ahares
  */
 public class MainClass extends Application{
+    public int x=0;
     public static void main(String[] args) {
         System.out.println("This is the client!");
     }

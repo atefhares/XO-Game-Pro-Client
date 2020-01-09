@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<SplitPane fx:id="sPane" dividerPositions="0.7567567567567568" focusTraversable="true" prefHeight="589.0" prefWidth="705.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="GUI.GameFXMLController">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="587.0" prefWidth="422.0" visible="true">
+      <children>
+        <Text layoutX="14.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game">
+          <effect>
+            <Glow />
+          </effect>
+          <fill>
+            <Color blue="0.200" green="0.200" red="1.000" fx:id="x1" />
+          </fill>
+          <font>
+            <Font name="Bodoni MT Black" size="20.0" />
+          </font>
+        </Text>
+        <Button fx:id="dark_blue" layoutX="458.0" layoutY="547.0" mnemonicParsing="false" text="Exit" />
+        <Button layoutX="387.0" layoutY="548.0" mnemonicParsing="false" text="Pause" />
+        <Line endX="230.0" endY="0.0" layoutX="244.0" layoutY="200.0" startX="-138.0" startY="0.0" stroke="WHITE" strokeWidth="7.5" />
+        <Line endX="230.0" endY="0.0" layoutX="244.0" layoutY="294.0" startX="-138.0" startY="0.0" stroke="WHITE" strokeWidth="7.5" />
+        <Line endX="5.0" endY="270.0" layoutX="215.0" layoutY="120.0" startX="5.0" startY="0.0" stroke="WHITE" strokeWidth="7.5" />
+        <Line endX="5.0" endY="270.0" layoutX="352.0" layoutY="120.0" startX="2.0" startY="-1.0" stroke="WHITE" strokeWidth="7.5" />
+        <TextField layoutX="101.0" layoutY="209.0" prefHeight="80.25" prefWidth="114.25" text="Button" />
+        <TextField layoutX="102.0" layoutY="115.0" prefHeight="80.25" prefWidth="114.25" text="Button" />
+        <TextField layoutX="101.0" layoutY="302.0" prefHeight="80.25" prefWidth="114.25" text="Button" />
+        <TextField layoutX="226.0" layoutY="302.0" prefHeight="81.0" prefWidth="127.5" text="Button" />
+        <TextField layoutX="224.0" layoutY="209.0" prefHeight="80.99990000000253" prefWidth="128.0" text="Button" />
+        <TextField layoutX="224.0" layoutY="114.0" prefHeight="80.99990000000253" prefWidth="128.0" text="Button" />
+        <TextField layoutX="363.0" layoutY="302.0" prefHeight="80.25" prefWidth="114.25" text="Button" />
+        <TextField layoutX="362.0" layoutY="209.0" prefHeight="80.25" prefWidth="114.25" text="Button" />
+        <TextField layoutX="362.0" layoutY="116.0" prefHeight="80.25" prefWidth="114.25" text="Button" />
+      </children>
+    </AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+      <children>
+        <Text fill="$x1" fontSmoothingType="LCD" layoutX="14.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Players">
+          <effect>
+            <Glow />
+          </effect>
+          <font>
+            <Font name="Arial Black" size="20.0" />
+          </font>
+        </Text>
+        <ScrollPane layoutX="-16.0" layoutY="26.0" prefHeight="520.0" prefWidth="200.0">
+          <content>
+            <AnchorPane id="Content" fx:id="anchorPane" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+              <children>
+                <BorderPane layoutX="0.0" layoutY="0.0" prefHeight="36.0" prefWidth="200.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </ScrollPane>
+        <Button fx:id="Refresh" layoutX="100.0" layoutY="-2.0" mnemonicParsing="false" text="Refresh" />
+      </children>
+    </AnchorPane>
+  </items>
+</SplitPane>
