@@ -27,11 +27,8 @@ public class ClientController {
         mViewCallback = view;
     }
 
-    public static void open() {
+    private static void open() {
         try {
-            if (mSocket != null && !mSocket.isClosed())
-                return;
-
             mSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
             mDataInputStream = new DataInputStream(mSocket.getInputStream());
             mDataOutputStream = new DataOutputStream(mSocket.getOutputStream());
@@ -43,6 +40,7 @@ public class ClientController {
     public static void sendToServer(@NotNull final String msg) throws IOException {
         if (mSocket == null || mSocket.isClosed()) {
             System.out.println("No socket opened with server!!");
+            open();
             return;
         }
 

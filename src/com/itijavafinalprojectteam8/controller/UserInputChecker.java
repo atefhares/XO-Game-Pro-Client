@@ -1,16 +1,46 @@
 package com.itijavafinalprojectteam8.controller;
 
-import com.sun.istack.internal.NotNull;
-
 public class UserInputChecker {
 
-    public static boolean isValidEmail(@NotNull final String email) {
-        // TODO: 1/8/20
-        return true;
+    private static final int PASSWORD_LENGTH = 8;
+
+    public static boolean isValidEmail(String email) {
+        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        return email.matches(regex);
     }
 
-    public static boolean isValidPassword(@NotNull final String pass) {
-        // TODO: 1/8/20
-        return true;
+    public static boolean isLetter(char ch) {
+        ch = Character.toUpperCase(ch);
+        return (ch >= 'A' && ch <= 'Z');
+    }
+
+    public static boolean isNumeric(char ch) {
+
+        return (ch >= '0' && ch <= '9');
+    }
+
+    public static boolean isValidPassword(String password) {
+        System.out.println(password.length());
+        if (password.length() < PASSWORD_LENGTH) {
+            return false;
+        } else {
+            int charCounter = 0;
+            int numCounter = 0;
+
+            for (int i = 0; i < password.length(); i++) {
+
+                char ch = password.charAt(i);
+
+                if (isNumeric(ch)) {
+                    numCounter++;
+                } else if (isLetter(ch)) {
+                    charCounter++;
+                } else {
+                    return false;
+                }
+            }
+
+            return (charCounter >= 2 && numCounter >= 2);
+        }
     }
 }

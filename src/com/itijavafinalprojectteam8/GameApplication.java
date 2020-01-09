@@ -107,7 +107,6 @@ public class GameApplication extends Application implements View {
             @Override
             public void run() {
                 Toast.makeText(applicationStage, text, 2000, 500, 500);
-                
             }
         });
     }
