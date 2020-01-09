@@ -1,5 +1,8 @@
 package com.itijavafinalprojectteam8.controller;
 
+/**
+ * @author ahares
+ */
 public class UserInputChecker {
 
     private static final int PASSWORD_LENGTH = 8;
@@ -9,12 +12,12 @@ public class UserInputChecker {
         return email.matches(regex);
     }
 
-    public static boolean isLetter(char ch) {
+    private static boolean isLetter(char ch) {
         ch = Character.toUpperCase(ch);
         return (ch >= 'A' && ch <= 'Z');
     }
 
-    public static boolean isNumeric(char ch) {
+    private static boolean isNumeric(char ch) {
 
         return (ch >= '0' && ch <= '9');
     }

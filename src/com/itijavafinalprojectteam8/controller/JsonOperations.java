@@ -6,6 +6,9 @@ import org.json.JSONObject;
 
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * @author ahares
+ */
 public class JsonOperations {
 
     public static String getResponseType(String jsonStr) {
@@ -29,5 +32,15 @@ public class JsonOperations {
         object.put(Constants.JsonKeys.KEY_USER_EMAIL, email);
         object.put(Constants.JsonKeys.KEY_USER_PASSWORD, PasswordHelper.getEncryptedPassword(plainPass));
         return object.toString();
+    }
+
+    public static int getResponseCode(String jsonStr) {
+        JSONObject jsonObject = new JSONObject(jsonStr);
+        return jsonObject.getInt(Constants.JsonKeys.KEY_RESPONSE_CODE);
+    }
+
+    public static String getResponseMessage(String jsonStr) {
+        JSONObject jsonObject = new JSONObject(jsonStr);
+        return jsonObject.optString(Constants.JsonKeys.KEY_RESPONSE_MSG);
     }
 }

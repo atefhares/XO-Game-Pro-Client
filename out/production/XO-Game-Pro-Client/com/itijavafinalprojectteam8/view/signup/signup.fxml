@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -15,9 +14,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="770.0" style="-fx-background-color: #2ec2a0;" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.itijavafinalprojectteam8.view.signup.SignupController">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #2ec2a0;" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.itijavafinalprojectteam8.view.signup.SignupController">
     <children>
-        <ImageView fitHeight="480.0" fitWidth="464.0" layoutX="306.0" layoutY="37.0" preserveRatio="true">
+        <ImageView fitHeight="500" fitWidth="500" layoutX="336.0" layoutY="42.0" preserveRatio="true">
             <image>
                 <Image url="@../resources/xobg.jpg" />
             </image>
@@ -136,8 +135,17 @@
                 <DropShadow blurType="GAUSSIAN" color="#1f8f75fc" height="93.11" offsetX="1.0" offsetY="2.0" radius="29.61" width="27.33" />
             </effect>
         </JFXButton>
-        <Hyperlink layoutX="14.0" layoutY="463.0" onAction="#changeScreenHyperLink" text="Already registered? login" textFill="WHITE" />
+        <Hyperlink layoutX="14.0" layoutY="505.0" onAction="#changeScreenHyperLink" text="Already registered? login" textFill="WHITE" />
 
-      <ProgressIndicator layoutX="368.0" layoutY="256.0" padding="500" />
+<!--        <StackPane prefHeight="500.0" prefWidth="500.0" layoutX="250.0" layoutY="250.0">-->
+<!--            <children>-->
+<!--                <ProgressIndicator layoutX="250" layoutY="250" maxWidth="50" maxHeight="50">-->
+<!--                    <effect>-->
+<!--                        <Blend/>-->
+<!--                    </effect>-->
+<!--                </ProgressIndicator>-->
+<!--            </children>-->
+<!--        </StackPane>-->
+
     </children>
 </AnchorPane>

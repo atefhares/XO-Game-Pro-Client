@@ -3,16 +3,21 @@ package com.itijavafinalprojectteam8.view.signup;
 import com.itijavafinalprojectteam8.controller.ClientController;
 import com.itijavafinalprojectteam8.controller.JsonOperations;
 import com.itijavafinalprojectteam8.controller.UserInputChecker;
-import com.itijavafinalprojectteam8.view.login.View;
+import com.itijavafinalprojectteam8.view.interfaces.GameAppView;
+import com.itijavafinalprojectteam8.view.interfaces.SignUpView;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
-public class SignupController {
+public class SignupController implements SignUpView {
 
+    @FXML
+    private Pane progressPane;
     @FXML
     private TextField nameTF;
     @FXML
@@ -22,18 +27,21 @@ public class SignupController {
     @FXML
     private PasswordField confirmPasswordPF;
 
-    private static View mApplicationCallback;
+    private static GameAppView mApplicationCallback;
 
-    public static void setApplicationCallback(View callback) {
+    public SignupController() {
+        ClientController.setSignUpView(this);
+    }
+
+    public static void setApplicationCallback(GameAppView callback) {
         mApplicationCallback = callback;
     }
 
     @FXML
     public void changeScreenHyperLink(ActionEvent event) throws IOException {
         if (mApplicationCallback != null)
-            mApplicationCallback.switchSceneToLoginScreen();
+            mApplicationCallback.switchToLoginScreen();
     }
-
 
     @FXML
     private void onSignUpBtnPressed() {
@@ -67,6 +75,30 @@ public class SignupController {
         }
     }
 
+    @Override
+    public void onErrorResponse(String errorMsgFromServer) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                progressPane.setVisible(false);
 
+                if (mApplicationCallback != null)
+                    mApplicationCallback.showToastMessage(errorMsgFromServer);
+            }
+        });
+    }
+
+    @Override
+    public void onSuccessResponse() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                progressPane.setVisible(false);
+
+                if (mApplicationCallback != null)
+                    mApplicationCallback.switchToGameScreen();
+            }
+        });
+    }
 }
 

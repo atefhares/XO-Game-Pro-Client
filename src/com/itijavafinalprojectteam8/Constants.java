@@ -1,5 +1,8 @@
 package com.itijavafinalprojectteam8;
 
+/**
+ * @author ahares
+ */
 public class Constants {
     public static final String GAME_TITLE = "X-O game pro";
 

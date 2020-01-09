@@ -5,6 +5,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * @author ahares
+ */
 public class PasswordHelper {
 
     public static String getEncryptedPassword(final String p) throws NoSuchAlgorithmException {

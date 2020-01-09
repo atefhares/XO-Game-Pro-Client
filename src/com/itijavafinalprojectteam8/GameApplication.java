@@ -6,8 +6,8 @@
 package com.itijavafinalprojectteam8;
 
 import com.itijavafinalprojectteam8.controller.ClientController;
+import com.itijavafinalprojectteam8.view.interfaces.GameAppView;
 import com.itijavafinalprojectteam8.view.login.LoginController;
-import com.itijavafinalprojectteam8.view.login.View;
 import com.itijavafinalprojectteam8.view.others.Toast;
 import com.itijavafinalprojectteam8.view.signup.SignupController;
 import javafx.application.Application;
@@ -25,7 +25,7 @@ import java.io.IOException;
  * @author ahares
  */
 
-public class GameApplication extends Application implements View {
+public class GameApplication extends Application implements GameAppView {
 
     /*=====================================================================*/
 
@@ -40,13 +40,13 @@ public class GameApplication extends Application implements View {
     private PasswordField passwordPF;
     /*=========================================================================================*/
 
+
     @Override
     public void init() throws Exception {
         super.init();
 
         LoginController.setApplicationCallback(this);
         SignupController.setApplicationCallback(this);
-        ClientController.init(this);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class GameApplication extends Application implements View {
     /*=========================================================================================*/
 
     @Override
-    public void switchSceneToSignUpScreen() {
+    public void switchToSignUpScreen() {
         try {
             showSignUpScene(applicationStage);
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class GameApplication extends Application implements View {
     }
 
     @Override
-    public void switchSceneToLoginScreen() {
+    public void switchToLoginScreen() {
         try {
             showLoginScene(applicationStage);
         } catch (Exception e) {
@@ -103,12 +103,19 @@ public class GameApplication extends Application implements View {
 
     @Override
     public void showToastMessage(String text) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(applicationStage, text, 2000, 500, 500);
-            }
-        });
+        if (text != null && !text.isEmpty())
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(applicationStage, text, 2000, 500, 500);
+                }
+            });
+    }
+
+
+    @Override
+    public void switchToGameScreen() {
+        // TODO: 1/9/20
     }
 
     /*=========================================================================================*/
