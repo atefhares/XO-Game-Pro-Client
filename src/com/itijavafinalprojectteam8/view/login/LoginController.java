@@ -1,26 +1,44 @@
 package com.itijavafinalprojectteam8.view.login;
 
+import com.itijavafinalprojectteam8.controller.ClientController;
+import com.itijavafinalprojectteam8.controller.JsonOperations;
 import javafx.event.ActionEvent;
-import java.io.IOException;
-
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 
 public class LoginController {
 
+    @FXML
+    private TextField emailAddressTF;
+    @FXML
+    private PasswordField passwordPF;
+
+    private static View mApplicationCallback;
+
+    public static void setApplicationCallback(View callback) {
+        mApplicationCallback = callback;
+    }
 
     @FXML
     private void changeScreenHyperLink(ActionEvent event) throws IOException {
-        Parent signup = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/signup/signup.fxml"));
-        Scene signscene = new Scene(signup);
+        if (mApplicationCallback != null)
+            mApplicationCallback.switchSceneToSignUpScreen();
+    }
 
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(signscene);
-        window.show();
+    @FXML
+    private void onLoginBtnClicked(ActionEvent event) throws IOException {
+        String email = emailAddressTF.getText();
+        String plainPass = passwordPF.getText();
+
+        try {
+            ClientController.sendToServer(JsonOperations.getSignInJson(email, plainPass));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

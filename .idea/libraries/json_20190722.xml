@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="XO-Game-Pro-Client1">
+  <library name="json-20190722">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/dist/XO-Game-Pro-Client.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/json-20190722.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

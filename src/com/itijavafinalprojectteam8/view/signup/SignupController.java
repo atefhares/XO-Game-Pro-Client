@@ -1,31 +1,33 @@
 package com.itijavafinalprojectteam8.view.signup;
 
+import com.itijavafinalprojectteam8.view.login.View;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 public class SignupController {
 
-    private Parent root;
-    private Scene signInScene;
+    @FXML
+    private TextField nameTF;
+    @FXML
+    private TextField emailAddressTF;
+    @FXML
+    private PasswordField passwordPF;
+    @FXML
+    private PasswordField confirmPasswordPF;
+
+    private static View mApplicationCallback;
+
+    public static void setApplicationCallback(View callback) {
+        mApplicationCallback = callback;
+    }
 
     @FXML
     public void changeScreenHyperLink(ActionEvent event) throws IOException {
-        if(root == null)
-            root = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"));
-
-        if(signInScene == null)
-            signInScene= new Scene(root);
-
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(signInScene);
-        window.show();
+        if (mApplicationCallback != null)
+            mApplicationCallback.switchSceneToLoginScreen();
     }
 }
