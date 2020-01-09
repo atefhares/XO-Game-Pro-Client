@@ -104,7 +104,6 @@ public class GameApplication extends Application implements View {
 
     @Override
     public void showToastMessage(String text) {
-
     }
 
     /*=========================================================================================*/

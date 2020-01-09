@@ -36,6 +36,7 @@ public class LoginController {
         String plainPass = passwordPF.getText();
 
         try {
+            ClientController.open();
             ClientController.sendToServer(JsonOperations.getSignInJson(email, plainPass));
         } catch (Exception e) {
             e.printStackTrace();
