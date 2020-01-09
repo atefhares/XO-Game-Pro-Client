@@ -86,17 +86,18 @@ public class ClientController {
 
     private static void handleSignUpResponse(String textFromServer) {
 
-        // TODO: 1/9/20
+        if (mViewCallback != null) {
+            mViewCallback.showToastMessage(textFromServer);
+        }
     }
 
     private static void handleSignInResponse(String textFromServer) {
         if (mViewCallback != null) {
             mViewCallback.showToastMessage(textFromServer);
         }
-        // TODO: 1/9/20
     }
 
-    public synchronized void start() {
+    public static synchronized void start() {
         if (mThread != null)
             return;
 
@@ -107,7 +108,7 @@ public class ClientController {
                     try {
                         read();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        //e.printStackTrace();
                     }
                 }
             }

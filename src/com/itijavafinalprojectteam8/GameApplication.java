@@ -8,8 +8,10 @@ package com.itijavafinalprojectteam8;
 import com.itijavafinalprojectteam8.controller.ClientController;
 import com.itijavafinalprojectteam8.view.login.LoginController;
 import com.itijavafinalprojectteam8.view.login.View;
+import com.itijavafinalprojectteam8.view.others.Toast;
 import com.itijavafinalprojectteam8.view.signup.SignupController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -101,6 +103,13 @@ public class GameApplication extends Application implements View {
 
     @Override
     public void showToastMessage(String text) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(applicationStage, text, 2000, 500, 500);
+                
+            }
+        });
     }
 
     /*=========================================================================================*/

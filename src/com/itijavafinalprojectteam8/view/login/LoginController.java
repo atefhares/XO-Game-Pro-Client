@@ -37,6 +37,7 @@ public class LoginController {
         try {
             ClientController.open();
             ClientController.sendToServer(JsonOperations.getSignInJson(email, plainPass));
+            ClientController.start();
         } catch (Exception e) {
             e.printStackTrace();
         }

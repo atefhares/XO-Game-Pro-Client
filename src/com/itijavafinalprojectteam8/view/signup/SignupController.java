@@ -1,5 +1,7 @@
 package com.itijavafinalprojectteam8.view.signup;
 
+import com.itijavafinalprojectteam8.controller.ClientController;
+import com.itijavafinalprojectteam8.controller.JsonOperations;
 import com.itijavafinalprojectteam8.view.login.View;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,21 +37,30 @@ public class SignupController {
 
     @FXML
     private void onLoginUp() {
+        String name = nameTF.getText();
         String inputUserEmail = emailAddressTF.getText();
         String inputUserPassword = passwordPF.getText();
         String inputUserConfirmPassword = confirmPasswordPF.getText();
 
+        try {
+            ClientController.open();
+            ClientController.sendToServer(JsonOperations.getSignUpJson(name, inputUserEmail, inputUserPassword));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        /*
         if (!isValidEmail(inputUserEmail)) {
 //            Toast.makeText(
 //                    window
 //                    , "THis is a TOAST", 2000, 500, 500);
+            return;
         }
         if (isValidPassword(inputUserPassword) && inputUserPassword.equals(inputUserConfirmPassword)) {
             System.out.println("Password is valid: " + inputUserPassword);
         } else {
 
             System.out.println("Not a valid password: " + inputUserPassword);
-        }
+        }*/
 
     }
 

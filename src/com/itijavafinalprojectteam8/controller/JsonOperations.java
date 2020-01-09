@@ -20,4 +20,14 @@ public class JsonOperations {
         object.put(Constants.JsonKeys.KEY_USER_PASSWORD, PasswordHelper.getEncryptedPassword(plainPass));
         return object.toString();
     }
+
+
+    public static String getSignUpJson(String name, String email, String plainPass) throws NoSuchAlgorithmException {
+        JSONObject object = new JSONObject();
+        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_SIGN_UP);
+        object.put(Constants.JsonKeys.KEY_USER_NAME, name);
+        object.put(Constants.JsonKeys.KEY_USER_EMAIL, email);
+        object.put(Constants.JsonKeys.KEY_USER_PASSWORD, PasswordHelper.getEncryptedPassword(plainPass));
+        return object.toString();
+    }
 }
