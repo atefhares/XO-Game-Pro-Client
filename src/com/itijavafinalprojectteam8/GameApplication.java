@@ -26,6 +26,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * @author ahares
  */
+<<<<<<< HEAD
 public class GameApplication extends Application implements View {
 
     /*=====================================================================*/
@@ -48,11 +49,20 @@ public class GameApplication extends Application implements View {
         LoginController.setApplicationCallback(this);
         SignupController.setApplicationCallback(this);
         ClientController.init(this);
+=======
+public class GameApplication extends Application {
+
+
+    public static void main(String[] args) {
+        System.out.println("This is the client!");
+        launch(args);
+>>>>>>> a9db77cf8570c049c7531c1bc926842322a2c018
     }
 
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle(Constants.GAME_TITLE);
+<<<<<<< HEAD
         stage.setResizable(false);
 
         applicationStage = stage;
@@ -80,6 +90,14 @@ public class GameApplication extends Application implements View {
             );
 
         stage.setScene(signUpScene);
+=======
+
+
+        Parent root = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"));
+        Scene scene = new Scene(root);
+
+        stage.setScene(scene);
+>>>>>>> a9db77cf8570c049c7531c1bc926842322a2c018
         stage.show();
     }
     /*=========================================================================================*/

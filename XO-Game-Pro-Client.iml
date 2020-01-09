@@ -11,5 +11,7 @@
     <orderEntry type="library" name="fontawesomefx-8.2" level="project" />
     <orderEntry type="library" name="json-20190722" level="project" />
     <orderEntry type="library" name="fontawesomefx-8.2 (2)" level="project" />
+    <orderEntry type="library" name="XO-Game-Pro-Client" level="project" />
+    <orderEntry type="library" name="jdk1.8" level="project" />
   </component>
 </module>
