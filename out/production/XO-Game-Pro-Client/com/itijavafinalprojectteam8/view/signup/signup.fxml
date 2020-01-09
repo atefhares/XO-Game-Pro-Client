@@ -123,24 +123,6 @@
                 <Insets left="10.0"/>
             </opaqueInsets>
         </HBox>
-<<<<<<< HEAD
-        <HBox alignment="CENTER_LEFT" layoutX="33.0" layoutY="306.0" prefHeight="35.0" prefWidth="321.0" style="-fx-border-color: #fff; -fx-background-radius: 5px; -fx-border-radius: 5px;">
-            <padding>
-                <Insets left="10.0" />
-            </padding>
-            <children>
-                <FontAwesomeIcon glyphName="LOCK" glyphStyle="-fx-fill:#fff" size="1.5em" text="">
-                    <HBox.margin>
-                        <Insets />
-                    </HBox.margin>
-                </FontAwesomeIcon>
-                <PasswordField prefHeight="62.0" prefWidth="309.0" promptText="Confirm password" style="-fx-background-color: transparent;-fx-prompt-text-fill: WHITE;" HBox.hgrow="ALWAYS">
-                    <font>
-                        <Font name="DejaVu Sans Condensed Bold" size="14.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets />
-=======
 
         <HBox alignment="CENTER_LEFT" layoutX="33.0" layoutY="306.0" prefHeight="35.0" prefWidth="321.0"
               style="-fx-border-color: #fff; -fx-background-radius: 5px; -fx-border-radius: 5px;">
@@ -148,7 +130,7 @@
                 <Insets left="10.0"/>
             </padding>
             <children>
-                <FontAwesomeIcon glyphName="LOCK" glyphStyle="-fx-fill:#fff" size="1.2em" text="">
+                <FontAwesomeIcon glyphName="LOCK" glyphStyle="-fx-fill:#fff" size="1.5em" text="">
                     <HBox.margin>
                         <Insets/>
                     </HBox.margin>
@@ -161,23 +143,15 @@
                     </font>
                     <HBox.margin>
                         <Insets/>
->>>>>>> a9db77cf8570c049c7531c1bc926842322a2c018
                     </HBox.margin>
                 </PasswordField>
             </children>
             <opaqueInsets>
-<<<<<<< HEAD
-                <Insets left="10.0" />
-            </opaqueInsets>
-        </HBox>
-        <JFXButton buttonType="RAISED" layoutX="33.0" layoutY="360.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="89.0" style="-fx-background-color: #41eac1; -fx-background-radius: 5px;" text="SignUp" textAlignment="RIGHT" textFill="WHITE" textOverrun="CLIP">
-=======
                 <Insets left="10.0"/>
             </opaqueInsets>
         </HBox>
 
         <JFXButton onAction="#onLoginUp"  buttonType="RAISED" layoutX="33.0" layoutY="313.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="89.0" style="-fx-background-color: #41eac1; -fx-background-radius: 5px;" text="SignUp" textAlignment="RIGHT" textFill="WHITE" textOverrun="CLIP">
->>>>>>> a9db77cf8570c049c7531c1bc926842322a2c018
             <font>
                 <Font name="FreeSerif Bold" size="18.0" />
             </font>

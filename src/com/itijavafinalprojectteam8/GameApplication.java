@@ -6,27 +6,23 @@
 package com.itijavafinalprojectteam8;
 
 import com.itijavafinalprojectteam8.controller.ClientController;
-import com.itijavafinalprojectteam8.controller.JsonOperations;
 import com.itijavafinalprojectteam8.view.login.LoginController;
 import com.itijavafinalprojectteam8.view.login.View;
 import com.itijavafinalprojectteam8.view.signup.SignupController;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * @author ahares
  */
-<<<<<<< HEAD
+
 public class GameApplication extends Application implements View {
 
     /*=====================================================================*/
@@ -49,20 +45,11 @@ public class GameApplication extends Application implements View {
         LoginController.setApplicationCallback(this);
         SignupController.setApplicationCallback(this);
         ClientController.init(this);
-=======
-public class GameApplication extends Application {
-
-
-    public static void main(String[] args) {
-        System.out.println("This is the client!");
-        launch(args);
->>>>>>> a9db77cf8570c049c7531c1bc926842322a2c018
     }
 
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle(Constants.GAME_TITLE);
-<<<<<<< HEAD
         stage.setResizable(false);
 
         applicationStage = stage;
@@ -90,14 +77,6 @@ public class GameApplication extends Application {
             );
 
         stage.setScene(signUpScene);
-=======
-
-
-        Parent root = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"));
-        Scene scene = new Scene(root);
-
-        stage.setScene(scene);
->>>>>>> a9db77cf8570c049c7531c1bc926842322a2c018
         stage.show();
     }
     /*=========================================================================================*/

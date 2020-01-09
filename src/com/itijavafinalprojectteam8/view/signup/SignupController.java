@@ -1,10 +1,6 @@
 package com.itijavafinalprojectteam8.view.signup;
 
-<<<<<<< HEAD
 import com.itijavafinalprojectteam8.view.login.View;
-=======
-import com.itijavafinalprojectteam8.view.others.toast.Toast;
->>>>>>> a9db77cf8570c049c7531c1bc926842322a2c018
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -12,7 +8,6 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-<<<<<<< HEAD
 public class SignupController {
 
     @FXML
@@ -34,40 +29,6 @@ public class SignupController {
     public void changeScreenHyperLink(ActionEvent event) throws IOException {
         if (mApplicationCallback != null)
             mApplicationCallback.switchSceneToLoginScreen();
-=======
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-
-public class SignupController {
-
-    private Parent root;
-    private Scene signInScene;
-    @FXML
-    private TextField emailAddressTF;
-    @FXML
-    private PasswordField passWordF;
-    @FXML
-    private PasswordField confirmPassWordF;
-
-    private  Stage window;
-    @FXML
-    public void changeScreen(ActionEvent event) throws IOException {
-        if (root == null)
-            root = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"));
-
-        if (signInScene == null)
-            signInScene = new Scene(root);
-
-        window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(signInScene);
-        window.show();
->>>>>>> a9db77cf8570c049c7531c1bc926842322a2c018
     }
 
     public static final int PASSWORD_LENGTH = 8;
@@ -75,13 +36,13 @@ public class SignupController {
     @FXML
     private void onLoginUp() {
         String inputUserEmail = emailAddressTF.getText();
-        String inputUserPassword = passWordF.getText();
-        String inputUserConfirmPassword = confirmPassWordF.getText();
+        String inputUserPassword = passwordPF.getText();
+        String inputUserConfirmPassword = confirmPasswordPF.getText();
 
         if (!isValidEmail(inputUserEmail)) {
-            Toast.makeText(
-                    window
-                    , "THis is a TOAST", 2000, 500, 500);
+//            Toast.makeText(
+//                    window
+//                    , "THis is a TOAST", 2000, 500, 500);
         }
         if (isValidPassword(inputUserPassword) && inputUserPassword.equals(inputUserConfirmPassword)) {
             System.out.println("Password is valid: " + inputUserPassword);

@@ -5,7 +5,6 @@ import com.itijavafinalprojectteam8.controller.sec.PasswordHelper;
 import org.json.JSONObject;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Vector;
 
 public class JsonOperations {
 
