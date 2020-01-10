@@ -9,6 +9,7 @@ public class Constants {
     public static class ConnectionTypes {
         public static final String TYPE_SIGN_IN = "si";
         public static final String TYPE_SIGN_UP = "sp";
+        public static final String TYPE_GET_USERS = "gu";
     }
 
     public static class JsonKeys {
@@ -19,6 +20,7 @@ public class Constants {
         public static final String KEY_USER_NAME = "un";
         public static final String KEY_USER_EMAIL = "ue";
         public static final String KEY_USER_PASSWORD = "up";
+        public static final String KEY_ALL_PLAYERS = "up";
     }
 
     public static class PlayerStatus {

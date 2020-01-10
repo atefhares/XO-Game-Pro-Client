@@ -55,13 +55,6 @@ public class ClientController {
             open();
         }
 
-//        if (mDataOutputStream == null) {
-//            if (mLoginScreenViewCallback != null) {
-//                mLoginScreenViewCallback.onLoginErrorResponse(null);
-//            }
-//            return;
-//        }
-
         mDataOutputStream.writeUTF(msg);
 
     }
@@ -92,7 +85,18 @@ public class ClientController {
             case Constants.ConnectionTypes.TYPE_SIGN_UP:
                 handleSignUpResponse(textFromServer);
                 break;
+
+            case Constants.ConnectionTypes.TYPE_GET_USERS:
+                handleGetAllPlayersResponse(textFromServer);
+                break;
         }
+    }
+
+    private static void handleGetAllPlayersResponse(String textFromServer) {
+        String allPlayers = JsonOperations.getAllPlayersJsonString(textFromServer);
+        System.out.println("[handleGetAllPlayersResponse] list of all players: " + allPlayers);
+        if (!allPlayers.isEmpty())
+            Props.allPlayersServerResponse.setValue(allPlayers);
     }
 
     private static void handleSignUpResponse(String textFromServer) {

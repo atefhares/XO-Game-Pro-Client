@@ -43,4 +43,9 @@ public class JsonOperations {
         JSONObject jsonObject = new JSONObject(jsonStr);
         return jsonObject.optString(Constants.JsonKeys.KEY_RESPONSE_MSG);
     }
+
+    public static String getAllPlayersJsonString(String textFromServer) {
+        JSONObject jsonObject = new JSONObject(textFromServer);
+        return jsonObject.optString(Constants.JsonKeys.KEY_ALL_PLAYERS);
+    }
 }
