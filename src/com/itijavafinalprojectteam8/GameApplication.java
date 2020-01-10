@@ -17,8 +17,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.scene.Parent;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
+
 
 /**
  * @author ahares
@@ -27,12 +36,15 @@ import java.io.IOException;
 public class GameApplication extends Application implements GameAppView {
 
     /*=====================================================================*/
-
-    private Scene signInScene;
-    private Scene signUpScene;
-    private Scene gameScene;
-
+    @FXML
+    private AnchorPane signInPane;
+    @FXML
+    private AnchorPane signUpPane;
+    @FXML
     private Stage applicationStage;
+    @FXML
+    private Scene OnlyScene;
+    
 
     /*=====================================================================*/
     @FXML
@@ -48,61 +60,75 @@ public class GameApplication extends Application implements GameAppView {
 
         LoginController.setApplicationCallback(this);
         SignupController.setApplicationCallback(this);
-
     }
 
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle(Constants.GAME_TITLE);
+        stage.getIcons().add(new Image(GameApplication.class.getResourceAsStream("icon.png")));
         stage.setResizable(false);
 
         applicationStage = stage;
 
-        //  showLoginScene(stage);
-        showGameScene(stage);
+        OnlyScene = new Scene(
+                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"))
+            ,820,525);
+
+
+        stage.setScene(OnlyScene);
+        stage.show();
     }
 
     /*=========================================================================================*/
-
+    
     private void showLoginScene(Stage stage) throws IOException {
-        if (signInScene == null)
-            signInScene = new Scene(
-                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"))
+        
+         Parent root = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"));
+        
+        Scene scene = OnlyScene;
+        root.translateXProperty().set(scene.getHeight());
+        StackPane parentContainer = (StackPane) OnlyScene.getRoot();
+        parentContainer.getChildren().add(root);
 
-            );
-
-
-        stage.setScene(signInScene);
-        stage.show();
+        Timeline timeline = new Timeline();
+        KeyValue kv = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
+        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.setOnFinished(t -> {
+            parentContainer.getChildren().remove(signInPane);
+        });
+        
+        timeline.play();   
     }
+    
+    private void showsignUpPane(Stage stage) throws IOException {
+        
+        
+        Parent root = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/signup/signup.fxml"));
+        
+        Scene scene = OnlyScene;
+        root.translateXProperty().set(scene.getHeight());
+        StackPane parentContainer = (StackPane) OnlyScene.getRoot();
+        parentContainer.getChildren().add(root);
 
-    private void showSignUpScene(Stage stage) throws IOException {
-        if (signUpScene == null)
-            signUpScene = new Scene(
-                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/signup/signup.fxml"))
-            );
-
-        stage.setScene(signUpScene);
-        stage.show();
-    }
-
-    private void showGameScene(Stage stage) throws IOException {
-        if (gameScene == null)
-            gameScene = new Scene(
-                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamewithplayer/playwithotherpalyer.fxml"))
-            );
-
-
-        stage.setScene(gameScene);
-        stage.show();
-    }
-
+        Timeline timeline = new Timeline();
+        KeyValue kv = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
+        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.setOnFinished(t -> {
+            parentContainer.getChildren().remove(signInPane);
+        });
+        
+        timeline.play();
+        
+        }        
+    
     /*=========================================================================================*/
 
     @Override
     public void switchToSignUpScreen() {
         try {
-            showSignUpScene(applicationStage);
+            showsignUpPane(applicationStage);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,11 +157,7 @@ public class GameApplication extends Application implements GameAppView {
 
     @Override
     public void switchToGameScreen() {
-        try {
-            showGameScene(applicationStage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // TODO: 1/9/20
     }
 
     /*=========================================================================================*/
