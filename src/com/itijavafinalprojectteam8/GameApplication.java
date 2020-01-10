@@ -88,7 +88,7 @@ public class GameApplication extends Application implements GameAppView {
         private void showGameScene(Stage stage) throws IOException {
         if (gameScene == null)
             gameScene = new Scene(
-                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/game/playwithotherpalyer.fxml"))
+                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamewithplayer/playwithotherpalyer.fxml"))
             );
 
 
