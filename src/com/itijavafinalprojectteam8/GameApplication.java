@@ -48,6 +48,7 @@ public class GameApplication extends Application implements GameAppView {
 
         LoginController.setApplicationCallback(this);
         SignupController.setApplicationCallback(this);
+
     }
 
     @Override
@@ -57,8 +58,8 @@ public class GameApplication extends Application implements GameAppView {
 
         applicationStage = stage;
 
-      //  showLoginScene(stage);
-      showGameScene(stage);
+        //  showLoginScene(stage);
+        showGameScene(stage);
     }
 
     /*=========================================================================================*/
@@ -66,8 +67,8 @@ public class GameApplication extends Application implements GameAppView {
     private void showLoginScene(Stage stage) throws IOException {
         if (signInScene == null)
             signInScene = new Scene(
-                   FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"))
-                    
+                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"))
+
             );
 
 
@@ -84,8 +85,8 @@ public class GameApplication extends Application implements GameAppView {
         stage.setScene(signUpScene);
         stage.show();
     }
-    
-        private void showGameScene(Stage stage) throws IOException {
+
+    private void showGameScene(Stage stage) throws IOException {
         if (gameScene == null)
             gameScene = new Scene(
                     FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamewithplayer/playwithotherpalyer.fxml"))
@@ -95,6 +96,7 @@ public class GameApplication extends Application implements GameAppView {
         stage.setScene(gameScene);
         stage.show();
     }
+
     /*=========================================================================================*/
 
     @Override
@@ -129,7 +131,7 @@ public class GameApplication extends Application implements GameAppView {
 
     @Override
     public void switchToGameScreen() {
-         try {
+        try {
             showGameScene(applicationStage);
         } catch (Exception e) {
             e.printStackTrace();

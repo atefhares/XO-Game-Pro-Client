@@ -132,8 +132,7 @@ public class GameUiController implements Initializable {
         int idnum = Character.getNumericValue(c);
         System.out.println(idnum);
         drawInGui(idnum, 'X', Color.YELLOW);
-        int cpuPosition = AiLibrary.cpuMove();
-        drawInGui(cpuPosition, 'O', Color.RED);
+
         AiLibrary.onPlayerMove(1);
 
         int result = AiLibrary.getWinner();
@@ -151,7 +150,7 @@ public class GameUiController implements Initializable {
         }
 
         int cpuPos = AiLibrary.onCpuMove();
-        //show O on ui at pos = cpuPos
+        drawInGui(cpuPos, 'O', Color.RED);
 
         result = AiLibrary.getWinner();
         switch (result) {
