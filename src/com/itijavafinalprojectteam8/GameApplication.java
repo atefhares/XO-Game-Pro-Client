@@ -31,6 +31,8 @@ public class GameApplication extends Application implements GameAppView {
 
     private Scene signInScene;
     private Scene signUpScene;
+    private Scene gameScene;
+
     private Stage applicationStage;
 
     /*=====================================================================*/
@@ -56,7 +58,8 @@ public class GameApplication extends Application implements GameAppView {
 
         applicationStage = stage;
 
-        showLoginScene(stage);
+      //  showLoginScene(stage);
+      showGameScene(stage);
     }
 
     /*=========================================================================================*/
@@ -64,7 +67,8 @@ public class GameApplication extends Application implements GameAppView {
     private void showLoginScene(Stage stage) throws IOException {
         if (signInScene == null)
             signInScene = new Scene(
-                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"))
+                   FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"))
+                    
             );
 
 
@@ -79,6 +83,17 @@ public class GameApplication extends Application implements GameAppView {
             );
 
         stage.setScene(signUpScene);
+        stage.show();
+    }
+    
+        private void showGameScene(Stage stage) throws IOException {
+        if (gameScene == null)
+            gameScene = new Scene(
+                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/game_pkg/GameUiFXML.fxml"))
+            );
+
+
+        stage.setScene(gameScene);
         stage.show();
     }
     /*=========================================================================================*/
@@ -115,7 +130,11 @@ public class GameApplication extends Application implements GameAppView {
 
     @Override
     public void switchToGameScreen() {
-        // TODO: 1/9/20
+         try {
+            showGameScene(applicationStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /*=========================================================================================*/
