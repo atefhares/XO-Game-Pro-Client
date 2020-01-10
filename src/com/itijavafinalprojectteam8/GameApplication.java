@@ -5,7 +5,6 @@
  */
 package com.itijavafinalprojectteam8;
 
-import com.itijavafinalprojectteam8.controller.ClientController;
 import com.itijavafinalprojectteam8.view.interfaces.GameAppView;
 import com.itijavafinalprojectteam8.view.login.LoginController;
 import com.itijavafinalprojectteam8.view.others.Toast;
@@ -89,7 +88,7 @@ public class GameApplication extends Application implements GameAppView {
         private void showGameScene(Stage stage) throws IOException {
         if (gameScene == null)
             gameScene = new Scene(
-                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/game_pkg/GameUiFXML.fxml"))
+                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/game/playwithotherpalyer.fxml"))
             );
 
 

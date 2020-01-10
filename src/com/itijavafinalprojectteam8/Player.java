@@ -6,9 +6,9 @@
 package com.itijavafinalprojectteam8;
 
 /**
- *
  * @author Esraa
  */
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.ImageView;
@@ -18,26 +18,25 @@ import javafx.scene.image.ImageView;
  * @author moham
  */
 public class Player {
-    
+
     private final StringProperty Users = new SimpleStringProperty();
 
     private String Player_Email;
-  
+
     private int Player_Points;
     private int Player_Status;
     private ImageView images;
-        SimpleStringProperty Player_Name;
+    SimpleStringProperty Player_Name;
 
 
-    
-      public Player( ImageView images ,String Player_Name) {
-        this.Player_Name =  new SimpleStringProperty(Player_Name);
-       // this.player_status = new  SimpleStringProperty (player_status);
-      this.images=images;
-      
+    public Player(ImageView images, String Player_Name) {
+        this.Player_Name = new SimpleStringProperty(Player_Name);
+        // this.player_status = new  SimpleStringProperty (player_status);
+        this.images = images;
+
     }
 
-  
+
     public int getPlayer_Status() {
         return Player_Status;
     }
@@ -56,14 +55,13 @@ public class Player {
     }
 
     public String getPlayer_Name() {
-          return Player_Name.get();
-    }
-    public void setPlayer_Name(String name)
-    {
-    this.Player_Name.set(name);
+        return Player_Name.get();
     }
 
-   
+    public void setPlayer_Name(String name) {
+        this.Player_Name.set(name);
+    }
+
 
     public int getPlayer_Points() {
         return Player_Points;
@@ -72,18 +70,17 @@ public class Player {
     public void setPlayer_Points(int Player_Points) {
         this.Player_Points = Player_Points;
     }
-    
-    
-      public ImageView getImages(){
-            return images;
+
+
+    public ImageView getImages() {
+        return images;
     }
-    
-    
-    public void setImages(ImageView images)
-    {
-      this.images =  images;
-    
+
+
+    public void setImages(ImageView images) {
+        this.images = images;
+
     }
     /*======================================================================================================*/
-    
+
 }
