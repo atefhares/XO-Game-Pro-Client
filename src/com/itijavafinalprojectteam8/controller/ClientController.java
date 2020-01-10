@@ -3,7 +3,6 @@ package com.itijavafinalprojectteam8.controller;
 import com.itijavafinalprojectteam8.Constants;
 import com.itijavafinalprojectteam8.view.interfaces.LoginView;
 import com.itijavafinalprojectteam8.view.interfaces.SignUpView;
-import com.sun.istack.internal.NotNull;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -50,7 +49,7 @@ public class ClientController {
         }
     }
 
-    public static void sendToServer(@NotNull final String msg) throws IOException {
+    public static void sendToServer( final String msg) throws IOException {
         if (mSocket == null || mSocket.isClosed()) {
             open();
         }
