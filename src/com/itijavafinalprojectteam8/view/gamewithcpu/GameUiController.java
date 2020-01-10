@@ -30,7 +30,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import playercontroller.PlayerController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -81,8 +80,6 @@ public class GameUiController implements Initializable {
     @FXML
     private AnchorPane anchorPane;
 
-    PlayerController Player = new PlayerController();
-    List<BorderPane> Players = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
