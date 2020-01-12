@@ -5,6 +5,7 @@
  */
 package com.itijavafinalprojectteam8;
 
+import com.itijavafinalprojectteam8.view.gamechooserscreen.GameChooserController;
 import com.itijavafinalprojectteam8.view.interfaces.GameAppView;
 import com.itijavafinalprojectteam8.view.login.LoginController;
 import com.itijavafinalprojectteam8.view.others.Toast;
@@ -27,10 +28,11 @@ import java.io.IOException;
 public class GameApplication extends Application implements GameAppView {
 
     /*=====================================================================*/
-
+    private Scene chooserScene;
     private Scene signInScene;
     private Scene signUpScene;
     private Scene gameScene;
+    private Scene gameCpuScene;
 
     private Stage applicationStage;
 
@@ -46,6 +48,7 @@ public class GameApplication extends Application implements GameAppView {
     public void init() throws Exception {
         super.init();
 
+        GameChooserController.setApplicationCallback(this);
         LoginController.setApplicationCallback(this);
         SignupController.setApplicationCallback(this);
 
@@ -58,11 +61,23 @@ public class GameApplication extends Application implements GameAppView {
 
         applicationStage = stage;
 
-        //  showLoginScene(stage);
-        showGameScene(stage);
+        showChooserScene(stage);
     }
 
     /*=========================================================================================*/
+
+    private void showChooserScene(Stage stage) throws IOException {
+        if (chooserScene == null)
+            chooserScene = new Scene(
+                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamechooserscreen/gameChooser.fxml"))
+
+            );
+
+
+        stage.setScene(chooserScene);
+        stage.show();
+    }
+
 
     private void showLoginScene(Stage stage) throws IOException {
         if (signInScene == null)
@@ -85,19 +100,37 @@ public class GameApplication extends Application implements GameAppView {
         stage.setScene(signUpScene);
         stage.show();
     }
-
-    private void showGameScene(Stage stage) throws IOException {
+//shimaa 11-1-2020
+    private void showGameCpuScene(Stage stage) throws IOException {
+        if (gameCpuScene == null)
+            gameCpuScene = new Scene(
+                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamewithcpu/playwithcpu.fxml"))
+            );
+        stage.setScene(gameCpuScene);
+        stage.show();
+    }
+   //
+        private void showGameScene(Stage stage) throws IOException {
         if (gameScene == null)
             gameScene = new Scene(
                     FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamewithplayer/playwithotherpalyer.fxml"))
             );
-
 
         stage.setScene(gameScene);
         stage.show();
     }
 
     /*=========================================================================================*/
+
+
+   // @Override
+    public void switchToGameChooserScreen() {
+        try {
+            showChooserScene(applicationStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void switchToSignUpScreen() {
@@ -128,6 +161,14 @@ public class GameApplication extends Application implements GameAppView {
             });
     }
 
+    @Override
+    public void switchToGameCpuScreen() {
+        try {
+            showGameCpuScene(applicationStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void switchToGameScreen() {

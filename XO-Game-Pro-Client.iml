@@ -7,15 +7,20 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-<<<<<<< HEAD
-    <orderEntry type="library" name="fontawesomefx-8.9" level="project" />
-=======
     <orderEntry type="library" exported="" name="jfoenix-8.0.8" level="project" />
     <orderEntry type="library" exported="" name="fontawesomefx-8.2" level="project" />
     <orderEntry type="library" exported="" name="json-20190722" level="project" />
     <orderEntry type="library" exported="" name="fontawesomefx-8.2 (2)" level="project" />
-    <orderEntry type="library" exported="" name="XO-Game-Pro-Client" level="project" />
+    <orderEntry type="library" name="XO-Game-Pro-Client" level="project" />
     <orderEntry type="library" exported="" name="jdk1.8" level="project" />
->>>>>>> master
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../libs/json-20190722.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

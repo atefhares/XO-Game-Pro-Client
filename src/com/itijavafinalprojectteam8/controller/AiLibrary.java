@@ -7,7 +7,7 @@ package com.itijavafinalprojectteam8.controller;
 
 /**
  *
- * @author Esraa
+ *   @author Esraa
  */
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,6 +84,7 @@ public class AiLibrary {
     }
 
     private static int checkWinner(char[][] gameBoard) {
+
         List topRow = Arrays.asList(1, 2, 3);
         List midRow = Arrays.asList(4, 5, 6);
         List botRow = Arrays.asList(7, 8, 9);
@@ -139,7 +140,7 @@ public class AiLibrary {
         /*      switch case of turns counter:
         1st turn -> pick random winning pattern
         2nd turn-> check which pattern match first move and continue it if it's available 
-                   else pick anothor one that match if none just chose random
+                   else pick anothor one that match if none just choose random
         3rd turn-> check which pattern match first & second pattern.
          */
         switch (counter) {
@@ -178,8 +179,8 @@ public class AiLibrary {
             case 3:
                 for (List f : winning) {
                     if (Objects.equals(cpuPosition.get(1), f.get(1)) && Objects.equals(cpuPosition.get(2), f.get(2))) {
-                        int z = (Integer) f.get(2);
 
+                        int z = (Integer) f.get(2);
                         if (playerPosition.contains(z) || cpuPosition.contains(z)) {
                             continue;
                         }

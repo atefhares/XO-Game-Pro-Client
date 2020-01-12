@@ -1,6 +1,8 @@
 package com.itijavafinalprojectteam8.controller;
 
 import com.itijavafinalprojectteam8.Constants;
+import com.itijavafinalprojectteam8.view.interfaces.GameChooser;
+import com.itijavafinalprojectteam8.view.interfaces.GameCpuView;
 import com.itijavafinalprojectteam8.view.interfaces.LoginView;
 import com.itijavafinalprojectteam8.view.interfaces.SignUpView;
 
@@ -23,23 +25,34 @@ public class ClientController {
     private static DataOutputStream mDataOutputStream;
 
     private static Thread mThread;
+    private static GameChooser gameChooserViewCallback;
     private static LoginView mLoginScreenViewCallback;
     private static SignUpView mSignUpScreenViewCallback;
+    private static GameCpuView mGameCpuScreenViewCallback;
 
     private ClientController() {
+    }
+
+    public static void setChooserView(GameChooser chooserView) {
+        gameChooserViewCallback = chooserView;
     }
 
     public static void setLoginView(LoginView loginView) {
         mLoginScreenViewCallback = loginView;
     }
 
-    public static void setSignUpView(SignUpView callback) {
-        mSignUpScreenViewCallback = callback;
+    public static void setGameCpuView(GameCpuView callback) {
+        mGameCpuScreenViewCallback = callback;
     }
 
-    public static void open() {
-        try {
-            mSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+
+     public static void setSignUpView(SignUpView callback) {
+         mSignUpScreenViewCallback = callback;
+     }
+        //error
+         public static void open() {
+          try {
+              mSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
             mDataInputStream = new DataInputStream(mSocket.getInputStream());
             mDataOutputStream = new DataOutputStream(mSocket.getOutputStream());
 

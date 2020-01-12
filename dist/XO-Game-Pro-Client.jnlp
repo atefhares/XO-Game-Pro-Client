@@ -8,11 +8,14 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="XO-Game-Pro-Client.jar" size="4997" download="eager" />
+    <jar href="XO-Game-Pro-Client.jar" size="92756" download="eager" />
+    <jar href="lib\fontawesomefx-8.2.jar" size="180341" download="eager" />
+    <jar href="lib\jfoenix-8.0.8.jar" size="2708772" download="eager" />
+    <jar href="lib\json-20140107.jar" size="64952" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="XO-Game-Pro-Client" >
     <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="com.itijavafinalprojectteam8.MainClass"  name="XO-Game-Pro-Client" />
+  <jfx:javafx-desc  width="800" height="600" main-class="com.itijavafinalprojectteam8.GameApplication"  name="XO-Game-Pro-Client" />
   <update check="always"/>
 </jnlp>
