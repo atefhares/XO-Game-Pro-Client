@@ -14,6 +14,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.Pane?>
 <AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #2ec2a0;" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.itijavafinalprojectteam8.view.signup.SignupController">
     <children>
         <ImageView fitHeight="500" fitWidth="500" layoutX="336.0" layoutY="42.0" preserveRatio="true">
@@ -137,15 +140,17 @@
         </JFXButton>
         <Hyperlink layoutX="14.0" layoutY="505.0" onAction="#changeScreenHyperLink" text="Already registered? login" textFill="WHITE" />
 
-<!--        <StackPane prefHeight="500.0" prefWidth="500.0" layoutX="250.0" layoutY="250.0">-->
-<!--            <children>-->
-<!--                <ProgressIndicator layoutX="250" layoutY="250" maxWidth="50" maxHeight="50">-->
-<!--                    <effect>-->
-<!--                        <Blend/>-->
-<!--                    </effect>-->
-<!--                </ProgressIndicator>-->
-<!--            </children>-->
-<!--        </StackPane>-->
+        <Pane fx:id="progressPane" visible="false" prefHeight="542.0" prefWidth="836.0"
+              style="-fx-background-color: rgba(255,255,255,0.5);">
+            <children>
+                <ProgressIndicator layoutX="373.0" layoutY="245.0" maxHeight="69.0" maxWidth="75.0" prefHeight="69.0"
+                                   prefWidth="75.0">
+                    <effect>
+                        <Blend/>
+                    </effect>
+                </ProgressIndicator>
+            </children>
+        </Pane>
 
     </children>
 </AnchorPane>

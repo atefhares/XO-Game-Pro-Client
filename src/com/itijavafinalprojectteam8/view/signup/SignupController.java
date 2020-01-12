@@ -69,22 +69,22 @@ public class SignupController implements SignUpView {
         }
 
         try {
+            progressPane.setVisible(true);
             ClientController.sendToServer(JsonOperations.getSignUpJson(name, inputUserEmail, inputUserPassword));
         } catch (Exception e) {
             e.printStackTrace();
+            progressPane.setVisible(false);
+            mApplicationCallback.showToastMessage("Failed to connect to server....");
         }
     }
 
     @Override
     public void onErrorResponse(String errorMsgFromServer) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                progressPane.setVisible(false);
+        Platform.runLater(() -> {
+            progressPane.setVisible(false);
 
-                if (mApplicationCallback != null)
-                    mApplicationCallback.showToastMessage(errorMsgFromServer);
-            }
+            if (mApplicationCallback != null)
+                mApplicationCallback.showToastMessage(errorMsgFromServer);
         });
     }
 
@@ -96,7 +96,7 @@ public class SignupController implements SignUpView {
                 progressPane.setVisible(false);
 
                 if (mApplicationCallback != null)
-                    mApplicationCallback.switchToGameScreen();
+                    mApplicationCallback.switchToGameChooser();
             }
         });
     }

@@ -5,6 +5,7 @@
  */
 package com.itijavafinalprojectteam8;
 
+import com.itijavafinalprojectteam8.view.gamechooserscreen.GameChooserController;
 import com.itijavafinalprojectteam8.view.interfaces.GameAppView;
 import com.itijavafinalprojectteam8.view.login.LoginController;
 import com.itijavafinalprojectteam8.view.others.Toast;
@@ -30,7 +31,9 @@ public class GameApplication extends Application implements GameAppView {
 
     private Scene signInScene;
     private Scene signUpScene;
-    private Scene gameScene;
+    private Scene gameWithOtherPlayerScene;
+    private Scene chooserScene;
+    private Scene gameWithCpuScene;
 
     private Stage applicationStage;
 
@@ -48,6 +51,7 @@ public class GameApplication extends Application implements GameAppView {
 
         LoginController.setApplicationCallback(this);
         SignupController.setApplicationCallback(this);
+        GameChooserController.setApplicationCallback(this);
 
     }
 
@@ -58,8 +62,8 @@ public class GameApplication extends Application implements GameAppView {
 
         applicationStage = stage;
 
-        //  showLoginScene(stage);
-        showGameScene(stage);
+        showLoginScene(stage);
+//        showChooserScene(stage);
     }
 
     /*=========================================================================================*/
@@ -87,13 +91,34 @@ public class GameApplication extends Application implements GameAppView {
     }
 
     private void showGameScene(Stage stage) throws IOException {
-        if (gameScene == null)
-            gameScene = new Scene(
+        if (gameWithOtherPlayerScene == null)
+            gameWithOtherPlayerScene = new Scene(
                     FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamewithplayer/playwithotherpalyer.fxml"))
             );
 
 
-        stage.setScene(gameScene);
+        stage.setScene(gameWithOtherPlayerScene);
+        stage.show();
+    }
+
+    private void showGameWithCpuScene(Stage stage) throws IOException {
+        if (gameWithCpuScene == null)
+            gameWithCpuScene = new Scene(
+                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamewithcpu/playwithcpu.fxml"))
+            );
+        stage.setScene(gameWithCpuScene);
+        stage.show();
+    }
+
+    private void showChooserScene(Stage stage) throws IOException {
+        if (chooserScene == null)
+            chooserScene = new Scene(
+                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamechooserscreen/gameChooser.fxml"))
+
+            );
+
+
+        stage.setScene(chooserScene);
         stage.show();
     }
 
@@ -117,6 +142,41 @@ public class GameApplication extends Application implements GameAppView {
         }
     }
 
+    public void switchToGameChooserScreen() {
+        try {
+            showChooserScene(applicationStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void switchToGameWithOtherPlayerScreen() {
+        try {
+            showGameScene(applicationStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void switchToGameWithCpuScreen() {
+        try {
+            showGameWithCpuScene(applicationStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void switchToGameChooser() {
+        try {
+            showChooserScene(applicationStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void showToastMessage(String text) {
         if (text != null && !text.isEmpty())
@@ -126,16 +186,6 @@ public class GameApplication extends Application implements GameAppView {
                     Toast.makeText(applicationStage, text, 2000, 500, 500);
                 }
             });
-    }
-
-
-    @Override
-    public void switchToGameScreen() {
-        try {
-            showGameScene(applicationStage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /*=========================================================================================*/

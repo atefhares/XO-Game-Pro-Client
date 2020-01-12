@@ -37,16 +37,12 @@ public class ClientController {
         mSignUpScreenViewCallback = callback;
     }
 
-    public static void open() {
-        try {
-            mSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-            mDataInputStream = new DataInputStream(mSocket.getInputStream());
-            mDataOutputStream = new DataOutputStream(mSocket.getOutputStream());
+    public static void open() throws IOException {
+        mSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+        mDataInputStream = new DataInputStream(mSocket.getInputStream());
+        mDataOutputStream = new DataOutputStream(mSocket.getOutputStream());
 
-            mIsShutDown.set(false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mIsShutDown.set(false);
     }
 
     public static void sendToServer( final String msg) throws IOException {
@@ -85,17 +81,16 @@ public class ClientController {
                 handleSignUpResponse(textFromServer);
                 break;
 
-            case Constants.ConnectionTypes.TYPE_GET_USERS:
+            case Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS:
                 handleGetAllPlayersResponse(textFromServer);
                 break;
         }
     }
 
     private static void handleGetAllPlayersResponse(String textFromServer) {
-        String allPlayers = JsonOperations.getAllPlayersJsonString(textFromServer);
-        System.out.println("[handleGetAllPlayersResponse] list of all players: " + allPlayers);
-        if (!allPlayers.isEmpty())
-            Props.allPlayersServerResponse.setValue(allPlayers);
+        System.out.println("[handleGetAllPlayersResponse] list of all players: " + textFromServer);
+        if (!textFromServer.isEmpty())
+            Props.allPlayersServerResponse.setValue(textFromServer);
     }
 
     private static void handleSignUpResponse(String textFromServer) {

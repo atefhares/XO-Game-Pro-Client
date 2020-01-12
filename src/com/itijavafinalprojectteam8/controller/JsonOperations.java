@@ -44,8 +44,9 @@ public class JsonOperations {
         return jsonObject.optString(Constants.JsonKeys.KEY_RESPONSE_MSG);
     }
 
-    public static String getAllPlayersJsonString(String textFromServer) {
-        JSONObject jsonObject = new JSONObject(textFromServer);
-        return jsonObject.optString(Constants.JsonKeys.KEY_ALL_PLAYERS);
+    public static String getAllPlayersJson() {
+        JSONObject object = new JSONObject();
+        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
+        return object.toString();
     }
 }

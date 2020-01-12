@@ -13,6 +13,8 @@ package com.itijavafinalprojectteam8.view.gamewithplayer;
 
 import com.itijavafinalprojectteam8.Player;
 import com.itijavafinalprojectteam8.controller.AiLibrary;
+import com.itijavafinalprojectteam8.controller.ClientController;
+import com.itijavafinalprojectteam8.controller.JsonOperations;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -53,9 +55,6 @@ public class GameUiController implements Initializable {
     public ObservableList<Player> list = FXCollections.observableArrayList();
 
     @FXML
-    private Button dark_blue;
-
-    @FXML
     private Button b1;
     @FXML
     private Button b2;
@@ -77,7 +76,6 @@ public class GameUiController implements Initializable {
     @FXML
     private AnchorPane anchorPane;
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -85,35 +83,27 @@ public class GameUiController implements Initializable {
             images.setCellValueFactory(new PropertyValueFactory<>("images"));
             Player_Name.setCellValueFactory(new PropertyValueFactory<Player, String>("Player_Name"));
 
-            ImageView image1 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
-            ImageView image2 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
-            ImageView image3 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
+//            ImageView image1 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
+//            ImageView image2 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
+//            ImageView image3 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
+//
+//            ImageView image4 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
+//            ImageView image5 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
+//            Player p1 = new Player(image1, "esraa");
+//            Player p2 = new Player(image2, "shimaa");
+//            Player p3 = new Player(image3, "atef");
+//            Player p4 = new Player(image4, "bassam");
+//            Player p5 = new Player(image5, "aboseree");
 
-            ImageView image4 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
-            ImageView image5 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
-            Player p1 = new Player(image1, "esraa");
-            Player p2 = new Player(image2, "shimaa");
-            Player p3 = new Player(image3, "atef");
-            Player p4 = new Player(image4, "bassam");
-            Player p5 = new Player(image5, "aboseree");
-
-            list.add(p1);
-            list.add(p2);
-            list.add(p3);
-            list.add(p4);
-            list.add(p5);
+//            list.add(p1);
+//            list.add(p2);
+//            list.add(p3);
+//            list.add(p4);
+//            list.add(p5);
 
             table.setItems(list);
 
-            dark_blue.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    Node source = (Node) e.getSource();
-                    Stage stage = (Stage) source.getScene().getWindow();
-                    stage.close();
-                }
-            });
-
+            ClientController.sendToServer(JsonOperations.getAllPlayersJson());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,41 +117,11 @@ public class GameUiController implements Initializable {
 
         char c = id.charAt(id.length() - 1);
         int idnum = Character.getNumericValue(c);
+
+        // TODO: 1/11/20 check if position is already taken
         System.out.println(idnum);
         drawInGui(idnum, 'X', Color.YELLOW);
-        int cpuPosition = AiLibrary.cpuMove();
-        drawInGui(cpuPosition, 'O', Color.RED);
-        AiLibrary.onPlayerMove(1);
 
-        int result = AiLibrary.getWinner();
-        switch (result) {
-            case 0:
-                //player won
-                System.out.println("player win");
-                return;
-            case 1:
-                //cpu won
-                System.out.println("cpu win");
-            case 2:
-                // draw
-                System.out.println("OH !! NO Its a Draw");
-        }
-
-        int cpuPos = AiLibrary.onCpuMove();
-        //show O on ui at pos = cpuPos
-
-        result = AiLibrary.getWinner();
-        switch (result) {
-            case 0:
-                //player won
-                System.out.println("player win");
-            case 1:
-                //cpu won
-                System.out.println("cpu win");
-            case 2:
-                // draw
-                System.out.println("OH !! NO Its a Draw");
-        }
 
     }
 

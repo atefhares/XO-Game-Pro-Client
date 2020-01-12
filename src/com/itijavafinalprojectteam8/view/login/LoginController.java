@@ -57,12 +57,21 @@ public class LoginController implements LoginView {
             return;
         }
 
+        if (!UserInputChecker.isValidPassword(plainPass)) {
+            if (mApplicationCallback != null)
+                mApplicationCallback.showToastMessage("Password is invalid");
+            return;
+        }
+
         try {
             progressPane.setVisible(true);
             ClientController.sendToServer(JsonOperations.getSignInJson(email, plainPass));
             ClientController.start();
         } catch (Exception e) {
             e.printStackTrace();
+
+            progressPane.setVisible(false);
+            mApplicationCallback.showToastMessage("Failed to connect to server....");
         }
     }
 
@@ -87,7 +96,7 @@ public class LoginController implements LoginView {
                 progressPane.setVisible(false);
 
                 if (mApplicationCallback != null)
-                    mApplicationCallback.switchToGameScreen();
+                    mApplicationCallback.switchToGameChooser();
             }
         });
     }
