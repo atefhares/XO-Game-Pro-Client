@@ -11,6 +11,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * @author ahares
@@ -29,7 +31,19 @@ public class ClientController {
     private static LoginView mLoginScreenViewCallback;
     private static SignUpView mSignUpScreenViewCallback;
     private static GameCpuView mGameCpuScreenViewCallback;
+    public static StringProperty Users=new SimpleStringProperty();
+    public static final String getUsers() {
+        return ClientController.Users.get();
+    }
 
+    public static final void setUsers(String value) {
+        ClientController.Users.set(value);
+    }
+
+    public static final StringProperty usersProperty() {
+        return ClientController.Users;
+    }
+    
     private ClientController() {
     }
 
@@ -100,6 +114,7 @@ public class ClientController {
 
             case Constants.ConnectionTypes.TYPE_GET_USERS:
                 handleGetAllPlayersResponse(textFromServer);
+                setUsers(textFromServer);
                 break;
         }
     }

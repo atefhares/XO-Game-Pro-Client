@@ -13,6 +13,8 @@ package com.itijavafinalprojectteam8.view.gamewithplayer;
 
 import com.itijavafinalprojectteam8.Player;
 import com.itijavafinalprojectteam8.controller.AiLibrary;
+import com.itijavafinalprojectteam8.controller.ClientController;
+import java.io.File;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,8 +33,19 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * FXML Controller class
@@ -86,25 +99,8 @@ public class GameUiController implements Initializable {
             Player_Name.setCellValueFactory(new PropertyValueFactory<Player, String>("Player_Name"));
 
             ImageView image1 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
-            ImageView image2 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
-            ImageView image3 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
-
-            ImageView image4 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
-            ImageView image5 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
-            Player p1 = new Player(image1, "esraa");
-            Player p2 = new Player(image2, "shimaa");
-            Player p3 = new Player(image3, "atef");
-            Player p4 = new Player(image4, "bassam");
-            Player p5 = new Player(image5, "aboseree");
-
-            list.add(p1);
-            list.add(p2);
-            list.add(p3);
-            list.add(p4);
-            list.add(p5);
-
-            table.setItems(list);
-
+            ImageView image2 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
+           
             dark_blue.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
@@ -114,6 +110,41 @@ public class GameUiController implements Initializable {
                 }
             });
 
+          ClientController.usersProperty().addListener(new ChangeListener<String>() {
+                            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                 Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                  System.out.println("this is inside the controller");
+                System.out.println(MessageFormat.format("The name changed from \"{0}\" to \"{1}\"", oldValue, newValue));
+                JSONObject RESPONSE = new JSONObject(newValue);
+                    JSONArray Data_Array= RESPONSE.getJSONArray("Data");
+                        for (int i = 0; i < Data_Array.length(); i++) {
+                           System.out.println("Data   "+Data_Array.getJSONObject(i).getString("Email")); 
+                           
+                           Player p1;
+                           int stat = Integer.parseInt(Data_Array.getJSONObject(i).getString("Status"));
+                           if(stat==0)
+                           {
+                           p1 = new Player(image1,Data_Array.getJSONObject(i).getString("Email"));
+                           }
+                           else
+                           {
+                            p1 = new Player(image1,Data_Array.getJSONObject(i).getString("Email"));
+                           }
+                                       list.add(p1);
+
+                        }
+                  table.setItems(list);     
+                }
+            });              
+                
+            
+            
+            }
+            
+        });
         } catch (Exception e) {
             e.printStackTrace();
         }
