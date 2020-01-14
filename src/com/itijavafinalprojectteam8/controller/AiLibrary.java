@@ -7,7 +7,7 @@ package com.itijavafinalprojectteam8.controller;
 
 /**
  *
- * @author Esraa
+ *   @author Esraa
  */
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,21 +19,25 @@ import java.util.Random;
 public class AiLibrary {
 
     private static char[][] gameBoard = {{' ', ' ', ' ',}, {' ', ' ', ' ',}, {' ', ' ', ' '}};
-    private static ArrayList<Integer> playerPosition = new ArrayList<>(Collections.nCopies(1, 0));
-    private static ArrayList<Integer> cpuPosition = new ArrayList<>(Collections.nCopies(1, 0));
+    public static ArrayList<Integer> playerPosition = new ArrayList<>(Collections.nCopies(1, 0));
+    public static ArrayList<Integer> cpuPosition = new ArrayList<>(Collections.nCopies(1, 0));
     private static int counter = 0;
 
     public static void onPlayerMove(int playerPos) {
+
         move(gameBoard, playerPos, "player");
     }
 
     public static int onCpuMove() {
         int cpuPos = 0;
+
+        cpuPos=cpuMove();
+        System.out.println("cpu move is "+cpuPos);
         move(gameBoard, cpuPos, "cpu");
         return cpuPos;
     }
-    
-  
+
+
 
     public static int getWinner() {
         return checkWinner(gameBoard);
@@ -84,6 +88,7 @@ public class AiLibrary {
     }
 
     private static int checkWinner(char[][] gameBoard) {
+
         List topRow = Arrays.asList(1, 2, 3);
         List midRow = Arrays.asList(4, 5, 6);
         List botRow = Arrays.asList(7, 8, 9);
@@ -138,8 +143,8 @@ public class AiLibrary {
 
         /*      switch case of turns counter:
         1st turn -> pick random winning pattern
-        2nd turn-> check which pattern match first move and continue it if it's available 
-                   else pick anothor one that match if none just chose random
+        2nd turn-> check which pattern match first move and continue it if it's available
+                   else pick anothor one that match if none just choose random
         3rd turn-> check which pattern match first & second pattern.
          */
         switch (counter) {
@@ -150,13 +155,21 @@ public class AiLibrary {
                 int firstMove = rand.nextInt(8);
 
                 List l = winning.get(firstMove);
-                return (int) l.get((Integer) 1);
+                int fvalue = (int) l.get((Integer) 1);
 
+                Random randomf= new Random();
+
+                while (playerPosition.contains(fvalue) || cpuPosition.contains(fvalue)) {
+                    fvalue = randomf.nextInt(9) + 1;
+                }
+
+                return fvalue;
+            /*================================================================================*/
             case 2:
                 /*
                 1- loop that compares 1st element in cpuPosition with all the winning positions
-                2- when first match check if the position is available 
-                3- if not available continue the loop and find another one 
+                2- when first match check if the position is available
+                3- if not available continue the loop and find another one
                  */
                 for (List f : winning) {
                     if (Objects.equals(cpuPosition.get(1), f.get(1))) {
@@ -178,8 +191,8 @@ public class AiLibrary {
             case 3:
                 for (List f : winning) {
                     if (Objects.equals(cpuPosition.get(1), f.get(1)) && Objects.equals(cpuPosition.get(2), f.get(2))) {
-                        int z = (Integer) f.get(2);
 
+                        int z = (Integer) f.get(2);
                         if (playerPosition.contains(z) || cpuPosition.contains(z)) {
                             continue;
                         }

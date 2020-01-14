@@ -12,7 +12,6 @@ package com.itijavafinalprojectteam8.view.gamewithcpu;
  */
 
 import com.itijavafinalprojectteam8.controller.AiLibrary;
-import com.itijavafinalprojectteam8.view.interfaces.GameCpuView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -28,7 +27,7 @@ import java.io.IOException;
  *
  * @author moham
  */
-public class GameUiController implements GameCpuView {
+public class GameUiController {
 
     /**
      * Initializes the controller class.
@@ -61,6 +60,8 @@ public class GameUiController implements GameCpuView {
     private AnchorPane anchorPane;
     @FXML
     private Label howWinner;
+
+    boolean flag = true;
 /*
 
     private static GameAppView mApplicationCallback;
@@ -90,58 +91,72 @@ public class GameUiController implements GameCpuView {
 
 
         char c = id.charAt(id.length() - 1);
-        System.out.println("c is     " + c);
         int idnum = Character.getNumericValue(c);
-        System.out.println(idnum);
-        AiLibrary.onPlayerMove(c);
-        drawInGui(idnum, 'X', Color.YELLOW);
-        int cpuPosition = AiLibrary.cpuMove();
-        drawInGui(cpuPosition, 'O', Color.RED);
+        if(!(AiLibrary.playerPosition.contains(idnum)||AiLibrary.cpuPosition.contains(idnum))&& flag) {
+            AiLibrary.onPlayerMove(idnum);
+
+            drawInGui(idnum, 'X', Color.YELLOW);
+
+            int cpuPosition = AiLibrary.onCpuMove();
+            drawInGui(cpuPosition, 'O', Color.RED);
 
 
-        int result = AiLibrary.getWinner();
-        System.out.println("result is " + result);
-        switch (result) {
-            case 0:
-                //player won
+            int result = AiLibrary.getWinner();
+            System.out.println("result is " + result);
+            switch (result) {
+                case 0:
+                    //player won
 
-                howWinner.setText("Congratulation You Are Winner");
-                howWinner.setStyle("-fx-background-color:#fff;");
-                howWinner.setVisible(true);
-                return;
-            case 1:
-                //cpu won
-                howWinner.setText("Computer Won");
-                howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
-                return;
+                    howWinner.setText("Congratulation You Are Winner");
+                    howWinner.setStyle("-fx-background-color:#fff;");
+                    howWinner.setVisible(true);
 
-            case 2:
-                // draw
-                System.out.println("OH !! NO Its a Draw");
-                break;
 
-            default:
-                throw new IllegalStateException("Unexpected value: " + result);
+                    break;
+                case 1:
+                    //cpu won
+                    howWinner.setText("Computer Won");
+                    howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
+                    break;
+
+                case 2:
+                    // draw
+                    System.out.println("OH !! NO Its a Draw");
+
+
+                    break;
+
+                default:
+                    throw new IllegalStateException("Unexpected value: " + result);
+            }
+
+
+            result = AiLibrary.getWinner();
+            switch (result) {
+                case 0:
+                    //player won
+                    howWinner.setText("Congratulation You Are Winner");
+                    howWinner.setStyle("-fx-background-color:#fff;");
+                    flag  = false;
+                    break;
+                case 1:
+                    //cpu won
+                    howWinner.setText("Computer Won");
+                    howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
+                    flag  = false;
+                    break;
+                case 2:
+                    // draw
+                    howWinner.setText("OH !! NO Its a Draw");
+                    howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
+                    flag  = false;
+                    break;
+                default:
+                    flag  = true;
+                    break;
+            }
         }
-
-        int cpuPos = AiLibrary.onCpuMove();
-        //show O on ui at pos = cpuPos
-
-        result = AiLibrary.getWinner();
-        switch (result) {
-            case 0:
-                //player won
-                howWinner.setText("Congratulation You Are Winner");
-                howWinner.setStyle("-fx-background-color:#fff;");
-            case 1:
-                //cpu won
-                howWinner.setText("Computer Won");
-                howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
-            case 2:
-                // draw
-                //howWinner.setText("OH !! NO Its a Draw");
-        }
-
+        else {System.out.println("this is the error");}
 
     }
 
