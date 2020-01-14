@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane fx:id="sPane" dividerPositions="2.0" focusTraversable="true" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.itijavafinalprojectteam8.view.gamewithplayer.GameUiController">
+<SplitPane fx:id="sPane" dividerPositions="2.0" focusTraversable="true" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.itijavafinalprojectteam8.view.gamewithplayer.GameUiController">
   <items>
     <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="-Infinity" prefHeight="847.0" prefWidth="800.0" style="-fx-background-color: #2ec2a0; -fx-border-radius: 5px;" visible="true">
       <children>
@@ -105,12 +105,22 @@
             <Font name="Comic Sans MS" size="36.0" />
           </font>
         </Text>
-            <TableView fx:id="table" layoutY="71.0" prefHeight="780.0" prefWidth="290.0">
+            <TableView fx:id="table" layoutY="114.0" prefHeight="737.0" prefWidth="290.0">
               <columns>
-                <TableColumn fx:id="images" prefWidth="88.0" text="Status" />
-                <TableColumn fx:id="Player_Name" prefWidth="198.0" text="Player" />
+                <TableColumn fx:id="images" prefWidth="126.0" text="Status" />
+                <TableColumn fx:id="Player_Name" prefWidth="160.0" text="Player" />
               </columns>
             </TableView>
+
+          <TableView fx:id="table2" layoutY="114.0" prefHeight="737.0" prefWidth="290.0" visible="false">
+              <columns>
+                  <TableColumn fx:id="gameTable" prefWidth="289.0" text="Previous Game" />
+
+              </columns>
+          </TableView>
+
+            <Button fx:id="list_Game" layoutX="171.0" layoutY="59.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="62.0" text="Game" />
+            <Button fx:id="list_Player" layoutX="60.0" layoutY="59.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="69.0" text="Player" />
       </children>
     </AnchorPane>
   </items>

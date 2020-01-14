@@ -64,10 +64,17 @@ public class GameUiController implements Initializable {
     @FXML
     private TableColumn<Player, String> Player_Name;
     public ObservableList<Player> list = FXCollections.observableArrayList();
+    @FXML
+    private TableView<ClientController> table2;
+    @FXML
+    private TableColumn<ClientController, String> gameTable;
 
     @FXML
     private Button dark_blue;
-
+    @FXML
+    private Button list_Game;
+    @FXML
+    private Button list_Player;
     @FXML
     private Button b1;
     @FXML
@@ -110,7 +117,31 @@ public class GameUiController implements Initializable {
                 }
             });
 
-          ClientController.usersProperty().addListener(new ChangeListener<String>() {
+            list_Game.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+
+                    table2.setVisible(true);
+                    table.setVisible(false);
+
+                }
+
+            });
+
+            list_Player.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+
+                    table.setVisible(true);
+                    table2.setVisible(false);
+
+                }
+
+            });
+
+
+
+            ClientController.usersProperty().addListener(new ChangeListener<String>() {
                             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                  Platform.runLater(new Runnable() {
