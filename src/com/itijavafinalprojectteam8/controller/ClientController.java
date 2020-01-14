@@ -3,6 +3,8 @@ package com.itijavafinalprojectteam8.controller;
 import com.itijavafinalprojectteam8.Constants;
 import com.itijavafinalprojectteam8.view.interfaces.LoginView;
 import com.itijavafinalprojectteam8.view.interfaces.SignUpView;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -25,6 +27,19 @@ public class ClientController {
     private static Thread mThread;
     private static LoginView mLoginScreenViewCallback;
     private static SignUpView mSignUpScreenViewCallback;
+    public static StringProperty Users = new SimpleStringProperty();
+
+    public static final String getUsers() {
+        return ClientController.Users.get();
+    }
+
+    public static final void setUsers(String value) {
+        ClientController.Users.set(value);
+    }
+
+    public static final StringProperty usersProperty() {
+        return ClientController.Users;
+    }
 
     private ClientController() {
     }
@@ -37,15 +52,20 @@ public class ClientController {
         mSignUpScreenViewCallback = callback;
     }
 
-    public static void open() throws IOException {
-        mSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-        mDataInputStream = new DataInputStream(mSocket.getInputStream());
-        mDataOutputStream = new DataOutputStream(mSocket.getOutputStream());
+    //error
+    public static void open() {
+        try {
+            mSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+            mDataInputStream = new DataInputStream(mSocket.getInputStream());
+            mDataOutputStream = new DataOutputStream(mSocket.getOutputStream());
 
-        mIsShutDown.set(false);
+            mIsShutDown.set(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void sendToServer( final String msg) throws IOException {
+    public static void sendToServer(final String msg) throws IOException {
         if (mSocket == null || mSocket.isClosed()) {
             open();
         }
@@ -83,6 +103,7 @@ public class ClientController {
 
             case Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS:
                 handleGetAllPlayersResponse(textFromServer);
+                setUsers(textFromServer);
                 break;
         }
     }
