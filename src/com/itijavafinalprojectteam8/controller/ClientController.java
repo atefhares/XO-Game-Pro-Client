@@ -52,17 +52,12 @@ public class ClientController {
         mSignUpScreenViewCallback = callback;
     }
 
-    //error
-    public static void open() {
-        try {
-            mSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-            mDataInputStream = new DataInputStream(mSocket.getInputStream());
-            mDataOutputStream = new DataOutputStream(mSocket.getOutputStream());
+    public static void open() throws IOException {
+        mSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+        mDataInputStream = new DataInputStream(mSocket.getInputStream());
+        mDataOutputStream = new DataOutputStream(mSocket.getOutputStream());
 
-            mIsShutDown.set(false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mIsShutDown.set(false);
     }
 
     public static void sendToServer(final String msg) throws IOException {
