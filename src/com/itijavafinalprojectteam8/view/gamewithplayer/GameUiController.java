@@ -71,8 +71,7 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     private AnchorPane anchorPane;
 
 
-    ImageView image1;
-    ImageView image2;
+
     Player p1;
 
     @Override
@@ -228,21 +227,31 @@ public class GameUiController implements Initializable, GameWithPlayerView {
             public void run() {
                 System.out.println(text);
                 System.out.println("this is inside the controller");
+
+
+
                 JSONObject RESPONSE = new JSONObject(text);
-                image2 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
-                image1 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
+
                 JSONArray Data_Array = RESPONSE.getJSONArray(Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
 
+                list.clear();
                 for (int i = 0; i < Data_Array.length(); i++) {
+
+                    ImageView onlineImageView;
+                    ImageView offlineImageView;
+                    
 //                    System.out.println("Data   " + Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
 //                    System.out.println(ClientController.Email);
 
+                    offlineImageView = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
+                    onlineImageView= new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
+
                     int stat = Data_Array.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_STATUS);
-                    if (stat == 1) {
-                        p1 = new Player(image1, Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                    if (stat == 1 || stat == 2) {
+                        p1 = new Player(onlineImageView, Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
                         p1.setPlayer_Email(Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
                     } else {
-                        p1 = new Player(image2, Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                        p1 = new Player(offlineImageView, Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
                         p1.setPlayer_Email(Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
                     }
                     list.add(p1);

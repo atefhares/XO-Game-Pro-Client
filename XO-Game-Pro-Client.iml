@@ -13,5 +13,14 @@
     <orderEntry type="library" exported="" name="fontawesomefx-8.2 (2)" level="project" />
     <orderEntry type="library" exported="" name="XO-Game-Pro-Client" level="project" />
     <orderEntry type="library" exported="" name="jdk1.8" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../libs/json-20190722.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
