@@ -66,6 +66,8 @@ public class GameApplication extends Application implements GameAppView {
 //        showChooserScene(stage);
     }
 
+
+
     /*=========================================================================================*/
 
     private void showLoginScene(Stage stage) throws IOException {

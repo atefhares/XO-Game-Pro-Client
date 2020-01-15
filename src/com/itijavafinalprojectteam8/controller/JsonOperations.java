@@ -49,4 +49,9 @@ public class JsonOperations {
         object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
         return object.toString();
     }
+
+    public static String parseAllPlayers(String jsonString) {
+        JSONObject object = new JSONObject(jsonString);
+        return object.optString(Constants.JsonKeys.KEY_RESPONSE_MSG);
+    }
 }

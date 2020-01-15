@@ -1,6 +1,7 @@
 package com.itijavafinalprojectteam8.controller;
 
 import com.itijavafinalprojectteam8.Constants;
+import com.itijavafinalprojectteam8.view.interfaces.GameWithPlayerView;
 import com.itijavafinalprojectteam8.view.interfaces.LoginView;
 import com.itijavafinalprojectteam8.view.interfaces.SignUpView;
 import javafx.beans.property.SimpleStringProperty;
@@ -27,6 +28,12 @@ public class ClientController {
     private static Thread mThread;
     private static LoginView mLoginScreenViewCallback;
     private static SignUpView mSignUpScreenViewCallback;
+    private static GameWithPlayerView mGameWithPlayerView;
+
+    public static void setGameUiController(GameWithPlayerView view) {
+        mGameWithPlayerView = view;
+    }
+
     public static StringProperty Users = new SimpleStringProperty();
 
     public static final String getUsers() {
@@ -104,7 +111,17 @@ public class ClientController {
     }
 
     private static void handleGetAllPlayersResponse(String textFromServer) {
-        System.out.println("[handleGetAllPlayersResponse] list of all players: " + textFromServer);
+        int responseCode = JsonOperations.getResponseCode(textFromServer);
+        switch (responseCode) {
+            case Constants.ResponseCodes.RESPONSE_ERROR:
+                break;
+
+            case Constants.ResponseCodes.RESPONSE_SUCCESS: {
+                System.out.println("[handleGetAllPlayersResponse] list of all players: " + textFromServer);
+                Props.allPlayersServerResponse.setValue(JsonOperations.parseAllPlayers(textFromServer));
+            }
+            break;
+        }
         if (!textFromServer.isEmpty())
             Props.allPlayersServerResponse.setValue(textFromServer);
     }
