@@ -105,7 +105,6 @@ public class ClientController {
 
             case Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS:
                 handleGetAllPlayersResponse(textFromServer);
-                setUsers(textFromServer);
                 break;
         }
     }
@@ -159,6 +158,21 @@ public class ClientController {
                 if (mLoginScreenViewCallback != null) {
                     mLoginScreenViewCallback.onSuccessResponse();
                 }
+                break;
+        }
+
+    }
+
+    private static void handleInvitationResponse(String textFromServer) {
+        int responseCode = JsonOperations.getResponseCode(textFromServer);
+        switch (responseCode) {
+            case Constants.ResponseCodes.RESPONSE_ERROR:
+                mGameWithPlayerView.onGameInvitationResponse(JsonOperations.getResponseMessage(textFromServer));
+                break;
+
+            case Constants.ResponseCodes.RESPONSE_SUCCESS:
+                if(mGameWithPlayerView!=null)
+                mGameWithPlayerView.onGameInvitationResponse( JsonOperations.getResponseMessage(textFromServer));
                 break;
         }
 

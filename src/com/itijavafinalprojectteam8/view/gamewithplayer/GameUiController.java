@@ -8,8 +8,6 @@ import com.itijavafinalprojectteam8.controller.JsonOperations;
 import com.itijavafinalprojectteam8.controller.Props;
 import com.itijavafinalprojectteam8.view.interfaces.GameWithPlayerView;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,10 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,7 +27,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
+
 
 public class GameUiController implements Initializable, GameWithPlayerView {
 
@@ -119,11 +116,87 @@ public class GameUiController implements Initializable, GameWithPlayerView {
         alert.setHeaderText("Send Invetation:");
         alert.setContentText("You are about to send " + Email + "an invetation procced?");
 
-        alert.showAndWait();
+        Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
+
+        if(result.get() == javafx.scene.control.ButtonType.OK) {
+            //oke button is pressed
+            System.out.println("pressed ok");
+            try {     String emailPlayer=JsonOperations.getInvitationJson(Email);
+                ClientController.sendToServer(emailPlayer);
+
+            }
+         catch (Exception e)
+         {
+
+             e.printStackTrace();
+         }
+        }
+        else if(result.get() == javafx.scene.control.ButtonType.CANCEL) {
+            // cancel button is pressed
+           alert.close();
+        }
+
+
 
     }
 
-    @FXML
+    // Show a Information Alert with header Text
+    @Override
+    public void onGameInvitationRequest(String Email) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Game invitation");
+                // alert.setHeaderText("recieve Invetation:");
+                alert.setContentText( Email + " send you a Game invetation?");
+                Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
+
+                if(result.get() == javafx.scene.control.ButtonType.OK) {
+                    //oke button is pressed
+                    System.out.println("pressed ok");
+                    try {
+                        ClientController.sendToServer(JsonOperations.getInvitationResponseMsg(Email , true));
+                    }
+                    catch (Exception e)
+                    {
+
+                        e.printStackTrace();
+                    }
+                }
+                else if(result.get() == javafx.scene.control.ButtonType.CANCEL) {
+                    // cancel button is pressed
+                    try {
+                        ClientController.sendToServer(JsonOperations.getInvitationResponseMsg(Email , false));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onGameInvitationResponse(String message) {
+
+    }
+
+
+    public  void onGameInvitationResponse(){
+
+     //   Platform.runLater(() -> {
+
+
+        //    if (mApplicationCallback != null)
+            //    mApplicationCallback.showToastMessage(errorMsgFromServer);
+//        }
+
+    }
+        @FXML
     public void clickButton(ActionEvent event) throws IOException {
         final Node source = (Node) event.getSource();
         String id = source.getId();
@@ -239,7 +312,7 @@ public class GameUiController implements Initializable, GameWithPlayerView {
 
                     ImageView onlineImageView;
                     ImageView offlineImageView;
-                    
+
 //                    System.out.println("Data   " + Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
 //                    System.out.println(ClientController.Email);
 

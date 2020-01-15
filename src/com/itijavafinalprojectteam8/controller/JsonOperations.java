@@ -34,6 +34,15 @@ public class JsonOperations {
         return object.toString();
     }
 
+    public static String getInvitationJson(String email) {
+        JSONObject object = new JSONObject();
+        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_IVITATION);
+        object.put(Constants.JsonKeys.KEY_USER_EMAIL, email);
+
+        return object.toString();
+    }
+
+
     public static int getResponseCode(String jsonStr) {
         JSONObject jsonObject = new JSONObject(jsonStr);
         return jsonObject.getInt(Constants.JsonKeys.KEY_RESPONSE_CODE);
@@ -42,6 +51,15 @@ public class JsonOperations {
     public static String getResponseMessage(String jsonStr) {
         JSONObject jsonObject = new JSONObject(jsonStr);
         return jsonObject.optString(Constants.JsonKeys.KEY_RESPONSE_MSG);
+    }
+
+    public static String getInvitationResponseMsg(String Email ,boolean accepted) {
+            JSONObject jsonObject = new JSONObject();
+        jsonObject.put(Constants.JsonKeys.KEY_REQUEST_TYPE,Constants.ConnectionTypes.TYPE_IVITATION_RESULT);
+
+        jsonObject.put(Constants.JsonKeys.KEY_INVITATION_RESULT,accepted);
+            jsonObject.put(Constants.JsonKeys.KEY_USER_EMAIL,Email);
+            return jsonObject.toString();
     }
 
     public static String getAllPlayersJson() {
