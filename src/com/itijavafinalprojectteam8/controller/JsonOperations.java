@@ -24,7 +24,6 @@ public class JsonOperations {
         return object.toString();
     }
 
-
     public static String getSignUpJson(String name, String email, String plainPass) throws NoSuchAlgorithmException {
         JSONObject object = new JSONObject();
         object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_SIGN_UP);

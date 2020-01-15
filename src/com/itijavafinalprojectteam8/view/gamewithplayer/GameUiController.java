@@ -1,10 +1,10 @@
 package com.itijavafinalprojectteam8.view.gamewithplayer;
 
 import com.itijavafinalprojectteam8.Constants;
-import com.itijavafinalprojectteam8.Player;
 import com.itijavafinalprojectteam8.controller.ClientController;
 import com.itijavafinalprojectteam8.controller.JsonOperations;
 import com.itijavafinalprojectteam8.controller.Props;
+import com.itijavafinalprojectteam8.model.Player;
 import com.itijavafinalprojectteam8.view.interfaces.GameWithPlayerView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -67,9 +67,8 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     @FXML
     private AnchorPane anchorPane;
 
-
-
-    Player p1;
+    private Image offlineImage = new Image(this.getClass().getResourceAsStream("off.png"));
+    private Image onlineImage = new Image(this.getClass().getResourceAsStream("on.png"));
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -188,33 +187,25 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                 System.out.println(text);
                 System.out.println("this is inside the controller");
 
-
-
-                JSONObject RESPONSE = new JSONObject(text);
-
-                JSONArray Data_Array = RESPONSE.getJSONArray(Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
+                JSONArray dataArray = new JSONArray(text);
 
                 list.clear();
-                for (int i = 0; i < Data_Array.length(); i++) {
 
-                    ImageView onlineImageView;
-                    ImageView offlineImageView;
-                    
-//                    System.out.println("Data   " + Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
-//                    System.out.println(ClientController.Email);
+                for (int i = 0; i < dataArray.length(); i++) {
 
-                    offlineImageView = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
-                    onlineImageView= new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
 
-                    int stat = Data_Array.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_STATUS);
+                    ImageView offlineImageView = new ImageView(offlineImage);
+                    ImageView onlineImageView = new ImageView(onlineImage);
+
+                    int stat = dataArray.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_STATUS);
+                    Player player;
                     if (stat == 1 || stat == 2) {
-                        p1 = new Player(onlineImageView, Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
-                        p1.setPlayer_Email(Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                        player = new Player(onlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
                     } else {
-                        p1 = new Player(offlineImageView, Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
-                        p1.setPlayer_Email(Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                        player = new Player(offlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
                     }
-                    list.add(p1);
+                    player.setPlayer_Email(dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                    list.add(player);
                 }
 
 

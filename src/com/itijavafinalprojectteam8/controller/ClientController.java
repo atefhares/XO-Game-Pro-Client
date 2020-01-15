@@ -4,8 +4,6 @@ import com.itijavafinalprojectteam8.Constants;
 import com.itijavafinalprojectteam8.view.interfaces.GameWithPlayerView;
 import com.itijavafinalprojectteam8.view.interfaces.LoginView;
 import com.itijavafinalprojectteam8.view.interfaces.SignUpView;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -34,20 +32,6 @@ public class ClientController {
         mGameWithPlayerView = view;
     }
 
-    public static StringProperty Users = new SimpleStringProperty();
-
-    public static final String getUsers() {
-        return ClientController.Users.get();
-    }
-
-    public static final void setUsers(String value) {
-        ClientController.Users.set(value);
-    }
-
-    public static final StringProperty usersProperty() {
-        return ClientController.Users;
-    }
-
     private ClientController() {
     }
 
@@ -73,7 +57,6 @@ public class ClientController {
         }
 
         mDataOutputStream.writeUTF(msg);
-
     }
 
     private static void read() throws IOException {
@@ -105,7 +88,6 @@ public class ClientController {
 
             case Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS:
                 handleGetAllPlayersResponse(textFromServer);
-                setUsers(textFromServer);
                 break;
         }
     }
