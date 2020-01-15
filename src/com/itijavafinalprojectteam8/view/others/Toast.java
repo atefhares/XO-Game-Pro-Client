@@ -20,14 +20,14 @@ public final class Toast {
         toastStage.initStyle(StageStyle.TRANSPARENT);
 
 
-
         Text text = new Text(toastMsg);
         text.setFont(Font.font("Verdana", 12));
         text.setFill(Color.RED);
 
         StackPane root = new StackPane(text);
-        root.setStyle("-fx-background-radius: 20; -fx-background-color: rgba(0, 0, 0, 0.2); -fx-padding: 5px;");
-        root.setOpacity(0);
+        root.setLayoutY(500);
+        root.setStyle("-fx-background-radius: 15; -fx-background-color: rgba(20,20,20,0.2); -fx-padding: 10px;");
+        root.setOpacity(0.2);
 
         Scene scene = new Scene(root);
         scene.setFill(Color.TRANSPARENT);

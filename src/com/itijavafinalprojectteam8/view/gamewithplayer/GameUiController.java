@@ -1,18 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.itijavafinalprojectteam8.view.gamewithplayer;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+import com.itijavafinalprojectteam8.Constants;
 import com.itijavafinalprojectteam8.Player;
 import com.itijavafinalprojectteam8.controller.AiLibrary;
+import com.itijavafinalprojectteam8.controller.ClientController;
+import com.itijavafinalprojectteam8.controller.JsonOperations;
+import com.itijavafinalprojectteam8.controller.Props;
+import com.itijavafinalprojectteam8.view.interfaces.GameWithPlayerView;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -29,27 +27,22 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * FXML Controller class
- *
- * @author moham
- */
-public class GameUiController implements Initializable {
+public class GameUiController implements Initializable, GameWithPlayerView {
 
-    /**
-     * Initializes the controller class.
-     */
     @FXML
     private TableView<Player> table;
     @FXML
     private TableColumn<Player, String> images;
     @FXML
     private TableColumn<Player, String> Player_Name;
+
     public ObservableList<Player> list = FXCollections.observableArrayList();
 
     @FXML
@@ -78,32 +71,18 @@ public class GameUiController implements Initializable {
     private AnchorPane anchorPane;
 
 
+    ImageView image1;
+    ImageView image2;
+    Player p1;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-
             images.setCellValueFactory(new PropertyValueFactory<>("images"));
             Player_Name.setCellValueFactory(new PropertyValueFactory<Player, String>("Player_Name"));
 
-            ImageView image1 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
-            ImageView image2 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
-            ImageView image3 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
-
-            ImageView image4 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
-            ImageView image5 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
-            Player p1 = new Player(image1, "esraa");
-            Player p2 = new Player(image2, "shimaa");
-            Player p3 = new Player(image3, "atef");
-            Player p4 = new Player(image4, "bassam");
-            Player p5 = new Player(image5, "aboseree");
-
-            list.add(p1);
-            list.add(p2);
-            list.add(p3);
-            list.add(p4);
-            list.add(p5);
-
-            table.setItems(list);
+            ClientController.sendToServer(JsonOperations.getAllPlayersJson());
+            ClientController.setGameUiController(this);
 
             dark_blue.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -113,10 +92,35 @@ public class GameUiController implements Initializable {
                     stage.close();
                 }
             });
+            table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                if (newSelection != null) {
+                    showAlertWithHeaderText(newSelection.getPlayer_Email());
 
+
+                }
+            });
+
+
+            Props.allPlayersServerResponse.addListener((observableValue, oldValue, newValue) -> {
+                if(!oldValue.equals(newValue)){
+                    fillTableData(newValue);
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+    }
+
+    // Show a Information Alert with header Text
+    private void showAlertWithHeaderText(String Email) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Game request");
+        alert.setHeaderText("Send Invetation:");
+        alert.setContentText("You are about to send " + Email + "an invetation procced?");
+
+        alert.showAndWait();
 
     }
 
@@ -216,4 +220,39 @@ public class GameUiController implements Initializable {
         }
     }
 
+    // @FXML
+    public void fillTableData(String text) {
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(text);
+                System.out.println("this is inside the controller");
+                JSONObject RESPONSE = new JSONObject(text);
+                image2 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
+                image1 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
+                JSONArray Data_Array = RESPONSE.getJSONArray(Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
+
+                for (int i = 0; i < Data_Array.length(); i++) {
+//                    System.out.println("Data   " + Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+//                    System.out.println(ClientController.Email);
+
+                    int stat = Data_Array.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_STATUS);
+                    if (stat == 1) {
+                        p1 = new Player(image1, Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                        p1.setPlayer_Email(Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                    } else {
+                        p1 = new Player(image2, Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                        p1.setPlayer_Email(Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                    }
+                    list.add(p1);
+                }
+
+
+                table.setItems(list);
+            }
+        });
+
+
+    }
 }

@@ -8,7 +8,11 @@ public interface GameAppView {
 
     void switchToLoginScreen();
 
-    void switchToGameScreen();
+    void switchToGameWithOtherPlayerScreen();
+
+    void switchToGameWithCpuScreen();
 
     void showToastMessage(String text);
+
+    void switchToGameChooser();
 }

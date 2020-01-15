@@ -1,8 +1,11 @@
 package com.itijavafinalprojectteam8.controller;
 
 import com.itijavafinalprojectteam8.Constants;
+import com.itijavafinalprojectteam8.view.interfaces.GameWithPlayerView;
 import com.itijavafinalprojectteam8.view.interfaces.LoginView;
 import com.itijavafinalprojectteam8.view.interfaces.SignUpView;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -25,6 +28,25 @@ public class ClientController {
     private static Thread mThread;
     private static LoginView mLoginScreenViewCallback;
     private static SignUpView mSignUpScreenViewCallback;
+    private static GameWithPlayerView mGameWithPlayerView;
+
+    public static void setGameUiController(GameWithPlayerView view) {
+        mGameWithPlayerView = view;
+    }
+
+    public static StringProperty Users = new SimpleStringProperty();
+
+    public static final String getUsers() {
+        return ClientController.Users.get();
+    }
+
+    public static final void setUsers(String value) {
+        ClientController.Users.set(value);
+    }
+
+    public static final StringProperty usersProperty() {
+        return ClientController.Users;
+    }
 
     private ClientController() {
     }
@@ -37,19 +59,15 @@ public class ClientController {
         mSignUpScreenViewCallback = callback;
     }
 
-    public static void open() {
-        try {
-            mSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
-            mDataInputStream = new DataInputStream(mSocket.getInputStream());
-            mDataOutputStream = new DataOutputStream(mSocket.getOutputStream());
+    public static void open() throws IOException {
+        mSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+        mDataInputStream = new DataInputStream(mSocket.getInputStream());
+        mDataOutputStream = new DataOutputStream(mSocket.getOutputStream());
 
-            mIsShutDown.set(false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mIsShutDown.set(false);
     }
 
-    public static void sendToServer( final String msg) throws IOException {
+    public static void sendToServer(final String msg) throws IOException {
         if (mSocket == null || mSocket.isClosed()) {
             open();
         }
@@ -85,17 +103,27 @@ public class ClientController {
                 handleSignUpResponse(textFromServer);
                 break;
 
-            case Constants.ConnectionTypes.TYPE_GET_USERS:
+            case Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS:
                 handleGetAllPlayersResponse(textFromServer);
+                setUsers(textFromServer);
                 break;
         }
     }
 
     private static void handleGetAllPlayersResponse(String textFromServer) {
-        String allPlayers = JsonOperations.getAllPlayersJsonString(textFromServer);
-        System.out.println("[handleGetAllPlayersResponse] list of all players: " + allPlayers);
-        if (!allPlayers.isEmpty())
-            Props.allPlayersServerResponse.setValue(allPlayers);
+        int responseCode = JsonOperations.getResponseCode(textFromServer);
+        switch (responseCode) {
+            case Constants.ResponseCodes.RESPONSE_ERROR:
+                break;
+
+            case Constants.ResponseCodes.RESPONSE_SUCCESS: {
+                System.out.println("[handleGetAllPlayersResponse] list of all players: " + textFromServer);
+                Props.allPlayersServerResponse.setValue(JsonOperations.parseAllPlayers(textFromServer));
+            }
+            break;
+        }
+        if (!textFromServer.isEmpty())
+            Props.allPlayersServerResponse.setValue(textFromServer);
     }
 
     private static void handleSignUpResponse(String textFromServer) {

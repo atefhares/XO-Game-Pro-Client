@@ -11,49 +11,28 @@ package com.itijavafinalprojectteam8.view.gamewithcpu;
  * and open the template in the editor.
  */
 
-import com.itijavafinalprojectteam8.Player;
 import com.itijavafinalprojectteam8.controller.AiLibrary;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
  *
  * @author moham
  */
-public class GameUiController implements Initializable {
+public class GameUiController {
 
     /**
      * Initializes the controller class.
      */
-    @FXML
-    private TableView<Player> table;
-    @FXML
-    private TableColumn<Player, String> images;
-    @FXML
-    private TableColumn<Player, String> Player_Name;
-    public ObservableList<Player> list = FXCollections.observableArrayList();
+
 
     @FXML
     private Button dark_blue;
@@ -79,140 +58,131 @@ public class GameUiController implements Initializable {
 
     @FXML
     private AnchorPane anchorPane;
+    @FXML
+    private Label howWinner;
 
+    boolean flag = true;
+/*
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        try {
+    private static GameAppView mApplicationCallback;
 
-            images.setCellValueFactory(new PropertyValueFactory<>("images"));
-            Player_Name.setCellValueFactory(new PropertyValueFactory<Player, String>("Player_Name"));
+    public GameUiController() {
+        ClientController.setGameCpuView(this);
+    }
 
-            ImageView image1 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
-            ImageView image2 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
-            ImageView image3 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
-
-            ImageView image4 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
-            ImageView image5 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
-            Player p1 = new Player(image1, "esraa");
-            Player p2 = new Player(image2, "shimaa");
-            Player p3 = new Player(image3, "atef");
-            Player p4 = new Player(image4, "bassam");
-            Player p5 = new Player(image5, "aboseree");
-
-            list.add(p1);
-            list.add(p2);
-            list.add(p3);
-            list.add(p4);
-            list.add(p5);
-
-            table.setItems(list);
-
-            dark_blue.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    Node source = (Node) e.getSource();
-                    Stage stage = (Stage) source.getScene().getWindow();
-                    stage.close();
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public static void setApplicationCallback(GameAppView callback) {
+        mApplicationCallback = callback;
     }
 
     @FXML
+    private void changeScreenHyperLink(ActionEvent event) throws IOException {
+        if (mApplicationCallback != null)
+            mApplicationCallback.switchToGameCpuScreen();
+    }
+
+
+*/
+
+    @FXML
     public void clickButton(ActionEvent event) throws IOException {
-        final Node source = (Node) event.getSource();
-        String id = source.getId();
+        try{
+            final Node source = (Node) event.getSource();
+            String id = source.getId();
 
-        char c = id.charAt(id.length() - 1);
-        int idnum = Character.getNumericValue(c);
-        System.out.println(idnum);
-        drawInGui(idnum, 'X', Color.YELLOW);
 
-        AiLibrary.onPlayerMove(1);
+            char c = id.charAt(id.length() - 1);
+            int idnum = Character.getNumericValue(c);
+            if(!(AiLibrary.playerPosition.contains(idnum)||AiLibrary.cpuPosition.contains(idnum))&& flag) {
+                AiLibrary.onPlayerMove(idnum);
 
-        int result = AiLibrary.getWinner();
-        switch (result) {
-            case 0:
-                //player won
-                System.out.println("player win");
-                return;
-            case 1:
-                //cpu won
-                System.out.println("cpu win");
-            case 2:
-                // draw
-                System.out.println("OH !! NO Its a Draw");
+                drawInGui(idnum, "X", Color.YELLOW);
+                if(AiLibrary.playerPosition.size() + AiLibrary.cpuPosition.size() < 11){
+                    int cpuPosition = AiLibrary.onCpuMove();
+                    drawInGui(cpuPosition, "o", Color.RED);
+                }
+
+                int result = AiLibrary.getWinner();
+                System.out.println("result is " + result);
+
+                switch (result) {
+                    case 0:
+                        //player won
+                        howWinner.setText("Congratulation You Are Winner");
+                        howWinner.setStyle("-fx-background-color:#fff;");
+                        flag  = false;
+                        break;
+                    case 1:
+                        //cpu won
+                        howWinner.setText("Computer Won");
+                        howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
+                        flag  = false;
+                        break;
+                    case 2:
+                        // draw
+                        howWinner.setText("OH !! NO Its a Draw");
+                        howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
+                        flag  = false;
+                        break;
+                    default:
+                        flag  = true;
+                        break;
+                }
+            }
+            else {System.out.println("this is the error");}
         }
+        catch(Exception ex){ex.getMessage();}
 
-        int cpuPos = AiLibrary.onCpuMove();
-        drawInGui(cpuPos, 'O', Color.RED);
-
-        result = AiLibrary.getWinner();
-        switch (result) {
-            case 0:
-                //player won
-                System.out.println("player win");
-            case 1:
-                //cpu won
-                System.out.println("cpu win");
-            case 2:
-                // draw
-                System.out.println("OH !! NO Its a Draw");
-        }
 
     }
 
-    public void drawInGui(int pos, char c, Color color) {
+    public void drawInGui(int pos, String c, Color color) {
 
         switch (pos) {
             case 1:
-                b1.setText(String.valueOf(c));
+                b1.setText(c);
                 //b1.setStyle("-fx-text-fill: yellow;-fx-background-color:none;-fx-padding:10px");
                 b1.setTextFill(color);
                 break;
 
             case 2:
-                b2.setText(String.valueOf(c));
+                b2.setText(c);
                 b2.setTextFill(color);
+
                 break;
 
             case 3:
-                b3.setText(String.valueOf(c));
+                b3.setText(c);
                 b3.setTextFill(color);
+
                 break;
 
             case 4:
-                b4.setText(String.valueOf(c));
+                b4.setText(c);
                 b4.setTextFill(color);
                 break;
 
             case 5:
-                b5.setText(String.valueOf(c));
+                b5.setText(c);
                 b5.setTextFill(color);
                 break;
 
             case 6:
-                b6.setText(String.valueOf(c));
+                b6.setText(c);
                 b6.setTextFill(color);
                 break;
 
             case 7:
-                b7.setText(String.valueOf(c));
+                b7.setText(c);
                 b7.setTextFill(color);
                 break;
 
             case 8:
-                b8.setText(String.valueOf(c));
+                b8.setText(c);
                 b8.setTextFill(color);
                 break;
 
             case 9:
-                b9.setText(String.valueOf(c));
+                b9.setText(c);
                 b9.setTextFill(color);
                 break;
         }
