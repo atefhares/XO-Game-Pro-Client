@@ -2,7 +2,6 @@ package com.itijavafinalprojectteam8.view.gamewithplayer;
 
 import com.itijavafinalprojectteam8.Constants;
 import com.itijavafinalprojectteam8.Player;
-import com.itijavafinalprojectteam8.controller.AiLibrary;
 import com.itijavafinalprojectteam8.controller.ClientController;
 import com.itijavafinalprojectteam8.controller.JsonOperations;
 import com.itijavafinalprojectteam8.controller.Props;
@@ -91,17 +90,16 @@ public class GameUiController implements Initializable, GameWithPlayerView {
             table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
                 if (newSelection != null) {
                     showAlertWithHeaderText(newSelection.getPlayer_Email());
-
-
                 }
             });
 
 
             Props.allPlayersServerResponse.addListener((observableValue, oldValue, newValue) -> {
-                if(!oldValue.equals(newValue)){
+                if (!oldValue.equals(newValue)) {
                     fillTableData(newValue);
                 }
             });
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,9 +108,10 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     }
 
     // Show a Information Alert with header Text
-    private void showAlertWithHeaderText(String Email) {
+    private void showAlertWithHeaderText(String email) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Game request");
+<<<<<<< HEAD
         alert.setHeaderText("Send Invetation:");
         alert.setContentText("You are about to send " + Email + "an invetation procced?");
 
@@ -138,6 +137,11 @@ public class GameUiController implements Initializable, GameWithPlayerView {
 
 
 
+=======
+        alert.setHeaderText("Send game invitation");
+        alert.setContentText("You are about to send " + email + "an invitation, proceed?");
+        alert.showAndWait();
+>>>>>>> 1a63d73c5a8008918da920084cd9ad0b07edd92f
     }
 
     // Show a Information Alert with header Text
@@ -204,40 +208,6 @@ public class GameUiController implements Initializable, GameWithPlayerView {
         char c = id.charAt(id.length() - 1);
         int idnum = Character.getNumericValue(c);
         System.out.println(idnum);
-        drawInGui(idnum, 'X', Color.YELLOW);
-        int cpuPosition = AiLibrary.cpuMove();
-        drawInGui(cpuPosition, 'O', Color.RED);
-        AiLibrary.onPlayerMove(1);
-
-        int result = AiLibrary.getWinner();
-        switch (result) {
-            case 0:
-                //player won
-                System.out.println("player win");
-                return;
-            case 1:
-                //cpu won
-                System.out.println("cpu win");
-            case 2:
-                // draw
-                System.out.println("OH !! NO Its a Draw");
-        }
-
-        int cpuPos = AiLibrary.onCpuMove();
-        //show O on ui at pos = cpuPos
-
-        result = AiLibrary.getWinner();
-        switch (result) {
-            case 0:
-                //player won
-                System.out.println("player win");
-            case 1:
-                //cpu won
-                System.out.println("cpu win");
-            case 2:
-                // draw
-                System.out.println("OH !! NO Its a Draw");
-        }
 
     }
 
