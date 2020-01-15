@@ -11,9 +11,11 @@ package com.itijavafinalprojectteam8.view.gamewithplayer;
  * and open the template in the editor.
  */
 
+import com.itijavafinalprojectteam8.Constants;
 import com.itijavafinalprojectteam8.Player;
 import com.itijavafinalprojectteam8.controller.AiLibrary;
 import com.itijavafinalprojectteam8.controller.ClientController;
+import com.itijavafinalprojectteam8.controller.JsonOperations;
 import java.io.File;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,6 +38,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,17 +67,20 @@ public class GameUiController implements Initializable {
     @FXML
     private TableColumn<Player, String> Player_Name;
     public ObservableList<Player> list = FXCollections.observableArrayList();
+
     @FXML
+    private Button dark_blue;
+  @FXML
     private TableView<ClientController> table2;
     @FXML
     private TableColumn<ClientController, String> gameTable;
 
-    @FXML
-    private Button dark_blue;
-    @FXML
+
+  @FXML
     private Button list_Game;
     @FXML
     private Button list_Player;
+
     @FXML
     private Button b1;
     @FXML
@@ -96,17 +102,20 @@ public class GameUiController implements Initializable {
 
     @FXML
     private AnchorPane anchorPane;
-
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        try {
-
-            images.setCellValueFactory(new PropertyValueFactory<>("images"));
-            Player_Name.setCellValueFactory(new PropertyValueFactory<Player, String>("Player_Name"));
+            
 
             ImageView image1 = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
             ImageView image2 = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
+ Player p1;
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        try {
+           images.setCellValueFactory(new PropertyValueFactory<>("images"));
+            Player_Name.setCellValueFactory(new PropertyValueFactory<Player, String>("Player_Name"));
+           
+            ClientController.sendToServer(JsonOperations.getPlayersJson());
+          //  ClientController.sendToServer(JsonOperations.getGamesJson());
+             ClientController.setgameUicontroller(this);
            
             dark_blue.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -117,7 +126,7 @@ public class GameUiController implements Initializable {
                 }
             });
 
-            list_Game.setOnAction(new EventHandler<ActionEvent>() {
+           list_Game.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
 
@@ -139,46 +148,12 @@ public class GameUiController implements Initializable {
 
             });
 
-
-
-            ClientController.usersProperty().addListener(new ChangeListener<String>() {
-                            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                 Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                  System.out.println("this is inside the controller");
-                System.out.println(MessageFormat.format("The name changed from \"{0}\" to \"{1}\"", oldValue, newValue));
-                JSONObject RESPONSE = new JSONObject(newValue);
-                    JSONArray Data_Array= RESPONSE.getJSONArray("Data");
-                        for (int i = 0; i < Data_Array.length(); i++) {
-                           System.out.println("Data   "+Data_Array.getJSONObject(i).getString("Email")); 
-                           
-                           Player p1;
-                           int stat = Integer.parseInt(Data_Array.getJSONObject(i).getString("Status"));
-                           if(stat==0)
-                           {
-                           p1 = new Player(image1,Data_Array.getJSONObject(i).getString("Email"));
-                           }
-                           else
-                           {
-                            p1 = new Player(image1,Data_Array.getJSONObject(i).getString("Email"));
-                           }
-                                       list.add(p1);
-
-                        }
-                  table.setItems(list);     
-                }
-            });              
-                
-            
-            
-            }
-            
-        });
         } catch (Exception e) {
             e.printStackTrace();
         }
+       
+        
+        
 
     }
 
@@ -194,7 +169,7 @@ public class GameUiController implements Initializable {
         int cpuPosition = AiLibrary.cpuMove();
         drawInGui(cpuPosition, 'O', Color.RED);
         AiLibrary.onPlayerMove(1);
-
+        
         int result = AiLibrary.getWinner();
         switch (result) {
             case 0:
@@ -277,5 +252,42 @@ public class GameUiController implements Initializable {
                 break;
         }
     }
+   // @FXML
+public void fillTableData(String text)
+{
+    
+                 Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+    System.out.println(text);
+                    System.out.println("this is inside the controller");
+                JSONObject RESPONSE = new JSONObject(text);
+               
+                    JSONArray Data_Array= RESPONSE.getJSONArray(Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
+                   
+                       for (int i = 0; i < Data_Array.length(); i++) {
+                           System.out.println("Data   "+Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL)); 
+                           
+                           
+                           int stat = Data_Array.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_STATUS);
+                           if(stat==1)
+                           {
+                           p1 = new Player(image1,Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                           }
+                           else
+                           {
+                            p1 = new Player(image2,Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                           }
+                            list.add(p1);
+                            
 
+                        }
+                  table.setItems(list);     
+                }
+            });              
+                
+            
+            
+            
+}
 }

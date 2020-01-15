@@ -61,7 +61,7 @@ public class GameApplication extends Application implements GameAppView {
 
         applicationStage = stage;
 
-        showChooserScene(stage);
+        showSignUpScene(stage);
     }
 
     /*=========================================================================================*/

@@ -1,6 +1,8 @@
 package com.itijavafinalprojectteam8.controller;
 
 import com.itijavafinalprojectteam8.Constants;
+import com.itijavafinalprojectteam8.Player;
+import com.itijavafinalprojectteam8.view.gamewithplayer.GameUiController;
 import com.itijavafinalprojectteam8.view.interfaces.GameChooser;
 import com.itijavafinalprojectteam8.view.interfaces.GameCpuView;
 import com.itijavafinalprojectteam8.view.interfaces.LoginView;
@@ -18,7 +20,7 @@ import javafx.beans.property.StringProperty;
  * @author ahares
  */
 public class ClientController {
-    private static final String SERVER_ADDRESS = "7.7.7.44";
+    private static final String SERVER_ADDRESS = "127.0.0.1";
     private static final int SERVER_PORT = 8000;
 
     private static AtomicBoolean mIsShutDown = new AtomicBoolean(false);
@@ -31,9 +33,13 @@ public class ClientController {
     private static LoginView mLoginScreenViewCallback;
     private static SignUpView mSignUpScreenViewCallback;
     private static GameCpuView mGameCpuScreenViewCallback;
-    public static StringProperty Users=new SimpleStringProperty();
+    public static StringProperty Users=new SimpleStringProperty("new");
+    public static GameUiController tabledate;
     public static final String getUsers() {
         return ClientController.Users.get();
+    }
+     public static void setgameUicontroller(GameUiController game) {
+        tabledate = game;
     }
 
     public static final void setUsers(String value) {
@@ -103,19 +109,32 @@ public class ClientController {
 
     private static void handleMessageFromServer(final String textFromServer) {
         String responseType = JsonOperations.getResponseType(textFromServer);
+        System.out.println("json object "+ responseType);
+        if(JsonOperations.getResponseType(textFromServer)==null) {
+            System.out.println("sign in 1"+ responseType);
+        } 
         switch (responseType) {
             case Constants.ConnectionTypes.TYPE_SIGN_IN:
+                                System.out.println("this is client 2 ");
+
                 handleSignInResponse(textFromServer);
+                
+                
                 break;
 
             case Constants.ConnectionTypes.TYPE_SIGN_UP:
+                                System.out.println("this is client 1 ");
+
                 handleSignUpResponse(textFromServer);
                 break;
 
-            case Constants.ConnectionTypes.TYPE_GET_USERS:
-                handleGetAllPlayersResponse(textFromServer);
-                setUsers(textFromServer);
+            case Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS:
+                System.out.println("this is client view ");
+                 tabledate.fillTableData(textFromServer);
+               // handleGetAllPlayersResponse(textFromServer);
                 break;
+            
+                
         }
     }
 
@@ -128,7 +147,7 @@ public class ClientController {
 
     private static void handleSignUpResponse(String textFromServer) {
         int responseCode = JsonOperations.getResponseCode(textFromServer);
-
+                
         switch (responseCode) {
             case Constants.ResponseCodes.RESPONSE_ERROR:
                 if (mSignUpScreenViewCallback != null) {
@@ -138,6 +157,8 @@ public class ClientController {
                 break;
 
             case Constants.ResponseCodes.RESPONSE_SUCCESS:
+                                
+
                 if (mSignUpScreenViewCallback != null) {
                     mSignUpScreenViewCallback.onSuccessResponse();
                 }
@@ -158,6 +179,9 @@ public class ClientController {
             case Constants.ResponseCodes.RESPONSE_SUCCESS:
                 if (mLoginScreenViewCallback != null) {
                     mLoginScreenViewCallback.onSuccessResponse();
+                    
+                             System.out.println("asdasdasdasd");
+
                 }
                 break;
         }

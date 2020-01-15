@@ -7,20 +7,23 @@ public class Constants {
     public static final String GAME_TITLE = "X-O game pro";
 
     public static class ConnectionTypes {
-        public static final String TYPE_SIGN_IN = "si";
-        public static final String TYPE_SIGN_UP = "sp";
-        public static final String TYPE_GET_USERS = "gu";
+        public static final String TYPE_SIGN_IN = "1";
+        public static final String TYPE_SIGN_UP = "2";
+        public static final String TYPE_GET_ALL_PLAYERS = "3";
     }
 
     public static class JsonKeys {
-        public static final String KEY_RESPONSE_TYPE = "rst";
-        public static final String KEY_RESPONSE_CODE = "rsc";
-        public static final String KEY_RESPONSE_MSG = "rsm";
-        public static final String KEY_REQUEST_TYPE = "rt";
-        public static final String KEY_USER_NAME = "un";
-        public static final String KEY_USER_EMAIL = "ue";
-        public static final String KEY_USER_PASSWORD = "up";
-        public static final String KEY_ALL_PLAYERS = "up";
+        public static final String KEY_RESPONSE_TYPE = "1";
+        public static final String KEY_RESPONSE_CODE = "2";
+        public static final String KEY_RESPONSE_MSG = "3";
+        public static final String KEY_REQUEST_TYPE = "4";
+        public static final String KEY_USER_NAME = "5";
+        public static final String KEY_USER_EMAIL = "6";
+        public static final String KEY_USER_PASSWORD = "7";
+        public static final String KEY_USER_STATUS = "8";
+        public static final String KEY_USER_POINTS = "9";
+        
+        
     }
 
     public static class PlayerStatus {

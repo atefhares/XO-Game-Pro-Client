@@ -23,6 +23,7 @@ public class JsonOperations {
         object.put(Constants.JsonKeys.KEY_USER_PASSWORD, PasswordHelper.getEncryptedPassword(plainPass));
         return object.toString();
     }
+    
 
 
     public static String getSignUpJson(String name, String email, String plainPass) throws NoSuchAlgorithmException {
@@ -31,6 +32,17 @@ public class JsonOperations {
         object.put(Constants.JsonKeys.KEY_USER_NAME, name);
         object.put(Constants.JsonKeys.KEY_USER_EMAIL, email);
         object.put(Constants.JsonKeys.KEY_USER_PASSWORD, PasswordHelper.getEncryptedPassword(plainPass));
+        return object.toString();
+    }
+    public static String getPlayersJson() throws NoSuchAlgorithmException {
+        JSONObject object = new JSONObject();
+        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
+        return object.toString();
+    }
+    public static String getGamesJson(String Email) throws NoSuchAlgorithmException {
+        JSONObject object = new JSONObject();
+
+        object.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
         return object.toString();
     }
 
@@ -46,6 +58,6 @@ public class JsonOperations {
 
     public static String getAllPlayersJsonString(String textFromServer) {
         JSONObject jsonObject = new JSONObject(textFromServer);
-        return jsonObject.optString(Constants.JsonKeys.KEY_ALL_PLAYERS);
+        return jsonObject.optString(Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
     }
 }
