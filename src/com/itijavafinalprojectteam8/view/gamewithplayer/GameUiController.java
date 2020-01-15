@@ -8,8 +8,6 @@ import com.itijavafinalprojectteam8.controller.JsonOperations;
 import com.itijavafinalprojectteam8.controller.Props;
 import com.itijavafinalprojectteam8.view.interfaces.GameWithPlayerView;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -102,10 +100,11 @@ public class GameUiController implements Initializable, GameWithPlayerView {
 
 
             Props.allPlayersServerResponse.addListener((observableValue, oldValue, newValue) -> {
-                if(!oldValue.equals(newValue)){
+                if (!oldValue.equals(newValue)) {
                     fillTableData(newValue);
                 }
             });
+
         } catch (Exception e) {
             e.printStackTrace();
         }

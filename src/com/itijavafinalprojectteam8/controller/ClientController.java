@@ -122,8 +122,6 @@ public class ClientController {
             }
             break;
         }
-        if (!textFromServer.isEmpty())
-            Props.allPlayersServerResponse.setValue(textFromServer);
     }
 
     private static void handleSignUpResponse(String textFromServer) {
