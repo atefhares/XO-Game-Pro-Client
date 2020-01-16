@@ -73,7 +73,8 @@ public class JsonOperations {
 
     public static boolean parseInvitationResponse(String jsonText) {
         JSONObject jsonObject = new JSONObject(jsonText).getJSONObject(Constants.ConnectionTypes.TYPE_IVITATION_RESULT);
-        Boolean response = jsonObject.getBoolean(Constants.JsonKeys.KEY_INVITATION_RESULT);
+        Boolean response = jsonObject.getJSONObject(Constants.JsonKeys.KEY_RESPONSE_MSG).getBoolean(Constants.JsonKeys.KEY_INVITATION_RESULT);
+        System.out.println(response);
         return response;
     }
 

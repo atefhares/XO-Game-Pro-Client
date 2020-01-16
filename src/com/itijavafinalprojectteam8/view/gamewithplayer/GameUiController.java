@@ -169,11 +169,6 @@ public class GameUiController implements Initializable, GameWithPlayerView {
 
     }
 
-    @Override
-    public void onGameInvitationResponse(String message) {
-
-    }
-
 
     public void onGameInvitationResponse() {
 
