@@ -9,13 +9,13 @@ public class Player {
     private int Player_Points;
     private int Player_Status;
     private ImageView images;
-    SimpleStringProperty Player_Name;
+    SimpleStringProperty Player_Name = new SimpleStringProperty("");
 
     public Player() {
     }
 
     public Player(ImageView images, String Player_Name) {
-        this.Player_Name = new SimpleStringProperty(Player_Name);
+        this.Player_Name.setValue(Player_Name);
         // this.player_status = new  SimpleStringProperty (player_status);
         this.images = images;
 

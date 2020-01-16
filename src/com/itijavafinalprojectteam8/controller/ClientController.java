@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
 /**
  * @author ahares
  */
@@ -27,7 +28,6 @@ public class ClientController {
     private static LoginView mLoginScreenViewCallback;
     private static SignUpView mSignUpScreenViewCallback;
     private static GameWithPlayerView mGameWithPlayerView;
-
 
     public static void setGameUiController(GameWithPlayerView view) {
         mGameWithPlayerView = view;
@@ -90,7 +90,33 @@ public class ClientController {
             case Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS:
                 handleGetAllPlayersResponse(textFromServer);
                 break;
+                 
+            
+            case Constants.ConnectionTypes.TYPE_SEND_INVIVTATION:
+                System.out.println("TYPE_SEND_INVIVTATION");
+                 handleInvitationResponse(textFromServer);
+                 break;
+                  
+            case Constants.ConnectionTypes.TYPE_IVITATION_RESULT:
+                System.out.println("TYPE_IVITATION_RESULT");
+                handleInvitationReturnback(textFromServer);
+                 break;
         }
+    }
+
+    private static void handleInvitationReturnback(String jsonText) {
+       
+         int responseCode = JsonOperations.getResponseCode(jsonText);
+        switch (responseCode) {
+            case Constants.ResponseCodes.RESPONSE_ERROR:
+                break;
+
+            case Constants.ResponseCodes.RESPONSE_SUCCESS:
+                if (mGameWithPlayerView != null)
+                mGameWithPlayerView.confirmToast(JsonOperations.parseInvitationResponse(jsonText));
+                break;
+        }
+        
     }
 
     private static void handleGetAllPlayersResponse(String textFromServer) {
@@ -101,7 +127,8 @@ public class ClientController {
 
             case Constants.ResponseCodes.RESPONSE_SUCCESS: {
                 System.out.println("[handleGetAllPlayersResponse] list of all players: " + textFromServer);
-                mGameWithPlayerView.onGetAllPlayers(JsonOperations.parseAllPlayers(textFromServer));
+                if (mGameWithPlayerView != null)
+                    mGameWithPlayerView.onGetAllPlayers(JsonOperations.parseAllPlayers(textFromServer));
             }
             break;
         }
@@ -137,6 +164,11 @@ public class ClientController {
                 break;
 
             case Constants.ResponseCodes.RESPONSE_SUCCESS:
+                try {
+                    Props.mCurrentPlayer = JsonOperations.parseCurrentPlayer(textFromServer);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if (mLoginScreenViewCallback != null) {
                     mLoginScreenViewCallback.onSuccessResponse();
                 }
@@ -149,12 +181,12 @@ public class ClientController {
         int responseCode = JsonOperations.getResponseCode(textFromServer);
         switch (responseCode) {
             case Constants.ResponseCodes.RESPONSE_ERROR:
-                mGameWithPlayerView.onGameInvitationResponse(JsonOperations.getResponseMessage(textFromServer));
+ //               mGameWithPlayerView.onGameInvitationResponse(JsonOperations.getResponseMessage(textFromServer));
                 break;
 
             case Constants.ResponseCodes.RESPONSE_SUCCESS:
                 if (mGameWithPlayerView != null)
-                    mGameWithPlayerView.onGameInvitationResponse(JsonOperations.getResponseMessage(textFromServer));
+                    mGameWithPlayerView.onGameInvitationRequest(JsonOperations.getResponseMessage(textFromServer));
                 break;
         }
 

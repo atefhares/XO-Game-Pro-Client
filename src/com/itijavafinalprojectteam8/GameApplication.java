@@ -6,6 +6,7 @@
 package com.itijavafinalprojectteam8;
 
 import com.itijavafinalprojectteam8.view.gamechooserscreen.GameChooserController;
+import com.itijavafinalprojectteam8.view.gamewithplayer.GameUiController;
 import com.itijavafinalprojectteam8.view.interfaces.GameAppView;
 import com.itijavafinalprojectteam8.view.login.LoginController;
 import com.itijavafinalprojectteam8.view.others.Toast;
@@ -52,6 +53,8 @@ public class GameApplication extends Application implements GameAppView {
         LoginController.setApplicationCallback(this);
         SignupController.setApplicationCallback(this);
         GameChooserController.setApplicationCallback(this);
+        GameUiController.setAppInterface(this);
+
 
     }
 
