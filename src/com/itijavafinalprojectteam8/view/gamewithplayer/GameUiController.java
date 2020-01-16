@@ -4,6 +4,7 @@ import com.itijavafinalprojectteam8.Constants;
 import com.itijavafinalprojectteam8.controller.ClientController;
 import com.itijavafinalprojectteam8.controller.JsonOperations;
 import com.itijavafinalprojectteam8.model.Player;
+import com.itijavafinalprojectteam8.view.interfaces.GameAppView;
 import com.itijavafinalprojectteam8.view.interfaces.GameWithPlayerView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -29,6 +30,8 @@ import java.util.ResourceBundle;
 
 
 public class GameUiController implements Initializable, GameWithPlayerView {
+
+        private static GameAppView mApplicationCallback;
 
     @FXML
     private TableView<Player> table;
@@ -66,7 +69,10 @@ public class GameUiController implements Initializable, GameWithPlayerView {
 
     private Image offlineImage = new Image(this.getClass().getResourceAsStream("off.png"));
     private Image onlineImage = new Image(this.getClass().getResourceAsStream("on.png"));
-
+        public static  void setAppInterface(GameAppView view)
+        {
+        mApplicationCallback = view;
+        }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -137,14 +143,14 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Game invitation");
                 // alert.setHeaderText("recieve Invetation:");
-                alert.setContentText(Email + " send you a Game invetation?");
+                alert.setContentText(Email + " sent you a Game invetation");
                 Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
 
                 if (result.get() == javafx.scene.control.ButtonType.OK) {
                     //oke button is pressed
                     System.out.println("pressed ok");
                     try {
-                        ClientController.sendToServer(JsonOperations.getInvitationResponseMsg(Email, true));
+                        ClientController.sendToServer(JsonOperations.sendInvitationResponse(Email, true));
                     } catch (Exception e) {
 
                         e.printStackTrace();
@@ -152,7 +158,7 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                 } else if (result.get() == javafx.scene.control.ButtonType.CANCEL) {
                     // cancel button is pressed
                     try {
-                        ClientController.sendToServer(JsonOperations.getInvitationResponseMsg(Email, false));
+                        ClientController.sendToServer(JsonOperations.sendInvitationResponse(Email, false));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -275,6 +281,27 @@ public class GameUiController implements Initializable, GameWithPlayerView {
 
 
     }
+        @Override
+    public void confirmToast(boolean response) {
+
+        Platform.runLater(() -> {
+            
+                if(response){
+                 if (mApplicationCallback != null)
+                    mApplicationCallback.showToastMessage("Player Accepted your invitiation");
+                }else
+                {
+                if (mApplicationCallback != null)
+                    mApplicationCallback.showToastMessage("Player Rejected your invitiation");
+                }
+                    
+
+           
+        });
+
+
+    }
+
 
     @Override
     public void onGetAllPlayers(String response) {

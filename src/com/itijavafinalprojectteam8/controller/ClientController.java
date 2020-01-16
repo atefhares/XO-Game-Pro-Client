@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
 /**
  * @author ahares
  */
@@ -89,7 +90,20 @@ public class ClientController {
             case Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS:
                 handleGetAllPlayersResponse(textFromServer);
                 break;
+                 
+            
+            /*case Constants.ConnectionTypes.TYPE_SEND_INVIVTATION:
+                 handleInvitationResponse(textFromServer);
+                 break;
+                  
+            case Constants.ConnectionTypes.TYPE_IVITATION_RESULT:
+                 handleInvitationReturnback(textFromServer);
+                 break;*/
         }
+    }
+    private static void handleInvitationReturnback(String jsonText)
+    {
+    mGameWithPlayerView.confirmToast(JsonOperations.parseInvitationResponse(jsonText));
     }
 
     private static void handleGetAllPlayersResponse(String textFromServer) {
@@ -137,8 +151,11 @@ public class ClientController {
                 break;
 
             case Constants.ResponseCodes.RESPONSE_SUCCESS:
+                Props.mCurrentPlayer = JsonOperations.parseCurrentPlayer(textFromServer);
                 if (mLoginScreenViewCallback != null) {
+                    
                     mLoginScreenViewCallback.onSuccessResponse();
+                    
                 }
                 break;
         }
