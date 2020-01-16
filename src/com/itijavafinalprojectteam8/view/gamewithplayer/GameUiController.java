@@ -91,13 +91,6 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                 }
             });
 
-
-            Props.allPlayersServerResponse.addListener((observableValue, oldValue, newValue) -> {
-                if (!oldValue.equals(newValue)) {
-                    fillTableData(newValue);
-                }
-            });
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -282,5 +275,10 @@ public class GameUiController implements Initializable, GameWithPlayerView {
         });
 
 
+    }
+
+    @Override
+    public void onGetAllPlayers(String response) {
+        fillTableData(response);
     }
 }

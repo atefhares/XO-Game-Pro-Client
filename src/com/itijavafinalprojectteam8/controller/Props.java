@@ -8,7 +8,6 @@ public class Props {
 
     // this property is used to add a listener in Game gui to handle
     // server response when sending new updated  players list
-    public static final StringProperty allPlayersServerResponse = new SimpleStringProperty("");
 
     public static Player mCurrentPlayer = new Player();
 
