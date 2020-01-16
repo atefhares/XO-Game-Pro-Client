@@ -101,9 +101,9 @@ public class ClientController {
                  break;*/
         }
     }
-    private static void handleInvitationReturnback(String jsonText)
-    {
-    mGameWithPlayerView.confirmToast(JsonOperations.parseInvitationResponse(jsonText));
+
+    private static void handleInvitationReturnback(String jsonText) {
+        mGameWithPlayerView.confirmToast(JsonOperations.parseInvitationResponse(jsonText));
     }
 
     private static void handleGetAllPlayersResponse(String textFromServer) {
@@ -151,11 +151,13 @@ public class ClientController {
                 break;
 
             case Constants.ResponseCodes.RESPONSE_SUCCESS:
-                Props.mCurrentPlayer = JsonOperations.parseCurrentPlayer(textFromServer);
+                try {
+                    Props.mCurrentPlayer = JsonOperations.parseCurrentPlayer(textFromServer);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if (mLoginScreenViewCallback != null) {
-                    
                     mLoginScreenViewCallback.onSuccessResponse();
-                    
                 }
                 break;
         }
