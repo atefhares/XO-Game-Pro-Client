@@ -280,10 +280,11 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     public void confirmToast(boolean response) {
 
         Platform.runLater(() -> {
-            
+            System.out.println("response"+response);
                 if(response){
                  if (mApplicationCallback != null)
-                    mApplicationCallback.showToastMessage("Player Accepted your invitiation");
+                    
+                     mApplicationCallback.showToastMessage("Player Accepted your invitiation");
                 }else
                 {
                 if (mApplicationCallback != null)
