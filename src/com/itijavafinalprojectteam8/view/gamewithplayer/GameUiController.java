@@ -66,10 +66,6 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     @FXML
     private AnchorPane anchorPane;
 
-
-
-    Player p1;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -110,38 +106,30 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     // Show a Information Alert with header Text
     private void showAlertWithHeaderText(String email) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Game request");
-<<<<<<< HEAD
-        alert.setHeaderText("Send Invetation:");
-        alert.setContentText("You are about to send " + Email + "an invetation procced?");
-
-        Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
-
-        if(result.get() == javafx.scene.control.ButtonType.OK) {
-            //oke button is pressed
-            System.out.println("pressed ok");
-            try {     String emailPlayer=JsonOperations.getInvitationJson(Email);
-                ClientController.sendToServer(emailPlayer);
-
-            }
-         catch (Exception e)
-         {
-
-             e.printStackTrace();
-         }
-        }
-        else if(result.get() == javafx.scene.control.ButtonType.CANCEL) {
-            // cancel button is pressed
-           alert.close();
-        }
-
-
-
-=======
         alert.setHeaderText("Send game invitation");
         alert.setContentText("You are about to send " + email + "an invitation, proceed?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == javafx.scene.control.ButtonType.OK) {
+            //oke button is pressed
+            System.out.println("pressed ok");
+            try {
+                String emailPlayer = JsonOperations.getInvitationJson(email);
+                ClientController.sendToServer(emailPlayer);
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+
+            alert.close();
+        } else if (result.get() == ButtonType.CANCEL) {
+            // cancel button is pressed
+            alert.close();
+        }
+
         alert.showAndWait();
->>>>>>> 1a63d73c5a8008918da920084cd9ad0b07edd92f
     }
 
     // Show a Information Alert with header Text
@@ -155,25 +143,22 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Game invitation");
                 // alert.setHeaderText("recieve Invetation:");
-                alert.setContentText( Email + " send you a Game invetation?");
+                alert.setContentText(Email + " send you a Game invetation?");
                 Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
 
-                if(result.get() == javafx.scene.control.ButtonType.OK) {
+                if (result.get() == javafx.scene.control.ButtonType.OK) {
                     //oke button is pressed
                     System.out.println("pressed ok");
                     try {
-                        ClientController.sendToServer(JsonOperations.getInvitationResponseMsg(Email , true));
-                    }
-                    catch (Exception e)
-                    {
+                        ClientController.sendToServer(JsonOperations.getInvitationResponseMsg(Email, true));
+                    } catch (Exception e) {
 
                         e.printStackTrace();
                     }
-                }
-                else if(result.get() == javafx.scene.control.ButtonType.CANCEL) {
+                } else if (result.get() == javafx.scene.control.ButtonType.CANCEL) {
                     // cancel button is pressed
                     try {
-                        ClientController.sendToServer(JsonOperations.getInvitationResponseMsg(Email , false));
+                        ClientController.sendToServer(JsonOperations.getInvitationResponseMsg(Email, false));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -190,17 +175,18 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     }
 
 
-    public  void onGameInvitationResponse(){
+    public void onGameInvitationResponse() {
 
-     //   Platform.runLater(() -> {
+        //   Platform.runLater(() -> {
 
 
         //    if (mApplicationCallback != null)
-            //    mApplicationCallback.showToastMessage(errorMsgFromServer);
+        //    mApplicationCallback.showToastMessage(errorMsgFromServer);
 //        }
 
     }
-        @FXML
+
+    @FXML
     public void clickButton(ActionEvent event) throws IOException {
         final Node source = (Node) event.getSource();
         String id = source.getId();
@@ -272,32 +258,26 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                 System.out.println("this is inside the controller");
 
 
-
-                JSONObject RESPONSE = new JSONObject(text);
-
-                JSONArray Data_Array = RESPONSE.getJSONArray(Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
+                JSONObject response = new JSONObject(text);
+                JSONArray dataArray = response.getJSONArray(Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
 
                 list.clear();
-                for (int i = 0; i < Data_Array.length(); i++) {
+                for (int i = 0; i < dataArray.length(); i++) {
 
                     ImageView onlineImageView;
                     ImageView offlineImageView;
-
-//                    System.out.println("Data   " + Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
-//                    System.out.println(ClientController.Email);
-
                     offlineImageView = new ImageView(new Image(this.getClass().getResourceAsStream("off.png")));
-                    onlineImageView= new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
+                    onlineImageView = new ImageView(new Image(this.getClass().getResourceAsStream("on.png")));
 
-                    int stat = Data_Array.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_STATUS);
+                    int stat = dataArray.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_STATUS);
+                    Player player;
                     if (stat == 1 || stat == 2) {
-                        p1 = new Player(onlineImageView, Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
-                        p1.setPlayer_Email(Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                        player = new Player(onlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
                     } else {
-                        p1 = new Player(offlineImageView, Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
-                        p1.setPlayer_Email(Data_Array.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                        player = new Player(offlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
                     }
-                    list.add(p1);
+                    player.setPlayer_Email(dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                    list.add(player);
                 }
 
 
