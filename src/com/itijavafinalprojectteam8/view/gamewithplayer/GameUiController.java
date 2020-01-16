@@ -3,7 +3,6 @@ package com.itijavafinalprojectteam8.view.gamewithplayer;
 import com.itijavafinalprojectteam8.Constants;
 import com.itijavafinalprojectteam8.controller.ClientController;
 import com.itijavafinalprojectteam8.controller.JsonOperations;
-import com.itijavafinalprojectteam8.controller.Props;
 import com.itijavafinalprojectteam8.model.Player;
 import com.itijavafinalprojectteam8.view.interfaces.GameWithPlayerView;
 import javafx.application.Platform;

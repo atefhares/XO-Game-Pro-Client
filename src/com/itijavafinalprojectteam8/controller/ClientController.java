@@ -28,7 +28,6 @@ public class ClientController {
     private static SignUpView mSignUpScreenViewCallback;
     private static GameWithPlayerView mGameWithPlayerView;
 
-
     public static void setGameUiController(GameWithPlayerView view) {
         mGameWithPlayerView = view;
     }
@@ -101,7 +100,8 @@ public class ClientController {
 
             case Constants.ResponseCodes.RESPONSE_SUCCESS: {
                 System.out.println("[handleGetAllPlayersResponse] list of all players: " + textFromServer);
-                mGameWithPlayerView.onGetAllPlayers(JsonOperations.parseAllPlayers(textFromServer));
+                if (mGameWithPlayerView != null)
+                    mGameWithPlayerView.onGetAllPlayers(JsonOperations.parseAllPlayers(textFromServer));
             }
             break;
         }
