@@ -92,7 +92,8 @@ public class GameUiController implements Initializable, GameWithPlayerView {
             });
             table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
                 if (newSelection != null) {
-                    showAlertWithHeaderText(newSelection.getPlayer_Email());
+                 System.out.println("hihihi");
+                 showAlertWithHeaderText(newSelection.getPlayer_Email());
                 }
             });
 
@@ -129,7 +130,7 @@ public class GameUiController implements Initializable, GameWithPlayerView {
             alert.close();
         }
 
-        alert.showAndWait();
+      
     }
 
     // Show a Information Alert with header Text
