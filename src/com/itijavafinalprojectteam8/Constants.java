@@ -11,7 +11,7 @@ public class Constants {
         public static final String TYPE_SIGN_IN = "1";
         public static final String TYPE_SIGN_UP = "2";
         public static final String TYPE_GET_ALL_PLAYERS = "3";
-        public static final String TYPE_IVITATION = "4";
+        public static final String TYPE_SEND_INVIVTATION = "4";
         public static final String TYPE_IVITATION_RESULT = "5";
 
     }

@@ -3,7 +3,7 @@ package com.itijavafinalprojectteam8.controller;
 import com.itijavafinalprojectteam8.Constants;
 import com.itijavafinalprojectteam8.controller.sec.PasswordHelper;
 import org.json.JSONObject;
-
+import com.itijavafinalprojectteam8.model.Player;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -35,11 +35,21 @@ public class JsonOperations {
 
     public static String getInvitationJson(String email) {
         JSONObject object = new JSONObject();
-        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_IVITATION);
+        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_SEND_INVIVTATION);
         object.put(Constants.JsonKeys.KEY_USER_EMAIL, email);
 
         return object.toString();
     }
+    public static Player parseCurrentPlayer(String jsonText)
+    {
+        Player responsePlayer =new Player();
+     responsePlayer.setPlayer_Email(new JSONObject(jsonText).getJSONObject(Constants.JsonKeys.KEY_RESPONSE_MSG).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+     responsePlayer.setPlayer_Name(new JSONObject(jsonText).getJSONObject(Constants.JsonKeys.KEY_RESPONSE_MSG).getString(Constants.JsonKeys.KEY_USER_NAME));
+     responsePlayer.setPlayer_Points(new JSONObject(jsonText).getJSONObject(Constants.JsonKeys.KEY_RESPONSE_MSG).getInt(Constants.JsonKeys.KEY_USER_POINTS));
+  return responsePlayer;
+
+    }
+    
 
 
     public static int getResponseCode(String jsonStr) {
@@ -52,7 +62,7 @@ public class JsonOperations {
         return jsonObject.optString(Constants.JsonKeys.KEY_RESPONSE_MSG);
     }
 
-    public static String getInvitationResponseMsg(String Email ,boolean accepted) {
+    public static String sendInvitationResponse(String Email ,boolean accepted) {
             JSONObject jsonObject = new JSONObject();
         jsonObject.put(Constants.JsonKeys.KEY_REQUEST_TYPE,Constants.ConnectionTypes.TYPE_IVITATION_RESULT);
 
@@ -60,12 +70,18 @@ public class JsonOperations {
             jsonObject.put(Constants.JsonKeys.KEY_USER_EMAIL,Email);
             return jsonObject.toString();
     }
+    public static boolean parseInvitationResponse(String jsonText) {
+            JSONObject jsonObject = new JSONObject(jsonText).getJSONObject(Constants.ConnectionTypes.TYPE_IVITATION_RESULT);
+            Boolean response = jsonObject.getBoolean(Constants.JsonKeys.KEY_INVITATION_RESULT);
+            return response;
+    }
 
     public static String getAllPlayersJson() {
         JSONObject object = new JSONObject();
         object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
         return object.toString();
     }
+    
 
     public static String parseAllPlayers(String jsonString) {
         JSONObject object = new JSONObject(jsonString);
