@@ -144,6 +144,21 @@ public class ClientController {
 
     }
 
+    private static void handleInvitationResponse(String textFromServer) {
+        int responseCode = JsonOperations.getResponseCode(textFromServer);
+        switch (responseCode) {
+            case Constants.ResponseCodes.RESPONSE_ERROR:
+                mGameWithPlayerView.onGameInvitationResponse(JsonOperations.getResponseMessage(textFromServer));
+                break;
+
+            case Constants.ResponseCodes.RESPONSE_SUCCESS:
+                if(mGameWithPlayerView!=null)
+                mGameWithPlayerView.onGameInvitationResponse( JsonOperations.getResponseMessage(textFromServer));
+                break;
+        }
+
+    }
+
     private static void shutdown() {
         try {
             mSocket.close();

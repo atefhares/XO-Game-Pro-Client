@@ -14,10 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,7 +25,9 @@ import org.json.JSONArray;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
+
 
 public class GameUiController implements Initializable, GameWithPlayerView {
 
@@ -109,10 +108,84 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     // Show a Information Alert with header Text
     private void showAlertWithHeaderText(String email) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Game request");
         alert.setHeaderText("Send game invitation");
         alert.setContentText("You are about to send " + email + "an invitation, proceed?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == javafx.scene.control.ButtonType.OK) {
+            //oke button is pressed
+            System.out.println("pressed ok");
+            try {
+                String emailPlayer = JsonOperations.getInvitationJson(email);
+                ClientController.sendToServer(emailPlayer);
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+
+            alert.close();
+        } else if (result.get() == ButtonType.CANCEL) {
+            // cancel button is pressed
+            alert.close();
+        }
+
         alert.showAndWait();
+    }
+
+    // Show a Information Alert with header Text
+    @Override
+    public void onGameInvitationRequest(String Email) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Game invitation");
+                // alert.setHeaderText("recieve Invetation:");
+                alert.setContentText(Email + " send you a Game invetation?");
+                Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
+
+                if (result.get() == javafx.scene.control.ButtonType.OK) {
+                    //oke button is pressed
+                    System.out.println("pressed ok");
+                    try {
+                        ClientController.sendToServer(JsonOperations.getInvitationResponseMsg(Email, true));
+                    } catch (Exception e) {
+
+                        e.printStackTrace();
+                    }
+                } else if (result.get() == javafx.scene.control.ButtonType.CANCEL) {
+                    // cancel button is pressed
+                    try {
+                        ClientController.sendToServer(JsonOperations.getInvitationResponseMsg(Email, false));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onGameInvitationResponse(String message) {
+
+    }
+
+
+    public void onGameInvitationResponse() {
+
+        //   Platform.runLater(() -> {
+
+
+        //    if (mApplicationCallback != null)
+        //    mApplicationCallback.showToastMessage(errorMsgFromServer);
+//        }
+
     }
 
     @FXML
@@ -180,36 +253,32 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     // @FXML
     public void fillTableData(String text) {
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println(text);
-                System.out.println("this is inside the controller");
+        Platform.runLater(() -> {
+            System.out.println(text);
+            System.out.println("this is inside the controller");
 
-                JSONArray dataArray = new JSONArray(text);
+            JSONArray dataArray = new JSONArray(text);
 
-                list.clear();
+            list.clear();
 
-                for (int i = 0; i < dataArray.length(); i++) {
+            for (int i = 0; i < dataArray.length(); i++) {
 
+                ImageView offlineImageView = new ImageView(offlineImage);
+                ImageView onlineImageView = new ImageView(onlineImage);
 
-                    ImageView offlineImageView = new ImageView(offlineImage);
-                    ImageView onlineImageView = new ImageView(onlineImage);
-
-                    int stat = dataArray.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_STATUS);
-                    Player player;
-                    if (stat == 1 || stat == 2) {
-                        player = new Player(onlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
-                    } else {
-                        player = new Player(offlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
-                    }
-                    player.setPlayer_Email(dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
-                    list.add(player);
+                int stat = dataArray.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_STATUS);
+                Player player;
+                if (stat == 1 || stat == 2) {
+                    player = new Player(onlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                } else {
+                    player = new Player(offlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
                 }
-
-
-                table.setItems(list);
+                player.setPlayer_Email(dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                list.add(player);
             }
+
+
+            table.setItems(list);
         });
 
 
