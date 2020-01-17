@@ -4,6 +4,7 @@ import com.itijavafinalprojectteam8.Constants;
 import com.itijavafinalprojectteam8.controller.AiLibrary;
 import com.itijavafinalprojectteam8.controller.ClientController;
 import com.itijavafinalprojectteam8.controller.JsonOperations;
+import com.itijavafinalprojectteam8.controller.Props;
 import com.itijavafinalprojectteam8.model.Player;
 import com.itijavafinalprojectteam8.view.interfaces.GameAppView;
 import com.itijavafinalprojectteam8.view.interfaces.GameWithPlayerView;
@@ -69,7 +70,7 @@ public class GameUiController implements Initializable, GameWithPlayerView {
 
     @FXML
     private AnchorPane anchorPane;
-    
+    private static boolean menuFlag=true;
     public static boolean flag=false;
     public static String oppsiteEmail;
     public static String ch ;
@@ -95,12 +96,14 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                     Node source = (Node) e.getSource();
                     Stage stage = (Stage) source.getScene().getWindow();
                     stage.close();
+                    System.exit(0);
                 }
             });
             table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-                if (newSelection != null) {
+                if (newSelection != null&&menuFlag) {
                  System.out.println("hihihi");
-                 showAlertWithHeaderText(newSelection.getPlayer_Email());
+                 
+                 showAlertWithHeaderText(newSelection.getPlayer_Email(),newSelection.getPlayer_Status());
                 }
             });
 
@@ -112,8 +115,11 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     }
 
     // Show a Information Alert with header Text
-    private void showAlertWithHeaderText(String email) {
+    private void showAlertWithHeaderText(String email,int status) {
+        System.out.println("status is   " + status);
+        if(status==1){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+       
         alert.setHeaderText("Send game invitation");
         alert.setContentText("You are about to send " + email + "an invitation, proceed?");
 
@@ -126,6 +132,7 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                 String emailPlayer = JsonOperations.getInvitationJson(email);
                 ClientController.sendToServer(emailPlayer);
                 oppsiteEmail=email;
+                menuFlag=false;
                 
 
             } catch (Exception e) {
@@ -139,7 +146,7 @@ public class GameUiController implements Initializable, GameWithPlayerView {
             alert.close();
         }
 
-      
+        }
     }
 
     // Show a Information Alert with header Text
@@ -299,23 +306,25 @@ public class GameUiController implements Initializable, GameWithPlayerView {
             list.clear();
 
             for (int i = 0; i < dataArray.length(); i++) {
-
+                if(!Props.mCurrentPlayer.getPlayer_Email().equals(dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL).trim())){
                 ImageView offlineImageView = new ImageView(offlineImage);
                 ImageView onlineImageView = new ImageView(onlineImage);
 
                 int stat = dataArray.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_STATUS);
                 Player player;
                 if (stat == 1 || stat == 2) {
-                    player = new Player(onlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                    player = new Player(onlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL),stat);
                 } else {
-                    player = new Player(offlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                    player = new Player(offlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL),stat);
                 }
                 player.setPlayer_Email(dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
                 list.add(player);
+                }
             }
 
 
             table.setItems(list);
+            
         });
 
 
@@ -332,10 +341,12 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                     flag=true;
                     ch="X";
                     opch="o";
+                    menuFlag=true;
                 }else
                 {
                 if (mApplicationCallback != null)
                     mApplicationCallback.showToastMessage("Player Rejected your invitiation");
+                menuFlag=true;
                 }
                     
 
