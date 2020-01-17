@@ -6,4 +6,6 @@ public interface GameWithPlayerView {
     void onGameInvitationRequest(String email);
 
     public void confirmToast(boolean parseInvitationResponse);
+
+    public void setGamecord(int gamecord);
 }

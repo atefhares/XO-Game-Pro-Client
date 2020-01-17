@@ -1,6 +1,7 @@
 package com.itijavafinalprojectteam8.view.gamewithplayer;
 
 import com.itijavafinalprojectteam8.Constants;
+import com.itijavafinalprojectteam8.controller.AiLibrary;
 import com.itijavafinalprojectteam8.controller.ClientController;
 import com.itijavafinalprojectteam8.controller.JsonOperations;
 import com.itijavafinalprojectteam8.model.Player;
@@ -32,6 +33,8 @@ import java.util.ResourceBundle;
 public class GameUiController implements Initializable, GameWithPlayerView {
 
         private static GameAppView mApplicationCallback;
+        @FXML
+    private Label howWinner;
 
     @FXML
     private TableView<Player> table;
@@ -66,7 +69,11 @@ public class GameUiController implements Initializable, GameWithPlayerView {
 
     @FXML
     private AnchorPane anchorPane;
-
+    
+    public static boolean flag=false;
+    public static String oppsiteEmail;
+    public static String ch ;
+    public static String opch;
     private Image offlineImage = new Image(this.getClass().getResourceAsStream("off.png"));
     private Image onlineImage = new Image(this.getClass().getResourceAsStream("on.png"));
         public static  void setAppInterface(GameAppView view)
@@ -118,6 +125,8 @@ public class GameUiController implements Initializable, GameWithPlayerView {
             try {
                 String emailPlayer = JsonOperations.getInvitationJson(email);
                 ClientController.sendToServer(emailPlayer);
+                oppsiteEmail=email;
+                
 
             } catch (Exception e) {
 
@@ -148,10 +157,14 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                 Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
 
                 if (result.get() == javafx.scene.control.ButtonType.OK) {
-                    //oke button is pressed
+                    //ok button is pressed
                     System.out.println("pressed ok");
                     try {
                         ClientController.sendToServer(JsonOperations.sendInvitationResponse(Email, true));
+                        flag=true;
+                        oppsiteEmail=Email;
+                        ch="o";
+                        opch="X";
                     } catch (Exception e) {
 
                         e.printStackTrace();
@@ -171,80 +184,110 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     }
 
 
-    public void onGameInvitationResponse() {
+  
 
-        //   Platform.runLater(() -> {
-
-
-        //    if (mApplicationCallback != null)
-        //    mApplicationCallback.showToastMessage(errorMsgFromServer);
-//        }
-
-    }
-
-    @FXML
+   @FXML
     public void clickButton(ActionEvent event) throws IOException {
-        final Node source = (Node) event.getSource();
-        String id = source.getId();
+        try{
+            final Node source = (Node) event.getSource();
+            String id = source.getId();
 
-        char c = id.charAt(id.length() - 1);
-        int idnum = Character.getNumericValue(c);
-        System.out.println(idnum);
+            char c = id.charAt(id.length() - 1);
+            int idnum = Character.getNumericValue(c);
+                    System.out.println("flag is "+ flag);
+
+            if(!(AiLibrary.playerPosition.contains(idnum)||AiLibrary.cpuPosition.contains(idnum))&& flag) {
+                AiLibrary.onPlayerMove(idnum);
+
+                drawInGui(idnum, ch, Color.YELLOW);
+                flag=false;
+                System.out.println("oppsite email is "+oppsiteEmail);
+               ClientController.sendToServer(JsonOperations.sendGamecord(oppsiteEmail, idnum));
+             int result = AiLibrary.getWinner();
+                System.out.println("result is " + result);
+
+                switch (result) {
+                    case 0:
+                        //player won
+                        howWinner.setText("Congratulation You Are Winner");
+                        howWinner.setStyle("-fx-background-color:#fff;");
+                        flag  = false;
+                        break;
+                    case 1:
+                        //cpu won
+                        howWinner.setText("You Lose");
+                        howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
+                        flag  = false;
+                        break;
+                    case 2:
+                        // draw
+                        howWinner.setText("OH !! NO Its a Draw");
+                        howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
+                        flag  = false;
+                        break;
+                    
+                }
+            }
+            else {System.out.println("this is the error");}
+        }
+        catch(Exception ex){ex.getMessage();}
+
 
     }
 
-    public void drawInGui(int pos, char c, Color color) {
+    public void drawInGui(int pos, String c, Color color) {
 
         switch (pos) {
             case 1:
-                b1.setText(String.valueOf(c));
+                b1.setText(c);
                 //b1.setStyle("-fx-text-fill: yellow;-fx-background-color:none;-fx-padding:10px");
                 b1.setTextFill(color);
                 break;
 
             case 2:
-                b2.setText(String.valueOf(c));
+                b2.setText(c);
                 b2.setTextFill(color);
+
                 break;
 
             case 3:
-                b3.setText(String.valueOf(c));
+                b3.setText(c);
                 b3.setTextFill(color);
+
                 break;
 
             case 4:
-                b4.setText(String.valueOf(c));
+                b4.setText(c);
                 b4.setTextFill(color);
                 break;
 
             case 5:
-                b5.setText(String.valueOf(c));
+                b5.setText(c);
                 b5.setTextFill(color);
                 break;
 
             case 6:
-                b6.setText(String.valueOf(c));
+                b6.setText(c);
                 b6.setTextFill(color);
                 break;
 
             case 7:
-                b7.setText(String.valueOf(c));
+                b7.setText(c);
                 b7.setTextFill(color);
                 break;
 
             case 8:
-                b8.setText(String.valueOf(c));
+                b8.setText(c);
                 b8.setTextFill(color);
                 break;
 
             case 9:
-                b9.setText(String.valueOf(c));
+                b9.setText(c);
                 b9.setTextFill(color);
                 break;
         }
     }
 
-    // @FXML
     public void fillTableData(String text) {
 
         Platform.runLater(() -> {
@@ -286,6 +329,9 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                  if (mApplicationCallback != null)
                     
                      mApplicationCallback.showToastMessage("Player Accepted your invitiation");
+                    flag=true;
+                    ch="X";
+                    opch="o";
                 }else
                 {
                 if (mApplicationCallback != null)
@@ -304,4 +350,43 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     public void onGetAllPlayers(String response) {
         fillTableData(response);
     }
+
+    @Override
+    public void setGamecord(int gamecord) {
+        System.out.println("this is inside the game  "+gamecord+" flag is "+ flag);
+      Platform.runLater(() -> {
+          if(AiLibrary.playerPosition.size() + AiLibrary.cpuPosition.size() < 11){
+              int cpuPosition = gamecord;
+                    AiLibrary.onPlayer2Move(gamecord);
+                    drawInGui(cpuPosition, opch, Color.RED);
+                    flag=true;
+                    int result = AiLibrary.getWinner();
+                System.out.println("result is " + result);
+
+                switch (result) {
+                    case 0:
+                        //player won
+                        howWinner.setText("Congratulation You Are Winner");
+                        howWinner.setStyle("-fx-background-color:#fff;");
+                        flag  = false;
+                        break;
+                    case 1:
+                        //cpu won
+                        howWinner.setText("You Lose");
+                        howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
+                        flag  = false;
+                        break;
+                    case 2:
+                        // draw
+                        howWinner.setText("OH !! NO Its a Draw");
+                        howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
+                        flag  = false;
+                        break;
+                    
+                }
+                
+                
+      }
+      });
+    }   
 }

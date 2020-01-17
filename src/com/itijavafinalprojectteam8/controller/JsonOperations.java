@@ -70,6 +70,22 @@ public class JsonOperations {
         jsonObject.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
         return jsonObject.toString();
     }
+    public static String sendGamecord(String Email, int cord) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GAME);
+
+        jsonObject.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
+        jsonObject.put(Constants.JsonKeys.KEY_GAME_CORD, cord);
+       return jsonObject.toString();
+    }
+    public static int getGamecord(String cord) {
+        JSONObject jsonObject = new JSONObject(cord);
+
+         return jsonObject.getInt(Constants.JsonKeys.KEY_GAME_CORD);
+        
+       
+    }
+
 
     public static boolean parseInvitationResponse(String jsonText) {
         JSONObject jsonObject = new JSONObject(jsonText);

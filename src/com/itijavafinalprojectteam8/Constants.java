@@ -13,7 +13,7 @@ public class Constants {
         public static final String TYPE_GET_ALL_PLAYERS = "3";
         public static final String TYPE_SEND_INVIVTATION = "4";
         public static final String TYPE_IVITATION_RESULT = "5";
-
+        public static final String TYPE_GAME = "6";
     }
 
     public static class JsonKeys {
@@ -27,6 +27,7 @@ public class Constants {
         public static final String KEY_USER_STATUS = "8";
         public static final String KEY_USER_POINTS = "9";
         public static final String KEY_INVITATION_RESULT = "10";
+        public static final String KEY_GAME_CORD = "11";
 
     }
 

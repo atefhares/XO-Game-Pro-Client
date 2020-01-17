@@ -27,6 +27,10 @@ public class AiLibrary {
 
         move(gameBoard, playerPos, "player");
     }
+     public static void onPlayer2Move(int playerPos) {
+
+        move(gameBoard, playerPos, "cpu");
+    }
 
     public static int onCpuMove() {
         int cpuPos = 0;
@@ -36,6 +40,7 @@ public class AiLibrary {
         move(gameBoard, cpuPos, "cpu");
         return cpuPos;
     }
+   
 
 
 
