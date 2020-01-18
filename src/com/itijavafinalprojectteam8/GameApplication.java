@@ -6,21 +6,22 @@
 package com.itijavafinalprojectteam8;
 
 import com.itijavafinalprojectteam8.view.gamechooserscreen.GameChooserController;
-import com.itijavafinalprojectteam8.view.gamewithplayer.GameUiController;
+import com.itijavafinalprojectteam8.view.gamewithcpu.GameWithCpuController;
+import com.itijavafinalprojectteam8.view.gamewithplayer.GameWithPlayerController;
 import com.itijavafinalprojectteam8.view.interfaces.GameAppView;
 import com.itijavafinalprojectteam8.view.login.LoginController;
 import com.itijavafinalprojectteam8.view.others.Toast;
 import com.itijavafinalprojectteam8.view.signup.SignupController;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @author ahares
@@ -30,21 +31,26 @@ public class GameApplication extends Application implements GameAppView {
 
     /*=====================================================================*/
 
+    private Pane signInPane;
+    private Pane signUpPane;
+    private Pane whichPlayModePane;
+    private Pane playWithCpuPane;
+    private SplitPane playWithPlayerPane;
+    private ArrayList<Object> panes = new ArrayList<>();
+
+    private Scene mMainScene;
+    private StackPane mRootPane;
+
     private Scene signInScene;
     private Scene signUpScene;
     private Scene gameWithOtherPlayerScene;
     private Scene chooserScene;
     private Scene gameWithCpuScene;
 
+    private static final int WIDTH = 1200;
+    private static final int HEIGHT = 600;
     private Stage applicationStage;
-
     /*=====================================================================*/
-    @FXML
-    private TextField emailAddressTF;
-    @FXML
-    private PasswordField passwordPF;
-    /*=========================================================================================*/
-
 
     @Override
     public void init() throws Exception {
@@ -53,78 +59,32 @@ public class GameApplication extends Application implements GameAppView {
         LoginController.setApplicationCallback(this);
         SignupController.setApplicationCallback(this);
         GameChooserController.setApplicationCallback(this);
-        GameUiController.setAppInterface(this);
+        GameWithCpuController.setApplicationCallback(this);
+        GameWithPlayerController.setAppInterface(this);
 
 
+        // init app scene
+        mRootPane = new StackPane();
+        mMainScene = new Scene(mRootPane, WIDTH, HEIGHT);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle(Constants.GAME_TITLE);
+        stage.setMaximized(false);
         stage.setResizable(false);
+        stage.setScene(mMainScene);
+        stage.show();
+
+        stage.setOnCloseRequest(windowEvent -> {
+            System.out.println("exit called");
+            System.exit(0);
+        });
+
+
+        switchToLoginScreen();
 
         applicationStage = stage;
-
-        showLoginScene(stage);
-//        showChooserScene(stage);
-    }
-
-
-
-    /*=========================================================================================*/
-
-    private void showLoginScene(Stage stage) throws IOException {
-        if (signInScene == null)
-            signInScene = new Scene(
-                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"))
-
-            );
-
-
-        stage.setScene(signInScene);
-        stage.show();
-    }
-
-    private void showSignUpScene(Stage stage) throws IOException {
-        if (signUpScene == null)
-            signUpScene = new Scene(
-                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/signup/signup.fxml"))
-            );
-
-        stage.setScene(signUpScene);
-        stage.show();
-    }
-
-    private void showGameScene(Stage stage) throws IOException {
-        if (gameWithOtherPlayerScene == null)
-            gameWithOtherPlayerScene = new Scene(
-                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamewithplayer/playwithotherpalyer.fxml"))
-            );
-
-
-        stage.setScene(gameWithOtherPlayerScene);
-        stage.show();
-    }
-
-    private void showGameWithCpuScene(Stage stage) throws IOException {
-        if (gameWithCpuScene == null)
-            gameWithCpuScene = new Scene(
-                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamewithcpu/playwithcpu.fxml"))
-            );
-        stage.setScene(gameWithCpuScene);
-        stage.show();
-    }
-
-    private void showChooserScene(Stage stage) throws IOException {
-        if (chooserScene == null)
-            chooserScene = new Scene(
-                    FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamechooserscreen/gameChooser.fxml"))
-
-            );
-
-
-        stage.setScene(chooserScene);
-        stage.show();
     }
 
     /*=========================================================================================*/
@@ -132,7 +92,13 @@ public class GameApplication extends Application implements GameAppView {
     @Override
     public void switchToSignUpScreen() {
         try {
-            showSignUpScene(applicationStage);
+            if (signUpPane == null) {
+                signUpPane = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/signup/signup.fxml"));
+                panes.add(signUpPane);
+            }
+
+            mRootPane.getChildren().removeAll(panes);
+            mRootPane.getChildren().add(signUpPane);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,15 +107,17 @@ public class GameApplication extends Application implements GameAppView {
     @Override
     public void switchToLoginScreen() {
         try {
-            showLoginScene(applicationStage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    public void switchToGameChooserScreen() {
-        try {
-            showChooserScene(applicationStage);
+            if (signInPane == null) {
+                signInPane = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/login/login.fxml"));
+//                signInPane.setPrefHeight(HEIGHT);
+//                signInPane.setPrefWidth(WIDTH);
+                panes.add(signInPane);
+            }
+
+            mRootPane.getChildren().removeAll(panes);
+            mRootPane.getChildren().add(signInPane);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -158,7 +126,14 @@ public class GameApplication extends Application implements GameAppView {
     @Override
     public void switchToGameWithOtherPlayerScreen() {
         try {
-            showGameScene(applicationStage);
+
+            if (playWithPlayerPane == null) {
+                playWithPlayerPane = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamewithplayer/playwithotherpalyer.fxml"));
+                panes.add(playWithPlayerPane);
+            }
+
+            mRootPane.getChildren().removeAll(panes);
+            mRootPane.getChildren().add(playWithPlayerPane);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -167,7 +142,14 @@ public class GameApplication extends Application implements GameAppView {
     @Override
     public void switchToGameWithCpuScreen() {
         try {
-            showGameWithCpuScene(applicationStage);
+
+            if (playWithCpuPane == null) {
+                playWithCpuPane = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamewithcpu/playwithcpu.fxml"));
+                panes.add(playWithCpuPane);
+            }
+            mRootPane.getChildren().removeAll(panes);
+            mRootPane.getChildren().add(playWithCpuPane);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -176,7 +158,15 @@ public class GameApplication extends Application implements GameAppView {
     @Override
     public void switchToGameChooser() {
         try {
-            showChooserScene(applicationStage);
+
+            if (whichPlayModePane == null) {
+                whichPlayModePane = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamechooserscreen/gameChooser.fxml"));
+                panes.add(whichPlayModePane);
+            }
+
+            mRootPane.getChildren().removeAll(panes);
+            mRootPane.getChildren().add(whichPlayModePane);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

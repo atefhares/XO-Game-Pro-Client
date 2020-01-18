@@ -46,7 +46,7 @@ public class SignupController implements SignUpView {
     @FXML
     private void onSignUpBtnPressed() {
         String name = nameTF.getText();
-        String inputUserEmail = emailAddressTF.getText();
+        String inputUserEmail = emailAddressTF.getText().trim().toLowerCase();
         String inputUserPassword = passwordPF.getText();
         String inputUserConfirmPassword = confirmPasswordPF.getText();
 

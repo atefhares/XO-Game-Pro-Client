@@ -1,20 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.itijavafinalprojectteam8.controller;
 
 /**
- *
- *   @author Esraa
+ * @author Bassam, Esraa
  */
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+
+import java.util.*;
 
 public class AiLibrary {
 
@@ -27,7 +17,8 @@ public class AiLibrary {
 
         move(gameBoard, playerPos, "player");
     }
-     public static void onPlayer2Move(int playerPos) {
+
+    public static void onPlayer2Move(int playerPos) {
 
         move(gameBoard, playerPos, "cpu");
     }
@@ -35,14 +26,11 @@ public class AiLibrary {
     public static int onCpuMove() {
         int cpuPos = 0;
 
-        cpuPos=cpuMove();
-        System.out.println("cpu move is "+cpuPos);
+        cpuPos = cpuMove();
+        System.out.println("cpu move is " + cpuPos);
         move(gameBoard, cpuPos, "cpu");
         return cpuPos;
     }
-   
-
-
 
     public static int getWinner() {
         return checkWinner(gameBoard);
@@ -162,7 +150,7 @@ public class AiLibrary {
                 List l = winning.get(firstMove);
                 int fvalue = (int) l.get((Integer) 1);
 
-                Random randomf= new Random();
+                Random randomf = new Random();
 
                 while (playerPosition.contains(fvalue) || cpuPosition.contains(fvalue)) {
                     fvalue = randomf.nextInt(9) + 1;
@@ -217,6 +205,18 @@ public class AiLibrary {
             x3 = rand3.nextInt(9) + 1;
         }
         return x3;
+    }
+
+    public static void reset() {
+        for (int i = 0; i < gameBoard.length; i++) {
+            for (int j = 0; j < gameBoard.length; j++) {
+                gameBoard[i][j] = ' ';
+            }
+        }
+
+        playerPosition = new ArrayList<>(Collections.nCopies(1, 0));
+        cpuPosition = new ArrayList<>(Collections.nCopies(1, 0));
+        counter = 0;
     }
 
 }

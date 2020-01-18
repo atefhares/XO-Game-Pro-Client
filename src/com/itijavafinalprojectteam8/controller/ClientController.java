@@ -177,11 +177,8 @@ public class ClientController {
                 break;
 
             case Constants.ResponseCodes.RESPONSE_SUCCESS:
-                try {
-                    Props.mCurrentPlayer = JsonOperations.parseCurrentPlayer(textFromServer);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Props.mCurrentPlayer = JsonOperations.parseCurrentPlayer(textFromServer);
+
                 if (mLoginScreenViewCallback != null) {
                     mLoginScreenViewCallback.onSuccessResponse();
                 }

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.*?>
-<SplitPane fx:id="sPane" dividerPositions="2.0" focusTraversable="true" maxWidth="-Infinity" minWidth="-Infinity"
-           prefHeight="850.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171"
+<SplitPane fx:id="sPane" dividerPositions="2.0" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity"
+           prefHeight="Infinity" prefWidth="Infinity" xmlns="http://javafx.com/javafx/8.0.171"
            xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.itijavafinalprojectteam8.view.gamewithplayer.GameUiController">
+           fx:controller="com.itijavafinalprojectteam8.view.gamewithplayer.GameWithPlayerController">
     <items>
         <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="-Infinity" prefHeight="847.0" prefWidth="800.0"
                     style="-fx-background-color: #2ec2a0; -fx-border-radius: 5px;" visible="true">
@@ -121,14 +120,17 @@
                       startY="-508.0" stroke="WHITE" strokeLineCap="ROUND" strokeWidth="15.2"/>
                 <Line endX="49.0" endY="-3.0" layoutX="409.0" layoutY="62.0" startX="49.0" startY="504.0" stroke="WHITE"
                       strokeLineCap="ROUND" strokeWidth="15.2"/>
-                 <Label fx:id="howWinner" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="223.0" layoutY="612.0" prefHeight="44.0" prefWidth="261.0" style="-fx-background-color: none; -fx-border-radius: 10px;" textAlignment="CENTER" textFill="#ffe208" textOverrun="CENTER_ELLIPSIS">
-            <font>
-                <Font size="24.0" />
-            </font>
-            <effect>
-                <DropShadow radius="8.4825" width="14.93" />
-            </effect>
-        </Label>
+                <Label fx:id="howWinner" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="223.0"
+                       layoutY="612.0" prefHeight="44.0" prefWidth="261.0"
+                       style="-fx-background-color: none; -fx-border-radius: 10px;" textAlignment="CENTER"
+                       textFill="#ffe208" textOverrun="CENTER_ELLIPSIS">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                    <effect>
+                        <DropShadow radius="8.4825" width="14.93"/>
+                    </effect>
+                </Label>
 
             </children>
         </AnchorPane>

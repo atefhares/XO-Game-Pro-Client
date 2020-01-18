@@ -31,10 +31,10 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 
-public class GameUiController implements Initializable, GameWithPlayerView {
+public class GameWithPlayerController implements Initializable, GameWithPlayerView {
 
-        private static GameAppView mApplicationCallback;
-        @FXML
+    private static GameAppView mApplicationCallback;
+    @FXML
     private Label howWinner;
 
     @FXML
@@ -70,17 +70,18 @@ public class GameUiController implements Initializable, GameWithPlayerView {
 
     @FXML
     private AnchorPane anchorPane;
-    private static boolean menuFlag=true;
-    public static boolean flag=false;
+    private static boolean menuFlag = true;
+    public static boolean flag = false;
     public static String oppsiteEmail;
-    public static String ch ;
+    public static String ch;
     public static String opch;
     private Image offlineImage = new Image(this.getClass().getResourceAsStream("off.png"));
     private Image onlineImage = new Image(this.getClass().getResourceAsStream("on.png"));
-        public static  void setAppInterface(GameAppView view)
-        {
+
+    public static void setAppInterface(GameAppView view) {
         mApplicationCallback = view;
-        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -100,10 +101,10 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                 }
             });
             table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-                if (newSelection != null&&menuFlag) {
-                 System.out.println("hihihi");
-                 
-                 showAlertWithHeaderText(newSelection.getPlayer_Email(),newSelection.getPlayer_Status());
+                if (newSelection != null && menuFlag) {
+                    System.out.println("hihihi");
+
+                    showAlertWithHeaderText(newSelection.getPlayer_Email(), newSelection.getPlayer_Status());
                 }
             });
 
@@ -115,36 +116,36 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     }
 
     // Show a Information Alert with header Text
-    private void showAlertWithHeaderText(String email,int status) {
+    private void showAlertWithHeaderText(String email, int status) {
         System.out.println("status is   " + status);
-        if(status==1){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-       
-        alert.setHeaderText("Send game invitation");
-        alert.setContentText("You are about to send " + email + "an invitation, proceed?");
+        if (status == 1) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
-        Optional<ButtonType> result = alert.showAndWait();
+            alert.setHeaderText("Send game invitation");
+            alert.setContentText("You are about to send " + email + "an invitation, proceed?");
 
-        if (result.get() == javafx.scene.control.ButtonType.OK) {
-            //oke button is pressed
-            System.out.println("pressed ok");
-            try {
-                String emailPlayer = JsonOperations.getInvitationJson(email);
-                ClientController.sendToServer(emailPlayer);
-                oppsiteEmail=email;
-                menuFlag=false;
-                
+            Optional<ButtonType> result = alert.showAndWait();
 
-            } catch (Exception e) {
+            if (result.get() == javafx.scene.control.ButtonType.OK) {
+                //oke button is pressed
+                System.out.println("pressed ok");
+                try {
+                    String emailPlayer = JsonOperations.getInvitationJson(email);
+                    ClientController.sendToServer(emailPlayer);
+                    oppsiteEmail = email;
+                    menuFlag = false;
 
-                e.printStackTrace();
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+
+                alert.close();
+            } else if (result.get() == ButtonType.CANCEL) {
+                // cancel button is pressed
+                alert.close();
             }
-
-            alert.close();
-        } else if (result.get() == ButtonType.CANCEL) {
-            // cancel button is pressed
-            alert.close();
-        }
 
         }
     }
@@ -168,10 +169,10 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                     System.out.println("pressed ok");
                     try {
                         ClientController.sendToServer(JsonOperations.sendInvitationResponse(Email, true));
-                        flag=true;
-                        oppsiteEmail=Email;
-                        ch="o";
-                        opch="X";
+                        flag = true;
+                        oppsiteEmail = Email;
+                        ch = "o";
+                        opch = "X";
                     } catch (Exception e) {
 
                         e.printStackTrace();
@@ -191,26 +192,24 @@ public class GameUiController implements Initializable, GameWithPlayerView {
     }
 
 
-  
-
-   @FXML
+    @FXML
     public void clickButton(ActionEvent event) throws IOException {
-        try{
+        try {
             final Node source = (Node) event.getSource();
             String id = source.getId();
 
             char c = id.charAt(id.length() - 1);
             int idnum = Character.getNumericValue(c);
-                    System.out.println("flag is "+ flag);
+            System.out.println("flag is " + flag);
 
-            if(!(AiLibrary.playerPosition.contains(idnum)||AiLibrary.cpuPosition.contains(idnum))&& flag) {
+            if (!(AiLibrary.playerPosition.contains(idnum) || AiLibrary.cpuPosition.contains(idnum)) && flag) {
                 AiLibrary.onPlayerMove(idnum);
 
                 drawInGui(idnum, ch, Color.YELLOW);
-                flag=false;
-                System.out.println("oppsite email is "+oppsiteEmail);
-               ClientController.sendToServer(JsonOperations.sendGamecord(oppsiteEmail, idnum));
-             int result = AiLibrary.getWinner();
+                flag = false;
+                System.out.println("oppsite email is " + oppsiteEmail);
+                ClientController.sendToServer(JsonOperations.sendGamecord(oppsiteEmail, idnum));
+                int result = AiLibrary.getWinner();
                 System.out.println("result is " + result);
 
                 switch (result) {
@@ -218,26 +217,28 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                         //player won
                         howWinner.setText("Congratulation You Are Winner");
                         howWinner.setStyle("-fx-background-color:#fff;");
-                        flag  = false;
+                        flag = false;
                         break;
                     case 1:
                         //cpu won
                         howWinner.setText("You Lose");
                         howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
-                        flag  = false;
+                        flag = false;
                         break;
                     case 2:
                         // draw
                         howWinner.setText("OH !! NO Its a Draw");
                         howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
-                        flag  = false;
+                        flag = false;
                         break;
-                    
+
                 }
+            } else {
+                System.out.println("this is the error");
             }
-            else {System.out.println("this is the error");}
+        } catch (Exception ex) {
+            ex.getMessage();
         }
-        catch(Exception ex){ex.getMessage();}
 
 
     }
@@ -306,51 +307,50 @@ public class GameUiController implements Initializable, GameWithPlayerView {
             list.clear();
 
             for (int i = 0; i < dataArray.length(); i++) {
-                if(!Props.mCurrentPlayer.getPlayer_Email().equals(dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL).trim())){
-                ImageView offlineImageView = new ImageView(offlineImage);
-                ImageView onlineImageView = new ImageView(onlineImage);
+                if (!Props.mCurrentPlayer.getPlayer_Email().equals(dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL).trim())) {
+                    ImageView offlineImageView = new ImageView(offlineImage);
+                    ImageView onlineImageView = new ImageView(onlineImage);
 
-                int stat = dataArray.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_STATUS);
-                Player player;
-                if (stat == 1 || stat == 2) {
-                    player = new Player(onlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL),stat);
-                } else {
-                    player = new Player(offlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL),stat);
-                }
-                player.setPlayer_Email(dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
-                list.add(player);
+                    int stat = dataArray.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_STATUS);
+                    Player player;
+                    if (stat == 1 || stat == 2) {
+                        player = new Player(onlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL), stat);
+                    } else {
+                        player = new Player(offlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL), stat);
+                    }
+                    player.setPlayer_Email(dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                    list.add(player);
                 }
             }
 
 
             table.setItems(list);
-            
+
         });
 
 
     }
-        @Override
+
+    @Override
     public void confirmToast(boolean response) {
 
         Platform.runLater(() -> {
-            System.out.println("response"+response);
-                if(response){
-                 if (mApplicationCallback != null)
-                    
-                     mApplicationCallback.showToastMessage("Player Accepted your invitiation");
-                    flag=true;
-                    ch="X";
-                    opch="o";
-                    menuFlag=true;
-                }else
-                {
+            System.out.println("response" + response);
+            if (response) {
+                if (mApplicationCallback != null)
+
+                    mApplicationCallback.showToastMessage("Player Accepted your invitiation");
+                flag = true;
+                ch = "X";
+                opch = "o";
+                menuFlag = true;
+            } else {
                 if (mApplicationCallback != null)
                     mApplicationCallback.showToastMessage("Player Rejected your invitiation");
-                menuFlag=true;
-                }
-                    
+                menuFlag = true;
+            }
 
-           
+
         });
 
 
@@ -364,14 +364,14 @@ public class GameUiController implements Initializable, GameWithPlayerView {
 
     @Override
     public void setGamecord(int gamecord) {
-        System.out.println("this is inside the game  "+gamecord+" flag is "+ flag);
-      Platform.runLater(() -> {
-          if(AiLibrary.playerPosition.size() + AiLibrary.cpuPosition.size() < 11){
-              int cpuPosition = gamecord;
-                    AiLibrary.onPlayer2Move(gamecord);
-                    drawInGui(cpuPosition, opch, Color.RED);
-                    flag=true;
-                    int result = AiLibrary.getWinner();
+        System.out.println("this is inside the game  " + gamecord + " flag is " + flag);
+        Platform.runLater(() -> {
+            if (AiLibrary.playerPosition.size() + AiLibrary.cpuPosition.size() < 11) {
+                int cpuPosition = gamecord;
+                AiLibrary.onPlayer2Move(gamecord);
+                drawInGui(cpuPosition, opch, Color.RED);
+                flag = true;
+                int result = AiLibrary.getWinner();
                 System.out.println("result is " + result);
 
                 switch (result) {
@@ -379,25 +379,25 @@ public class GameUiController implements Initializable, GameWithPlayerView {
                         //player won
                         howWinner.setText("Congratulation You Are Winner");
                         howWinner.setStyle("-fx-background-color:#fff;");
-                        flag  = false;
+                        flag = false;
                         break;
                     case 1:
                         //cpu won
                         howWinner.setText("You Lose");
                         howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
-                        flag  = false;
+                        flag = false;
                         break;
                     case 2:
                         // draw
                         howWinner.setText("OH !! NO Its a Draw");
                         howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
-                        flag  = false;
+                        flag = false;
                         break;
-                    
+
                 }
-                
-                
-      }
-      });
-    }   
+
+
+            }
+        });
+    }
 }

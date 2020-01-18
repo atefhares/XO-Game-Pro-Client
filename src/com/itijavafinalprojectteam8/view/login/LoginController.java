@@ -5,7 +5,6 @@ import com.itijavafinalprojectteam8.controller.JsonOperations;
 import com.itijavafinalprojectteam8.controller.UserInputChecker;
 import com.itijavafinalprojectteam8.view.interfaces.GameAppView;
 import com.itijavafinalprojectteam8.view.interfaces.LoginView;
-import com.itijavafinalprojectteam8.view.others.Toast;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,13 +30,12 @@ public class LoginController implements LoginView {
     private Pane progressPane;
 
     private static GameAppView mApplicationCallback;
+    public static void setApplicationCallback(GameAppView callback) {
+        mApplicationCallback = callback;
+    }
 
     public LoginController() {
         ClientController.setLoginView(this);
-    }
-
-    public static void setApplicationCallback(GameAppView callback) {
-        mApplicationCallback = callback;
     }
 
     @FXML
@@ -48,7 +46,7 @@ public class LoginController implements LoginView {
 
     @FXML
     private void onLoginBtnClicked(ActionEvent event) throws IOException {
-        String email = emailAddressTF.getText();
+        String email = emailAddressTF.getText().trim().toLowerCase();
         String plainPass = passwordPF.getText();
 
         if (!UserInputChecker.isValidEmail(email)) {
