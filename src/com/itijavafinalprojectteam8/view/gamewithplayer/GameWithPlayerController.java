@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class GameWithPlayerController implements Initializable, GameWithPlayerView {
@@ -357,7 +359,11 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 int result = AiLibrary.getWinner();
                 System.out.println("result is " + result);
 
-                handleGameResult(result);
+                try {
+                    handleGameResult(result);
+                } catch (IOException ex) {
+                    Logger.getLogger(GameWithPlayerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -368,7 +374,7 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
         }
     }
 
-    private void handleGameResult(int result) {
+    private void handleGameResult(int result) throws IOException {
         switch (result) {
             case 0:
                 //player won
@@ -382,6 +388,7 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
 
                 break;
             case 1:
@@ -389,12 +396,16 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 gameOverPane.setVisible(true);
                 winnerLabel.setText("You Lost!");
                 isGameStarted = false;
+                ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
+
                 break;
             case 2:
                 // draw
                 gameOverPane.setVisible(true);
                 winnerLabel.setText("OH !! NO Its a Draw");
                 isGameStarted = false;
+                ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
+               
                 break;
             
         }

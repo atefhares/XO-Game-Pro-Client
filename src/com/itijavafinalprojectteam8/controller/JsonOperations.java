@@ -103,6 +103,13 @@ public class JsonOperations {
         object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
         return object.toString();
     }
+     public static String gameEnded(String Email) {
+        JSONObject object = new JSONObject();
+        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GAME_ENDED);
+         object.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
+
+        return object.toString();
+    }
 
     public static String createUpdatePlayerPointsJson() {
         JSONObject object = new JSONObject();
