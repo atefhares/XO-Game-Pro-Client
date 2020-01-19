@@ -117,17 +117,6 @@
                       startY="-508.0" stroke="WHITE" strokeLineCap="ROUND" strokeWidth="15.2"/>
                 <Line endX="49.0" endY="-3.0" layoutX="409.0" layoutY="62.0" startX="49.0" startY="504.0" stroke="WHITE"
                       strokeLineCap="ROUND" strokeWidth="15.2"/>
-                <Label fx:id="howWinner" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="223.0"
-                       layoutY="612.0" prefHeight="44.0" prefWidth="261.0"
-                       style="-fx-background-color: none; -fx-border-radius: 10px;" textAlignment="CENTER"
-                       textFill="#ffe208" textOverrun="CENTER_ELLIPSIS">
-                    <font>
-                        <Font size="24.0"/>
-                    </font>
-                    <effect>
-                        <DropShadow radius="8.4825" width="14.93"/>
-                    </effect>
-                </Label>
 
             </children>
 

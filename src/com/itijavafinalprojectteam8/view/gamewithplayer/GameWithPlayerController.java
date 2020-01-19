@@ -397,7 +397,6 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 isGameStarted = false;
                 break;
             default:
-                isGameStarted = true;
                 break;
         }
     }
