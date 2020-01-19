@@ -77,7 +77,7 @@ public class ClientController {
     }
 
     private static void handleMessageFromServer(final String textFromServer) {
-        String responseType = JsonOperations.getResponseType(textFromServer);
+        String responseType = JsonOperations.parseResponseType(textFromServer);
         switch (responseType) {
             case Constants.ConnectionTypes.TYPE_SIGN_IN:
                 handleSignInResponse(textFromServer);
@@ -90,50 +90,54 @@ public class ClientController {
             case Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS:
                 handleGetAllPlayersResponse(textFromServer);
                 break;
-                 
-            
-            case Constants.ConnectionTypes.TYPE_SEND_INVIVTATION:
+
+
+            case Constants.ConnectionTypes.TYPE_SEND_INVITATION:
                 System.out.println("TYPE_SEND_INVIVTATION");
-                 handleInvitationResponse(textFromServer);
-                 break;
-                  
-            case Constants.ConnectionTypes.TYPE_IVITATION_RESULT:
+                handleInvitationResponse(textFromServer);
+                break;
+
+            case Constants.ConnectionTypes.TYPE_INVITATION_RESULT:
                 System.out.println("TYPE_IVITATION_RESULT");
                 handleInvitationReturnback(textFromServer);
-                 break;
-                 
-                 case Constants.ConnectionTypes.TYPE_GAME:
+                break;
+
+            case Constants.ConnectionTypes.TYPE_GAME:
                 System.out.println("TYPE_IVITATION_RESULT");
                 handleGameCord(textFromServer);
-                 break;
+                break;
+
+            case Constants.ConnectionTypes.TYPE_PAUSE_GAME:
+                if (mGameWithPlayerView != null)
+                    mGameWithPlayerView.pauseGame();
+                break;
         }
     }
 
     private static void handleGameCord(String jsonText) {
-              System.out.println("this is inside the game controller  ");
-                if (mGameWithPlayerView != null)
-                mGameWithPlayerView.setGamecord(JsonOperations.getGamecord(jsonText));        
-        
+        System.out.println("this is inside the game controller  ");
+        if (mGameWithPlayerView != null)
+            mGameWithPlayerView.setGamecord(JsonOperations.parseGameCord(jsonText));
+
     }
-      
-    
+
     private static void handleInvitationReturnback(String jsonText) {
-       
-         int responseCode = JsonOperations.getResponseCode(jsonText);
+
+        int responseCode = JsonOperations.parseResponseCode(jsonText);
         switch (responseCode) {
             case Constants.ResponseCodes.RESPONSE_ERROR:
                 break;
 
             case Constants.ResponseCodes.RESPONSE_SUCCESS:
                 if (mGameWithPlayerView != null)
-                mGameWithPlayerView.confirmToast(JsonOperations.parseInvitationResponse(jsonText));
+                    mGameWithPlayerView.confirmToast(JsonOperations.parseInvitationResponse(jsonText));
                 break;
         }
-        
+
     }
 
     private static void handleGetAllPlayersResponse(String textFromServer) {
-        int responseCode = JsonOperations.getResponseCode(textFromServer);
+        int responseCode = JsonOperations.parseResponseCode(textFromServer);
         switch (responseCode) {
             case Constants.ResponseCodes.RESPONSE_ERROR:
                 break;
@@ -148,12 +152,12 @@ public class ClientController {
     }
 
     private static void handleSignUpResponse(String textFromServer) {
-        int responseCode = JsonOperations.getResponseCode(textFromServer);
+        int responseCode = JsonOperations.parseResponseCode(textFromServer);
 
         switch (responseCode) {
             case Constants.ResponseCodes.RESPONSE_ERROR:
                 if (mSignUpScreenViewCallback != null) {
-                    mSignUpScreenViewCallback.onErrorResponse(JsonOperations.getResponseMessage(textFromServer));
+                    mSignUpScreenViewCallback.onErrorResponse(JsonOperations.parseResponseMessage(textFromServer));
                 }
                 shutdown();
                 break;
@@ -167,11 +171,11 @@ public class ClientController {
     }
 
     private static void handleSignInResponse(String textFromServer) {
-        int responseCode = JsonOperations.getResponseCode(textFromServer);
+        int responseCode = JsonOperations.parseResponseCode(textFromServer);
         switch (responseCode) {
             case Constants.ResponseCodes.RESPONSE_ERROR:
                 if (mLoginScreenViewCallback != null) {
-                    mLoginScreenViewCallback.onErrorResponse(JsonOperations.getResponseMessage(textFromServer));
+                    mLoginScreenViewCallback.onErrorResponse(JsonOperations.parseResponseMessage(textFromServer));
                 }
                 shutdown();
                 break;
@@ -188,15 +192,15 @@ public class ClientController {
     }
 
     private static void handleInvitationResponse(String textFromServer) {
-        int responseCode = JsonOperations.getResponseCode(textFromServer);
+        int responseCode = JsonOperations.parseResponseCode(textFromServer);
         switch (responseCode) {
             case Constants.ResponseCodes.RESPONSE_ERROR:
- //               mGameWithPlayerView.onGameInvitationResponse(JsonOperations.getResponseMessage(textFromServer));
+                //               mGameWithPlayerView.onGameInvitationResponse(JsonOperations.getResponseMessage(textFromServer));
                 break;
 
             case Constants.ResponseCodes.RESPONSE_SUCCESS:
                 if (mGameWithPlayerView != null)
-                    mGameWithPlayerView.onGameInvitationRequest(JsonOperations.getResponseMessage(textFromServer));
+                    mGameWithPlayerView.onGameInvitationRequest(JsonOperations.parseResponseMessage(textFromServer));
                 break;
         }
 

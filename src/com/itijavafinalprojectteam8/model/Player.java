@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 public class Player {
 
     private String Player_Email;
-    private int Player_Points;
+    public int Player_Points;
     private int Player_Status;
     private ImageView images;
     SimpleStringProperty Player_Name = new SimpleStringProperty("");
@@ -14,11 +14,11 @@ public class Player {
     public Player() {
     }
 
-    public Player(ImageView images, String Player_Name,int stat) {
+    public Player(ImageView images, String Player_Name, int stat) {
         this.Player_Name.setValue(Player_Name);
         // this.player_status = new  SimpleStringProperty (player_status);
         this.images = images;
-        this.Player_Status=stat;
+        this.Player_Status = stat;
 
     }
 
@@ -61,5 +61,10 @@ public class Player {
     public void setImages(ImageView images) {
         this.images = images;
 
+    }
+
+    @Override
+    public String toString() {
+        return "PlayerName: " + Player_Name.getValue() + " | email: " + Player_Email + " | points: " + Player_Points;
     }
 }

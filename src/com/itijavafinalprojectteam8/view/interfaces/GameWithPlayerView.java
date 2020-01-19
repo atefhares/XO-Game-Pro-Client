@@ -8,4 +8,6 @@ public interface GameWithPlayerView {
     public void confirmToast(boolean parseInvitationResponse);
 
     public void setGamecord(int gamecord);
+
+    void pauseGame();
 }

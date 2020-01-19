@@ -11,9 +11,11 @@ public class Constants {
         public static final String TYPE_SIGN_IN = "1";
         public static final String TYPE_SIGN_UP = "2";
         public static final String TYPE_GET_ALL_PLAYERS = "3";
-        public static final String TYPE_SEND_INVIVTATION = "4";
-        public static final String TYPE_IVITATION_RESULT = "5";
+        public static final String TYPE_SEND_INVITATION = "4";
+        public static final String TYPE_INVITATION_RESULT = "5";
         public static final String TYPE_GAME = "6";
+        public static final String TYPE_UPDATE_PLAYER_POINTS = "7";
+        public static final String TYPE_PAUSE_GAME = "8";
     }
 
     public static class JsonKeys {
@@ -28,6 +30,7 @@ public class Constants {
         public static final String KEY_USER_POINTS = "9";
         public static final String KEY_INVITATION_RESULT = "10";
         public static final String KEY_GAME_CORD = "11";
+        public static final String KEY_GAME_STATE = "12";
 
     }
 

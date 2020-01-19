@@ -63,7 +63,7 @@ public class LoginController implements LoginView {
 
         try {
             progressPane.setVisible(true);
-            ClientController.sendToServer(JsonOperations.getSignInJson(email, plainPass));
+            ClientController.sendToServer(JsonOperations.createSignInJson(email, plainPass));
             ClientController.start();
         } catch (Exception e) {
             e.printStackTrace();

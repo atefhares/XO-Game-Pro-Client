@@ -48,7 +48,7 @@ public class GameApplication extends Application implements GameAppView {
     private Scene gameWithCpuScene;
 
     private static final int WIDTH = 1200;
-    private static final int HEIGHT = 600;
+    private static final int HEIGHT = 650;
     private Stage applicationStage;
     /*=====================================================================*/
 

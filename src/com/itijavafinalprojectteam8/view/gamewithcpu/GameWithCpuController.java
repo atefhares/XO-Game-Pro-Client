@@ -1,9 +1,13 @@
 package com.itijavafinalprojectteam8.view.gamewithcpu;
 
 import com.itijavafinalprojectteam8.controller.AiLibrary;
+import com.itijavafinalprojectteam8.controller.ClientController;
+import com.itijavafinalprojectteam8.controller.JsonOperations;
+import com.itijavafinalprojectteam8.controller.Props;
 import com.itijavafinalprojectteam8.view.interfaces.GameAppView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,11 +15,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * @author moham
  */
-public class GameWithCpuController {
+public class GameWithCpuController implements Initializable {
 
     @FXML
     private Button b1;
@@ -38,6 +44,9 @@ public class GameWithCpuController {
 
     @FXML
     private Label winnerLabel;
+
+    @FXML
+    private Label playerDetails;
 
     @FXML
     private Pane gameOverPane;
@@ -151,6 +160,11 @@ public class GameWithCpuController {
                 gameOverPane.setVisible(true);
                 winnerLabel.setText("Congratulation! You won....");
                 isGameStarted = false;
+//                try {
+//                    ClientController.sendToServer(JsonOperations.createUpdatePlayerPointsJson());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
                 break;
             case 1:
                 //cpu won
@@ -184,7 +198,12 @@ public class GameWithCpuController {
         isGameStarted = true;
         winnerLabel.setText("");
         AiLibrary.reset();
+
+        playerDetails.setText(Props.mCurrentPlayer.toString());
     }
 
-
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+       // resetGame();
+    }
 }

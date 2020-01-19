@@ -5,32 +5,30 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.*?>
-<SplitPane fx:id="sPane" dividerPositions="2.0" focusTraversable="true" maxHeight="Infinity" maxWidth="Infinity"
-           prefHeight="Infinity" prefWidth="Infinity" xmlns="http://javafx.com/javafx/8.0.171"
+<SplitPane fx:id="sPane" dividerPositions="2.0" focusTraversable="true" xmlns="http://javafx.com/javafx/8.0.171"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.itijavafinalprojectteam8.view.gamewithplayer.GameWithPlayerController">
     <items>
         <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="-Infinity" prefHeight="847.0" prefWidth="800.0"
                     style="-fx-background-color: #2ec2a0; -fx-border-radius: 5px;" visible="true">
             <children>
-                <Text fill="#b11010" layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game"
-                      wrappingWidth="107.548828125">
+                <Text fill="#b11010" strokeType="OUTSIDE" strokeWidth="0.0" text="Play with other player"
+                      AnchorPane.rightAnchor="10"
+                      AnchorPane.topAnchor="10">
                     <effect>
                         <Glow/>
                     </effect>
                     <font>
-                        <Font name="Yu Gothic Medium" size="36.0"/>
+                        <Font name="Yu Gothic Medium" size="20.0"/>
                     </font>
                 </Text>
-                <Button fx:id="dark_blue" layoutX="410.0" layoutY="742.0" mnemonicParsing="false" prefHeight="48.0"
-                        prefWidth="144.0" style="-fx-background-color: #fffff;" text="Exit" textFill="#34b594">
+
+                <Label fx:id="playerDetails" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="10">
                     <font>
-                        <Font name="Brush Script MT Italic" size="24.0"/>
+                        <Font name="Yu Gothic Medium" size="12.0"/>
                     </font>
-                    <effect>
-                        <DropShadow blurType="ONE_PASS_BOX" height="28.78" radius="15.8325" width="36.55"/>
-                    </effect>
-                </Button>
+                </Label>
+
                 <Button layoutX="177.0" layoutY="742.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="144.0"
                         style="-fx-background-color: #fff;" text="Pause" textFill="#34b594">
                     <font>
@@ -64,7 +62,6 @@
                         </Button>
                     </children>
                 </Pane>
-
                 <Pane layoutX="26.0" layoutY="225.0" prefHeight="166.0" prefWidth="654.0">
 
                     <children>
@@ -133,6 +130,51 @@
                 </Label>
 
             </children>
+
+            <Button fx:id="pauseGame" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" maxHeight="30"
+                    maxWidth="200" mnemonicParsing="false" onAction="#onPauseGameClicked" prefHeight="175"
+                    prefWidth="215"
+                    style="-fx-background-color: rgb(255,255,255); -fx-border-radius: 10px;" text="Pause">
+                <effect>
+                    <DropShadow radius="8.4825" width="14.93"/>
+                </effect>
+
+                <font>
+                    <Font size="16.0"/>
+                </font>
+            </Button>
+
+
+            <AnchorPane fx:id="gameOverPane" style="-fx-background-color: rgba(224,224,224,0.4);" visible="true"
+                        AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                        AnchorPane.topAnchor="0.0">
+
+                <Label fx:id="winnerLabel" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0"
+                       layoutX="113.0"
+                       layoutY="182.0" prefHeight="50.0" prefWidth="500"
+                       style="-fx-background-color: rgb(255,255,255); -fx-border-radius: 10px;"
+                       text="No game started!" textAlignment="CENTER" textFill="#ffe208">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                    <effect>
+                        <DropShadow radius="8.4825" width="14.93"/>
+                    </effect>
+                </Label>
+                <Button fx:id="changeMode" layoutX="113.0" layoutY="374.0" maxHeight="30" maxWidth="200"
+                        mnemonicParsing="false"
+                        onAction="#onChangeModeBtnClicked" prefHeight="175" prefWidth="215"
+                        style="-fx-background-color: rgb(255,255,255); -fx-border-radius: 10px;" text="Exit">
+                    <effect>
+                        <DropShadow radius="8.4825" width="14.93"/>
+                    </effect>
+
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Button>
+
+            </AnchorPane>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="837.0" prefWidth="250.0">
             <children>
@@ -154,4 +196,5 @@
             </children>
         </AnchorPane>
     </items>
+
 </SplitPane>

@@ -12,34 +12,9 @@ import java.security.NoSuchAlgorithmException;
  */
 public class JsonOperations {
 
-    public static String getResponseType(String jsonStr) {
+    public static String parseResponseType(String jsonStr) {
         JSONObject jsonObject = new JSONObject(jsonStr);
         return jsonObject.optString(Constants.JsonKeys.KEY_RESPONSE_TYPE);
-    }
-
-    public static String getSignInJson(String email, String plainPass) throws NoSuchAlgorithmException {
-        JSONObject object = new JSONObject();
-        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_SIGN_IN);
-        object.put(Constants.JsonKeys.KEY_USER_EMAIL, email);
-        object.put(Constants.JsonKeys.KEY_USER_PASSWORD, PasswordHelper.getEncryptedPassword(plainPass));
-        return object.toString();
-    }
-
-    public static String getSignUpJson(String name, String email, String plainPass) throws NoSuchAlgorithmException {
-        JSONObject object = new JSONObject();
-        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_SIGN_UP);
-        object.put(Constants.JsonKeys.KEY_USER_NAME, name);
-        object.put(Constants.JsonKeys.KEY_USER_EMAIL, email);
-        object.put(Constants.JsonKeys.KEY_USER_PASSWORD, PasswordHelper.getEncryptedPassword(plainPass));
-        return object.toString();
-    }
-
-    public static String getInvitationJson(String email) {
-        JSONObject object = new JSONObject();
-        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_SEND_INVIVTATION);
-        object.put(Constants.JsonKeys.KEY_USER_EMAIL, email);
-
-        return object.toString();
     }
 
     public static Player parseCurrentPlayer(String jsonText) {
@@ -51,41 +26,20 @@ public class JsonOperations {
         return responsePlayer;
     }
 
-
-    public static int getResponseCode(String jsonStr) {
+    public static int parseResponseCode(String jsonStr) {
         JSONObject jsonObject = new JSONObject(jsonStr);
         return jsonObject.getInt(Constants.JsonKeys.KEY_RESPONSE_CODE);
     }
 
-    public static String getResponseMessage(String jsonStr) {
+    public static String parseResponseMessage(String jsonStr) {
         JSONObject jsonObject = new JSONObject(jsonStr);
         return jsonObject.optString(Constants.JsonKeys.KEY_RESPONSE_MSG);
     }
 
-    public static String sendInvitationResponse(String Email, boolean accepted) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_IVITATION_RESULT);
-
-        jsonObject.put(Constants.JsonKeys.KEY_INVITATION_RESULT, accepted);
-        jsonObject.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
-        return jsonObject.toString();
-    }
-    public static String sendGamecord(String Email, int cord) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GAME);
-
-        jsonObject.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
-        jsonObject.put(Constants.JsonKeys.KEY_GAME_CORD, cord);
-       return jsonObject.toString();
-    }
-    public static int getGamecord(String cord) {
+    public static int parseGameCord(String cord) {
         JSONObject jsonObject = new JSONObject(cord);
-
-         return jsonObject.getInt(Constants.JsonKeys.KEY_GAME_CORD);
-        
-       
+        return jsonObject.getInt(Constants.JsonKeys.KEY_GAME_CORD);
     }
-
 
     public static boolean parseInvitationResponse(String jsonText) {
         JSONObject jsonObject = new JSONObject(jsonText);
@@ -94,15 +48,79 @@ public class JsonOperations {
         return response;
     }
 
-    public static String getAllPlayersJson() {
+    public static String parseAllPlayers(String jsonString) {
+        JSONObject object = new JSONObject(jsonString);
+        return object.optString(Constants.JsonKeys.KEY_RESPONSE_MSG);
+    }
+
+    /*==============================================================================================*/
+    /*==============================================================================================*/
+    /*==============================================================================================*/
+
+    public static String createSignInJson(String email, String plainPass) throws NoSuchAlgorithmException {
+        JSONObject object = new JSONObject();
+        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_SIGN_IN);
+        object.put(Constants.JsonKeys.KEY_USER_EMAIL, email);
+        object.put(Constants.JsonKeys.KEY_USER_PASSWORD, PasswordHelper.getEncryptedPassword(plainPass));
+        return object.toString();
+    }
+
+    public static String createSignUpJson(String name, String email, String plainPass) throws NoSuchAlgorithmException {
+        JSONObject object = new JSONObject();
+        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_SIGN_UP);
+        object.put(Constants.JsonKeys.KEY_USER_NAME, name);
+        object.put(Constants.JsonKeys.KEY_USER_EMAIL, email);
+        object.put(Constants.JsonKeys.KEY_USER_PASSWORD, PasswordHelper.getEncryptedPassword(plainPass));
+        return object.toString();
+    }
+
+    public static String createInvitationJson(String email) {
+        JSONObject object = new JSONObject();
+        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_SEND_INVITATION);
+        object.put(Constants.JsonKeys.KEY_USER_EMAIL, email);
+        return object.toString();
+    }
+
+    public static String createInvitationResponseJson(String Email, boolean accepted) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_INVITATION_RESULT);
+        jsonObject.put(Constants.JsonKeys.KEY_INVITATION_RESULT, accepted);
+        jsonObject.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
+        return jsonObject.toString();
+    }
+
+    public static String createSendGameCordJson(String Email, int cord) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GAME);
+
+        jsonObject.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
+        jsonObject.put(Constants.JsonKeys.KEY_GAME_CORD, cord);
+        return jsonObject.toString();
+    }
+
+    public static String createGetAllPlayersJson() {
         JSONObject object = new JSONObject();
         object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
         return object.toString();
     }
 
+    public static String createUpdatePlayerPointsJson() {
+        JSONObject object = new JSONObject();
+        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_UPDATE_PLAYER_POINTS);
+        return object.toString();
+    }
 
-    public static String parseAllPlayers(String jsonString) {
-        JSONObject object = new JSONObject(jsonString);
-        return object.optString(Constants.JsonKeys.KEY_RESPONSE_MSG);
+    public static String createPauseGameJson(String oppsiteEmail, String[] gameStateString) {
+        JSONObject object = new JSONObject();
+        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_PAUSE_GAME);
+        object.put(Constants.JsonKeys.KEY_USER_NAME, oppsiteEmail);
+
+        JSONObject object1 = new JSONObject();
+        object1.put(Props.mCurrentPlayer.getPlayer_Email(), gameStateString[0]);
+        object1.put(oppsiteEmail, gameStateString[1]);
+
+        object.put(Constants.JsonKeys.KEY_GAME_STATE, object1);
+
+        return object.toString();
     }
 }

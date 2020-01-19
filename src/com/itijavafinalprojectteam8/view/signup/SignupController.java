@@ -70,7 +70,7 @@ public class SignupController implements SignUpView {
 
         try {
             progressPane.setVisible(true);
-            ClientController.sendToServer(JsonOperations.getSignUpJson(name, inputUserEmail, inputUserPassword));
+            ClientController.sendToServer(JsonOperations.createSignUpJson(name, inputUserEmail, inputUserPassword));
             ClientController.start();
         } catch (Exception e) {
             e.printStackTrace();

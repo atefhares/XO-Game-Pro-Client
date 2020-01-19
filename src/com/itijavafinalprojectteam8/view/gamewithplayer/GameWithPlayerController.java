@@ -12,7 +12,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -20,9 +19,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import org.json.JSONArray;
 
 import java.io.IOException;
@@ -35,7 +33,7 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
 
     private static GameAppView mApplicationCallback;
     @FXML
-    private Label howWinner;
+    private Label winnerLabel;
 
     @FXML
     private TableView<Player> table;
@@ -45,9 +43,6 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
     private TableColumn<Player, String> Player_Name;
 
     public ObservableList<Player> list = FXCollections.observableArrayList();
-
-    @FXML
-    private Button dark_blue;
 
     @FXML
     private Button b1;
@@ -69,9 +64,14 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
     private Button b9;
 
     @FXML
-    private AnchorPane anchorPane;
-    private static boolean menuFlag = true;
-    public static boolean flag = false;
+    private Pane gameOverPane;
+
+    @FXML
+    private Label playerDetails;
+
+    private static boolean menuisGameStarted = true;
+    private boolean isGameStarted = false;
+
     public static String oppsiteEmail;
     public static String ch;
     public static String opch;
@@ -85,28 +85,24 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            table.setColumnResizePolicy(resizeFeatures -> true);
+            table.setSortPolicy(playerTableView -> true);
+
             images.setCellValueFactory(new PropertyValueFactory<>("images"));
             Player_Name.setCellValueFactory(new PropertyValueFactory<Player, String>("Player_Name"));
 
-            ClientController.sendToServer(JsonOperations.getAllPlayersJson());
+            ClientController.sendToServer(JsonOperations.createGetAllPlayersJson());
             ClientController.setGameUiController(this);
 
-            dark_blue.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    Node source = (Node) e.getSource();
-                    Stage stage = (Stage) source.getScene().getWindow();
-                    stage.close();
-                    System.exit(0);
-                }
-            });
             table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-                if (newSelection != null && menuFlag) {
+                if (newSelection != null && menuisGameStarted) {
                     System.out.println("hihihi");
 
                     showAlertWithHeaderText(newSelection.getPlayer_Email(), newSelection.getPlayer_Status());
                 }
             });
+
+            resetGame();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -130,10 +126,10 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 //oke button is pressed
                 System.out.println("pressed ok");
                 try {
-                    String emailPlayer = JsonOperations.getInvitationJson(email);
+                    String emailPlayer = JsonOperations.createInvitationJson(email);
                     ClientController.sendToServer(emailPlayer);
                     oppsiteEmail = email;
-                    menuFlag = false;
+                    menuisGameStarted = false;
 
 
                 } catch (Exception e) {
@@ -153,44 +149,43 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
     // Show a Information Alert with header Text
     @Override
     public void onGameInvitationRequest(String Email) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
 
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Game invitation");
+            alert.setContentText(Email + " sent you a Game invitation");
+            Optional<ButtonType> result = alert.showAndWait();
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Game invitation");
-                // alert.setHeaderText("recieve Invetation:");
-                alert.setContentText(Email + " sent you a Game invetation");
-                Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                //ok button is pressed
+                System.out.println("pressed ok");
+                try {
+                    ClientController.sendToServer(JsonOperations.createInvitationResponseJson(Email, true));
+                    resetGame();
 
-                if (result.get() == javafx.scene.control.ButtonType.OK) {
-                    //ok button is pressed
-                    System.out.println("pressed ok");
-                    try {
-                        ClientController.sendToServer(JsonOperations.sendInvitationResponse(Email, true));
-                        flag = true;
-                        oppsiteEmail = Email;
-                        ch = "o";
-                        opch = "X";
-                    } catch (Exception e) {
+                    isGameStarted = true;
+                    oppsiteEmail = Email;
+                    ch = "o";
+                    opch = "X";
 
-                        e.printStackTrace();
-                    }
-                } else if (result.get() == javafx.scene.control.ButtonType.CANCEL) {
-                    // cancel button is pressed
-                    try {
-                        ClientController.sendToServer(JsonOperations.sendInvitationResponse(Email, false));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    gameOverPane.setVisible(false);
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
                 }
-
+            } else if (result.get() == ButtonType.CANCEL) {
+                // cancel button is pressed
+                try {
+                    ClientController.sendToServer(JsonOperations.createInvitationResponseJson(Email, false));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+
         });
 
     }
-
 
     @FXML
     public void clickButton(ActionEvent event) throws IOException {
@@ -200,39 +195,20 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
 
             char c = id.charAt(id.length() - 1);
             int idnum = Character.getNumericValue(c);
-            System.out.println("flag is " + flag);
+            System.out.println("isGameStarted is " + isGameStarted);
 
-            if (!(AiLibrary.playerPosition.contains(idnum) || AiLibrary.cpuPosition.contains(idnum)) && flag) {
+            if (!(AiLibrary.playerPosition.contains(idnum) || AiLibrary.cpuPosition.contains(idnum)) && isGameStarted) {
                 AiLibrary.onPlayerMove(idnum);
 
                 drawInGui(idnum, ch, Color.YELLOW);
-                flag = false;
+                isGameStarted = false;
                 System.out.println("oppsite email is " + oppsiteEmail);
-                ClientController.sendToServer(JsonOperations.sendGamecord(oppsiteEmail, idnum));
+                ClientController.sendToServer(JsonOperations.createSendGameCordJson(oppsiteEmail, idnum));
                 int result = AiLibrary.getWinner();
                 System.out.println("result is " + result);
 
-                switch (result) {
-                    case 0:
-                        //player won
-                        howWinner.setText("Congratulation You Are Winner");
-                        howWinner.setStyle("-fx-background-color:#fff;");
-                        flag = false;
-                        break;
-                    case 1:
-                        //cpu won
-                        howWinner.setText("You Lose");
-                        howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
-                        flag = false;
-                        break;
-                    case 2:
-                        // draw
-                        howWinner.setText("OH !! NO Its a Draw");
-                        howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
-                        flag = false;
-                        break;
+                handleGameResult(result);
 
-                }
             } else {
                 System.out.println("this is the error");
             }
@@ -339,23 +315,30 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
             if (response) {
                 if (mApplicationCallback != null)
 
-                    mApplicationCallback.showToastMessage("Player Accepted your invitiation");
-                flag = true;
+                    mApplicationCallback.showToastMessage("Player Accepted your invitation");
+                resetGame();
+
+                isGameStarted = true;
                 ch = "X";
                 opch = "o";
-                menuFlag = true;
+                menuisGameStarted = true;
+
+                gameOverPane.setVisible(false);
+
             } else {
                 if (mApplicationCallback != null)
-                    mApplicationCallback.showToastMessage("Player Rejected your invitiation");
-                menuFlag = true;
+                    mApplicationCallback.showToastMessage("Player Rejected your invitation");
+
+                resetGame();
+
+
+                menuisGameStarted = true;
+                isGameStarted = false;
             }
-
-
         });
 
 
     }
-
 
     @Override
     public void onGetAllPlayers(String response) {
@@ -364,40 +347,95 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
 
     @Override
     public void setGamecord(int gamecord) {
-        System.out.println("this is inside the game  " + gamecord + " flag is " + flag);
+        System.out.println("this is inside the game  " + gamecord + " isGameStarted is " + isGameStarted);
         Platform.runLater(() -> {
             if (AiLibrary.playerPosition.size() + AiLibrary.cpuPosition.size() < 11) {
                 int cpuPosition = gamecord;
                 AiLibrary.onPlayer2Move(gamecord);
                 drawInGui(cpuPosition, opch, Color.RED);
-                flag = true;
+                isGameStarted = true;
                 int result = AiLibrary.getWinner();
                 System.out.println("result is " + result);
 
-                switch (result) {
-                    case 0:
-                        //player won
-                        howWinner.setText("Congratulation You Are Winner");
-                        howWinner.setStyle("-fx-background-color:#fff;");
-                        flag = false;
-                        break;
-                    case 1:
-                        //cpu won
-                        howWinner.setText("You Lose");
-                        howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
-                        flag = false;
-                        break;
-                    case 2:
-                        // draw
-                        howWinner.setText("OH !! NO Its a Draw");
-                        howWinner.setStyle("-fx-background-color:#fff; -fx-border-radius:10px;");
-                        flag = false;
-                        break;
-
-                }
-
-
+                handleGameResult(result);
             }
         });
+    }
+
+    public void onChangeModeBtnClicked(ActionEvent actionEvent) {
+        if (mApplicationCallback != null) {
+            mApplicationCallback.switchToGameChooser();
+        }
+    }
+
+    private void handleGameResult(int result) {
+        switch (result) {
+            case 0:
+                //player won
+                gameOverPane.setVisible(true);
+                winnerLabel.setText("Congratulation! You won....");
+                isGameStarted = false;
+                try {
+                    ClientController.sendToServer(JsonOperations.createUpdatePlayerPointsJson());
+                    Props.mCurrentPlayer.Player_Points += 10;
+                    playerDetails.setText(Props.mCurrentPlayer.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case 1:
+                //cpu won
+                gameOverPane.setVisible(true);
+                winnerLabel.setText("You Lost!");
+                isGameStarted = false;
+                break;
+            case 2:
+                // draw
+                gameOverPane.setVisible(true);
+                winnerLabel.setText("OH !! NO Its a Draw");
+                isGameStarted = false;
+                break;
+            default:
+                isGameStarted = true;
+                break;
+        }
+    }
+
+    private void resetGame() {
+        b1.setText("");
+        b2.setText("");
+        b3.setText("");
+        b4.setText("");
+        b5.setText("");
+        b6.setText("");
+        b7.setText("");
+        b8.setText("");
+        b9.setText("");
+        gameOverPane.setVisible(true);
+        isGameStarted = false;
+        winnerLabel.setText("No game started");
+        AiLibrary.reset();
+
+        playerDetails.setText(Props.mCurrentPlayer.toString());
+    }
+
+    public void onPauseGameClicked(ActionEvent actionEvent) {
+        if (isGameStarted) {
+            try {
+                ClientController.sendToServer(JsonOperations.createPauseGameJson(
+                        oppsiteEmail, AiLibrary.getCurrentGameStateStr())
+                );
+                //  System.out.println(createGameStateString());
+                resetGame();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void pauseGame() {
+        resetGame();
     }
 }

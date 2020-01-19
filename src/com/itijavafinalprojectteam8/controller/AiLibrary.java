@@ -8,19 +8,18 @@ import java.util.*;
 
 public class AiLibrary {
 
-    private static char[][] gameBoard = {{' ', ' ', ' ',}, {' ', ' ', ' ',}, {' ', ' ', ' '}};
     public static ArrayList<Integer> playerPosition = new ArrayList<>(Collections.nCopies(1, 0));
     public static ArrayList<Integer> cpuPosition = new ArrayList<>(Collections.nCopies(1, 0));
     private static int counter = 0;
 
     public static void onPlayerMove(int playerPos) {
 
-        move(gameBoard, playerPos, "player");
+        move(playerPos, "player");
     }
 
     public static void onPlayer2Move(int playerPos) {
 
-        move(gameBoard, playerPos, "cpu");
+        move(playerPos, "cpu");
     }
 
     public static int onCpuMove() {
@@ -28,59 +27,24 @@ public class AiLibrary {
 
         cpuPos = cpuMove();
         System.out.println("cpu move is " + cpuPos);
-        move(gameBoard, cpuPos, "cpu");
+        move(cpuPos, "cpu");
         return cpuPos;
     }
 
     public static int getWinner() {
-        return checkWinner(gameBoard);
+        return checkWinner();
     }
 
-    private static void move(char[][] gameBoard, int pos, String user) {
-        char symbol = ' ';
+    private static void move(int pos, String user) {
         if (user.equals("player")) {
-            symbol = 'x';
             playerPosition.add(pos);
             counter++;
         } else if (user.equals("cpu")) {
-            symbol = '0';
             cpuPosition.add(pos);
-        }
-
-        switch (pos) {
-            default:
-                break;
-            case 1:
-                gameBoard[0][0] = symbol;
-                break;
-            case 2:
-                gameBoard[0][1] = symbol;
-                break;
-            case 3:
-                gameBoard[0][2] = symbol;
-                break;
-            case 4:
-                gameBoard[1][0] = symbol;
-                break;
-            case 5:
-                gameBoard[1][1] = symbol;
-                break;
-            case 6:
-                gameBoard[1][2] = symbol;
-                break;
-            case 7:
-                gameBoard[2][0] = symbol;
-                break;
-            case 8:
-                gameBoard[2][1] = symbol;
-                break;
-            case 9:
-                gameBoard[2][2] = symbol;
-                break;
         }
     }
 
-    private static int checkWinner(char[][] gameBoard) {
+    private static int checkWinner() {
 
         List topRow = Arrays.asList(1, 2, 3);
         List midRow = Arrays.asList(4, 5, 6);
@@ -208,15 +172,23 @@ public class AiLibrary {
     }
 
     public static void reset() {
-        for (int i = 0; i < gameBoard.length; i++) {
-            for (int j = 0; j < gameBoard.length; j++) {
-                gameBoard[i][j] = ' ';
-            }
-        }
-
         playerPosition = new ArrayList<>(Collections.nCopies(1, 0));
         cpuPosition = new ArrayList<>(Collections.nCopies(1, 0));
         counter = 0;
     }
 
+    public static String[] getCurrentGameStateStr() {
+        String[] str = new String[2];
+        str[0] = "";
+        str[1] = "";
+        for (int pos : playerPosition) {
+            if (pos != 0)
+                str[0] += pos + ",";
+        }
+        for (int pos : cpuPosition) {
+            if (pos != 0)
+                str[1] += pos + ",";
+        }
+        return str;
+    }
 }
