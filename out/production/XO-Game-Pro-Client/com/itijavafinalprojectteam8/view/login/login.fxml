@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane id="AnchorPane" maxHeight="Infinity" maxWidth="Infinity" prefHeight="Infinity" prefWidth="Infinity"
+            style="-fx-background-color: #2ec2a0;" xmlns="http://javafx.com/javafx/8.0.202-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.itijavafinalprojectteam8.view.login.LoginController">
+    <ImageView fitHeight="500" fitWidth="500" preserveRatio="true" AnchorPane.bottomAnchor="0.0"
+               AnchorPane.rightAnchor="0.0">
+        <image>
+            <Image url="@../resources/xobg.jpg"/>
+        </image>
+    </ImageView>
+
+    <Label graphicTextGap="2.0" maxHeight="62.0" maxWidth="162.0" style="-fx-font-color: #fff; " text="Sign In"
+           textFill="WHITE" textOverrun="CLIP" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0">
+        <font>
+            <Font name="Caladea Bold" size="50.0"/>
+        </font>
+    </Label>
+
+    <HBox alignment="CENTER_LEFT" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="170.0" maxHeight="35.0"
+          maxWidth="250.0"
+          style="-fx-border-color: #fff; -fx-background-radius: 5px; -fx-border-radius: 5px;">
+        <children>
+            <FontAwesomeIcon fontSmoothingType="LCD" glyphName="ENVELOPE" glyphStyle="-fx-fill:#fff" size="1.2em">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </FontAwesomeIcon>
+            <TextField fx:id="emailAddressTF" prefHeight="33.0" prefWidth="294.0" promptText="Email Address"
+                       style="-fx-background-color: transparent; -fx-prompt-text-fill: WHITE;" HBox.hgrow="ALWAYS">
+                <font>
+                    <Font name="DejaVu Sans Condensed Bold" size="14.0"/>
+                </font>
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+                <opaqueInsets>
+                    <Insets/>
+                </opaqueInsets>
+            </TextField>
+        </children>
+        <opaqueInsets>
+            <Insets left="10.0"/>
+        </opaqueInsets>
+        <padding>
+            <Insets left="10.0"/>
+        </padding>
+    </HBox>
+    <HBox alignment="CENTER_LEFT" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="210.0" maxHeight="35.0"
+          maxWidth="250.0"
+          style="-fx-border-color: #fff; -fx-background-radius: 5px; -fx-border-radius: 5px;">
+        <padding>
+            <Insets left="10.0"/>
+        </padding>
+        <children>
+            <FontAwesomeIcon glyphName="LOCK" glyphStyle="-fx-fill:#fff" size="1.5em" text="">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </FontAwesomeIcon>
+
+            <PasswordField fx:id="passwordPF" prefHeight="62.0" prefWidth="309.0" promptText="Password"
+                           style="-fx-background-color: transparent;-fx-prompt-text-fill: WHITE;" HBox.hgrow="ALWAYS">
+                <font>
+                    <Font name="DejaVu Sans Condensed Bold" size="14.0"/>
+                </font>
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </PasswordField>
+        </children>
+        <opaqueInsets>
+            <Insets left="10.0"/>
+        </opaqueInsets>
+    </HBox>
+
+    <JFXButton buttonType="RAISED" maxHeight="35.0" maxWidth="89.0" onAction="#onLoginBtnClicked"
+               style="-fx-background-color: #41eac1; -fx-background-radius: 5px;" text="Login" textAlignment="RIGHT"
+               textFill="WHITE" textOverrun="CLIP" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="260.0">
+        <font>
+            <Font name="FreeSerif Bold" size="18.0"/>
+        </font>
+        <effect>
+            <DropShadow blurType="GAUSSIAN" color="#1f8f75fc" height="93.11" offsetX="1.0" offsetY="2.0" radius="29.61"
+                        width="27.33"/>
+        </effect>
+    </JFXButton>
+    <Hyperlink onAction="#changeScreenHyperLink" text="New User? Register" textFill="WHITE"
+               AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0"/>
+    <Pane fx:id="progressPane" style="-fx-background-color: rgba(255,255,255,0.5);" visible="false"
+          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          AnchorPane.topAnchor="0.0">
+        <ProgressIndicator layoutX="274.0" layoutY="174.0" maxHeight="69.0" maxWidth="75.0">
+            <effect>
+                <Blend/>
+            </effect>
+        </ProgressIndicator>
+    </Pane>
+
+</AnchorPane>
