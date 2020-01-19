@@ -15,4 +15,5 @@ public interface GameAppView {
     void showToastMessage(String text);
 
     void switchToGameChooser();
+
 }

@@ -27,8 +27,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class GameWithPlayerController implements Initializable, GameWithPlayerView {
 
     private static GameAppView mApplicationCallback;
@@ -161,7 +161,7 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 System.out.println("pressed ok");
                 try {
                     ClientController.sendToServer(JsonOperations.createInvitationResponseJson(Email, true));
-                    resetGame();
+                   // resetGame();
 
                     isGameStarted = true;
                     oppsiteEmail = Email;
@@ -316,12 +316,13 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 if (mApplicationCallback != null)
 
                     mApplicationCallback.showToastMessage("Player Accepted your invitation");
-                resetGame();
+                //resetGame();
 
                 isGameStarted = true;
                 ch = "X";
                 opch = "o";
-                menuisGameStarted = true;
+                menuisGameStarted = false;
+
 
                 gameOverPane.setVisible(false);
 
@@ -357,7 +358,18 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 int result = AiLibrary.getWinner();
                 System.out.println("result is " + result);
 
-                handleGameResult(result);
+
+                try {
+                    handleGameResult(result);
+                } catch (IOException ex) {
+                    Logger.getLogger(GameWithPlayerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                try {
+                    handleGameResult(result);
+                } catch (IOException ex) {
+                    Logger.getLogger(GameWithPlayerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -368,13 +380,17 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
         }
     }
 
-    private void handleGameResult(int result) {
+
+    private void handleGameResult(int result) throws IOException {
+
         switch (result) {
             case 0:
                 //player won
                 gameOverPane.setVisible(true);
                 winnerLabel.setText("Congratulation! You won....");
-                isGameStarted = false;
+               
+                resetGame();
+                
                 try {
                     ClientController.sendToServer(JsonOperations.createUpdatePlayerPointsJson());
                     Props.mCurrentPlayer.Player_Points += 10;
@@ -383,25 +399,33 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                     e.printStackTrace();
                 }
 
+                ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
+
+
                 break;
             case 1:
                 //cpu won
                 gameOverPane.setVisible(true);
                 winnerLabel.setText("You Lost!");
-                isGameStarted = false;
+                resetGame();
+               
+                ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
+
                 break;
             case 2:
                 // draw
                 gameOverPane.setVisible(true);
                 winnerLabel.setText("OH !! NO Its a Draw");
-                isGameStarted = false;
+                resetGame();
+                ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
+               
                 break;
-            default:
-                break;
+
         }
     }
 
     private void resetGame() {
+      Platform.runLater(() -> {
         b1.setText("");
         b2.setText("");
         b3.setText("");
@@ -411,30 +435,72 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
         b7.setText("");
         b8.setText("");
         b9.setText("");
-        gameOverPane.setVisible(true);
         isGameStarted = false;
+         menuisGameStarted=true;
+        gameOverPane.setVisible(true);
         winnerLabel.setText("No game started");
         AiLibrary.reset();
 
         playerDetails.setText(Props.mCurrentPlayer.toString());
+      });
+       
     }
 
     public void onPauseGameClicked(ActionEvent actionEvent) {
-        if (isGameStarted) {
+        {
             try {
-                ClientController.sendToServer(JsonOperations.createPauseGameJson(
-                        oppsiteEmail, AiLibrary.getCurrentGameStateStr())
-                );
+                if(isGameStarted==true){
+                ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail,1));
+                resetGame();}
+                else{
+                 ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail,2));
                 //  System.out.println(createGameStateString());
-                resetGame();
+                resetGame();}
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        
+    }
     }
 
     @Override
     public void pauseGame() {
+        
         resetGame();
+        
     }
+    @Override
+    public void handelGameResume(String jsontext) {
+        
+        Platform.runLater(() -> {
+
+        String rolePlayer =JsonOperations.parseGameResume(jsontext);          
+            System.out.println(AiLibrary.playerPosition.toString());
+            System.out.println(AiLibrary.cpuPosition.toString());
+        for(int i=0;i<AiLibrary.cpuPosition.size();i++)
+           {
+               drawInGui(AiLibrary.cpuPosition.get(i), "o", Color.RED);
+             
+           }
+           for(int i=0;i<AiLibrary.playerPosition.size();i++)
+           {
+               drawInGui(AiLibrary.playerPosition.get(i), "X", Color.YELLOW);
+               
+           }
+           
+           if (rolePlayer.trim().equals(Props.mCurrentPlayer.getPlayer_Email()))
+           {
+           isGameStarted=true;
+           }
+           else
+           {
+           isGameStarted=false;
+           }
+           
+           
+
+        });
+        
+    }
+    
 }

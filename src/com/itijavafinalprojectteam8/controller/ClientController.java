@@ -16,7 +16,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author ahares
  */
 public class ClientController {
-    private static final String SERVER_ADDRESS = "127.0.0.1";
+    private static final String SERVER_ADDRESS = "7.7.7.44";
+
     private static final int SERVER_PORT = 8000;
 
     private static AtomicBoolean mIsShutDown = new AtomicBoolean(false);
@@ -111,6 +112,11 @@ public class ClientController {
                 if (mGameWithPlayerView != null)
                     mGameWithPlayerView.pauseGame();
                 break;
+                
+                 case Constants.ConnectionTypes.TYPE_GAME_RESUME:
+                if (mGameWithPlayerView != null)
+                    mGameWithPlayerView.handelGameResume(textFromServer);
+                break;
         }
     }
 
@@ -120,6 +126,8 @@ public class ClientController {
             mGameWithPlayerView.setGamecord(JsonOperations.parseGameCord(jsonText));
 
     }
+   
+
 
     private static void handleInvitationReturnback(String jsonText) {
 

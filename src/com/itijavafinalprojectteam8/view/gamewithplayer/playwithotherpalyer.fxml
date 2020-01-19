@@ -29,6 +29,16 @@
                     </font>
                 </Label>
 
+                <
+                <
+                <
+                <
+                <
+                <
+                < HEAD
+                =======
+
+                >>>>>>> 7365d4d8d1ad8be8926f5de56a816d4096fcec19
                 <Pane layoutX="26.0" layoutY="59.0" prefHeight="166.0" prefWidth="654.0">
                     <children>
                         <Button fx:id="b1" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#clickButton"
@@ -113,7 +123,8 @@
 
             <Button fx:id="pauseGame" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" maxHeight="30"
                     maxWidth="200" mnemonicParsing="false" onAction="#onPauseGameClicked" prefHeight="175"
-                    prefWidth="215" style="-fx-background-color: rgb(255,255,255); -fx-border-radius: 10px;" text="Pause">
+                    prefWidth="215" style="-fx-background-color: rgb(255,255,255); -fx-border-radius: 10px;"
+                    text="Pause">
                 <effect>
                     <DropShadow radius="8.4825" width="14.93"/>
                 </effect>
