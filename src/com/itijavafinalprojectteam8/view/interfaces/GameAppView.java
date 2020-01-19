@@ -16,6 +16,4 @@ public interface GameAppView {
 
     void switchToGameChooser();
 
-
-
 }

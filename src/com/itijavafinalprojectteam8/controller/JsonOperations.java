@@ -111,6 +111,7 @@ public class JsonOperations {
         return object.toString();
     }
 
+
     public static String createUpdatePlayerPointsJson() {
         JSONObject object = new JSONObject();
         object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_UPDATE_PLAYER_POINTS);

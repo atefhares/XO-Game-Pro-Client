@@ -29,8 +29,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-
 public class GameWithPlayerController implements Initializable, GameWithPlayerView {
 
     private static GameAppView mApplicationCallback;
@@ -325,6 +323,7 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 opch = "o";
                 menuisGameStarted = false;
 
+
                 gameOverPane.setVisible(false);
 
             } else {
@@ -359,6 +358,13 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 int result = AiLibrary.getWinner();
                 System.out.println("result is " + result);
 
+
+                try {
+                    handleGameResult(result);
+                } catch (IOException ex) {
+                    Logger.getLogger(GameWithPlayerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
                 try {
                     handleGameResult(result);
                 } catch (IOException ex) {
@@ -374,7 +380,9 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
         }
     }
 
+
     private void handleGameResult(int result) throws IOException {
+
         switch (result) {
             case 0:
                 //player won
@@ -388,7 +396,9 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
                 ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
+
 
                 break;
             case 1:
@@ -407,7 +417,7 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
                
                 break;
-            
+
         }
     }
 

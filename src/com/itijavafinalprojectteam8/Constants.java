@@ -18,6 +18,7 @@ public class Constants {
         public static final String TYPE_PAUSE_GAME = "8";
         public static final String TYPE_GAME_ENDED = "9";
 
+
     }
 
     public static class JsonKeys {
