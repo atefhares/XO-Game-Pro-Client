@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="XO-Game-Pro-Client.jar" size="102189" download="eager" />
+    <jar href="XO-Game-Pro-Client.jar" size="102435" download="eager" />
     <jar href="lib\fontawesomefx-8.2.jar" size="180341" download="eager" />
     <jar href="lib\jfoenix-8.0.8.jar" size="2708772" download="eager" />
     <jar href="lib\json-20190722.jar" size="65003" download="eager" />

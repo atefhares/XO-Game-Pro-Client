@@ -7,6 +7,9 @@ import org.json.JSONObject;
 
 import java.security.NoSuchAlgorithmException;
 
+import static com.itijavafinalprojectteam8.controller.AiLibrary.cpuPosition;
+import static com.itijavafinalprojectteam8.controller.AiLibrary.playerPosition;
+
 /**
  * @author ahares
  */
@@ -129,9 +132,10 @@ public class JsonOperations {
         for (int fi = 0; fi < playerList.length; fi++) {
             int tmp = Integer.parseInt(playerList[fi].trim());
             System.out.println("elemnt is " + Integer.parseInt(playerList[fi].trim()));
-            AiLibrary.playerPosition.add(tmp);
-            if (tmp != 0)
-                AiLibrary.onPlayerMove(tmp);
+            if (!playerPosition.contains(tmp))
+                // AiLibrary.playerPosition.add(tmp);
+                if (tmp != 0)
+                    AiLibrary.onPlayerMove(tmp);
             System.out.println("player" + AiLibrary.playerPosition.toString());
         }
 
@@ -144,20 +148,23 @@ public class JsonOperations {
 
         for (int fi = 0; fi < playerList.length; fi++) {
             int tmp = Integer.parseInt(playerList[fi].trim());
-            AiLibrary.cpuPosition.add(tmp);
-            if (tmp != 0)
-                AiLibrary.onPlayer2Move(tmp);
+            System.out.println("elemnt is " + Integer.parseInt(playerList[fi].trim()));
+
+            if (!cpuPosition.contains(tmp))
+                // AiLibrary.cpuPosition.add(tmp);
+                if (tmp != 0)
+                    AiLibrary.onPlayer2Move(tmp);
             System.out.println("cpu" + AiLibrary.cpuPosition.toString());
         }
 
 
-        return Arr[2];
+        return Arr[2] + ":" + Arr[3];
     }
 
-    public static String sendGamePause(String Email, int role) {
+    public static String sendGamePause(String Email, int role, String Email2) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_PAUSE_GAME);
-        String Line = AiLibrary.playerPosition.toString() + ":" + AiLibrary.cpuPosition.toString() + ":" + Email;
+        String Line = AiLibrary.playerPosition.toString() + ":" + AiLibrary.cpuPosition.toString() + ":" + Email + ":" + Email2;
         jsonObject.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
         jsonObject.put(Constants.JsonKeys.KEY_GAME_STATE, Line);
         return jsonObject.toString();

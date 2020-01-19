@@ -74,8 +74,8 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
     private boolean isGameStarted = false;
 
     public static String oppsiteEmail;
-    public static String ch;
-    public static String opch;
+    public static String ch = "X";
+    public static String opch = "o";
     private Image offlineImage = new Image(this.getClass().getResourceAsStream("off.png"));
     private Image onlineImage = new Image(this.getClass().getResourceAsStream("on.png"));
 
@@ -166,9 +166,13 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
 
                     isGameStarted = true;
                     oppsiteEmail = Email;
-                    ch = "o";
-                    opch = "X";
-
+                    if (ch.equals("o")) {
+                        ch = "o";
+                        opch = "X";
+                    } else {
+                        ch = "X";
+                        opch = "o";
+                    }
                     gameOverPane.setVisible(false);
 
                 } catch (Exception e) {
@@ -320,8 +324,13 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 //resetGame();
 
                 isGameStarted = true;
-                ch = "X";
-                opch = "o";
+                if (ch.equals("X")) {
+                    ch = "X";
+                    opch = "o";
+                } else {
+                    ch = "o";
+                    opch = "X";
+                }
                 menuisGameStarted = false;
 
 
@@ -451,11 +460,16 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
         {
             try {
                 if (isGameStarted == true) {
-                    ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail, 1));
+                    if (ch.equals("X"))
+                        ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail, 1, Props.mCurrentPlayer.getPlayer_Email()));
+                    else
+                        ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail, 1, oppsiteEmail));
                     resetGame();
                 } else {
-                    ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail, 2));
-                    //  System.out.println(createGameStateString());
+                    if (ch.equals("X"))
+                        ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail, 2, Props.mCurrentPlayer.getPlayer_Email()));
+                    else
+                        ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail, 2, oppsiteEmail));
                     resetGame();
                 }
             } catch (Exception e) {
@@ -476,22 +490,43 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
     public void handelGameResume(String jsontext) {
 
         Platform.runLater(() -> {
+
             String rolePlayer = JsonOperations.parseGameResume(jsontext);
-            System.out.println(AiLibrary.playerPosition.toString());
-            System.out.println(AiLibrary.cpuPosition.toString());
+            String Arr[] = rolePlayer.split(":");
+
+            if (Arr[1].equals(Props.mCurrentPlayer.getPlayer_Email())) {
+                if (ch.equals("X")) {
+                    ch = "X";
+                    opch = "o";
+                } else {
+                    ch = "o";
+                    opch = "X";
+                }
+            } else {
+                if (ch.equals("o")) {
+                    ch = "o";
+                    opch = "X";
+                } else {
+                    ch = "X";
+                    opch = "o";
+                }
+            }
             for (int i = 0; i < AiLibrary.cpuPosition.size(); i++) {
-                drawInGui(AiLibrary.cpuPosition.get(i), "o", Color.RED);
+                drawInGui(AiLibrary.cpuPosition.get(i), opch, Color.RED);
 
             }
             for (int i = 0; i < AiLibrary.playerPosition.size(); i++) {
-                drawInGui(AiLibrary.playerPosition.get(i), "X", Color.YELLOW);
+                drawInGui(AiLibrary.playerPosition.get(i), ch, Color.YELLOW);
+
             }
 
-            if (rolePlayer.trim().equals(Props.mCurrentPlayer.getPlayer_Email())) {
+            if (Arr[0].trim().equals(Props.mCurrentPlayer.getPlayer_Email())) {
                 isGameStarted = true;
             } else {
                 isGameStarted = false;
             }
+
+
         });
 
     }
