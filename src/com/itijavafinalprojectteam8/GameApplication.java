@@ -41,12 +41,6 @@ public class GameApplication extends Application implements GameAppView {
     private Scene mMainScene;
     private StackPane mRootPane;
 
-    private Scene signInScene;
-    private Scene signUpScene;
-    private Scene gameWithOtherPlayerScene;
-    private Scene chooserScene;
-    private Scene gameWithCpuScene;
-
     private static final int WIDTH = 1200;
     private static final int HEIGHT = 650;
     private Stage applicationStage;
@@ -127,8 +121,7 @@ public class GameApplication extends Application implements GameAppView {
     public void switchToGameWithOtherPlayerScreen() {
         try {
 
-            if (playWithPlayerPane == null)
-            {
+            if (playWithPlayerPane == null) {
                 playWithPlayerPane = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamewithplayer/playwithotherpalyer.fxml"));
                 panes.add(playWithPlayerPane);
             }

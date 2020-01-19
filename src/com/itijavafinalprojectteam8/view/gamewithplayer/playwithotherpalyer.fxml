@@ -29,16 +29,6 @@
                     </font>
                 </Label>
 
-                <
-                <
-                <
-                <
-                <
-                <
-                < HEAD
-                =======
-
-                >>>>>>> 7365d4d8d1ad8be8926f5de56a816d4096fcec19
                 <Pane layoutX="26.0" layoutY="59.0" prefHeight="166.0" prefWidth="654.0">
                     <children>
                         <Button fx:id="b1" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#clickButton"

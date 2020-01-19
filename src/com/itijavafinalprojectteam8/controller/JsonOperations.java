@@ -1,16 +1,11 @@
 package com.itijavafinalprojectteam8.controller;
 
 import com.itijavafinalprojectteam8.Constants;
-import static com.itijavafinalprojectteam8.controller.AiLibrary.cpuPosition;
-import static com.itijavafinalprojectteam8.controller.AiLibrary.playerPosition;
 import com.itijavafinalprojectteam8.controller.sec.PasswordHelper;
 import com.itijavafinalprojectteam8.model.Player;
 import org.json.JSONObject;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collections;
-import javax.sound.midi.SysexMessage;
 
 /**
  * @author ahares
@@ -108,62 +103,64 @@ public class JsonOperations {
         object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GET_ALL_PLAYERS);
         return object.toString();
     }
-     public static String gameEnded(String Email) {
+
+    public static String gameEnded(String Email) {
         JSONObject object = new JSONObject();
         object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GAME_ENDED);
-         object.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
+        object.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
 
         return object.toString();
     }
-     public static String parseGameResume(String jsonText)
-    {
-         JSONObject jsonObject = new JSONObject(jsonText);
+
+    public static String parseGameResume(String jsonText) {
+        JSONObject jsonObject = new JSONObject(jsonText);
         // String playerEmail=jsonObject.getString(Constants.JsonKeys.KEY_USER_EMAIL);
-        String Arr[]=jsonObject.getString(Constants.JsonKeys.KEY_GAME_STATE).split(":");
-        
-         AiLibrary.reset();
-      
-        
-        String replace = Arr[0].replace("[","");
+        String Arr[] = jsonObject.getString(Constants.JsonKeys.KEY_GAME_STATE).split(":");
+
+        AiLibrary.reset();
+
+
+        String replace = Arr[0].replace("[", "");
         System.out.println(replace);
-        String replace1 = replace.replace("]","");
+        String replace1 = replace.replace("]", "");
         System.out.println(replace1);
-        String playerList[]=replace1.split(",");
-         
-        for(int fi=0;fi<playerList.length;fi++){
-            int tmp=Integer.parseInt(playerList[fi].trim());
-            System.out.println("elemnt is " +Integer.parseInt(playerList[fi].trim()));
-        AiLibrary.playerPosition.add(tmp);
-        if(tmp!=0)
-        AiLibrary.onPlayerMove(tmp);
-            System.out.println("player"+AiLibrary.playerPosition.toString());
+        String playerList[] = replace1.split(",");
+
+        for (int fi = 0; fi < playerList.length; fi++) {
+            int tmp = Integer.parseInt(playerList[fi].trim());
+            System.out.println("elemnt is " + Integer.parseInt(playerList[fi].trim()));
+            AiLibrary.playerPosition.add(tmp);
+            if (tmp != 0)
+                AiLibrary.onPlayerMove(tmp);
+            System.out.println("player" + AiLibrary.playerPosition.toString());
         }
-        
-          replace = Arr[1].replace("[","");
+
+        replace = Arr[1].replace("[", "");
         System.out.println(replace);
-         replace1 = replace.replace("]","");
+        replace1 = replace.replace("]", "");
         System.out.println(replace1);
-         playerList=replace1.split(",");
-        
-       
-        for(int fi=0;fi<playerList.length;fi++){
-           int tmp=Integer.parseInt(playerList[fi].trim());
+        playerList = replace1.split(",");
+
+
+        for (int fi = 0; fi < playerList.length; fi++) {
+            int tmp = Integer.parseInt(playerList[fi].trim());
             AiLibrary.cpuPosition.add(tmp);
-        if(tmp!=0)
-        AiLibrary.onPlayer2Move(tmp);
-        System.out.println("cpu"+AiLibrary.cpuPosition.toString());
+            if (tmp != 0)
+                AiLibrary.onPlayer2Move(tmp);
+            System.out.println("cpu" + AiLibrary.cpuPosition.toString());
         }
-        
-        
+
+
         return Arr[2];
     }
-     public static String sendGamePause(String Email, int role) {
+
+    public static String sendGamePause(String Email, int role) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_PAUSE_GAME);
-        String Line=AiLibrary.playerPosition.toString()+":"+AiLibrary.cpuPosition.toString()+":"+Email;
+        String Line = AiLibrary.playerPosition.toString() + ":" + AiLibrary.cpuPosition.toString() + ":" + Email;
         jsonObject.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
         jsonObject.put(Constants.JsonKeys.KEY_GAME_STATE, Line);
-       return jsonObject.toString();
+        return jsonObject.toString();
     }
 
 
