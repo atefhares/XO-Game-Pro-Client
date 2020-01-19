@@ -10,7 +10,7 @@ public class AiLibrary {
 
     public static ArrayList<Integer> playerPosition = new ArrayList<>(Collections.nCopies(1, 0));
     public static ArrayList<Integer> cpuPosition = new ArrayList<>(Collections.nCopies(1, 0));
-    private static int counter = 0;
+    public static int counter = 0;
 
     public static void onPlayerMove(int playerPos) {
 
@@ -175,9 +175,10 @@ public class AiLibrary {
         playerPosition = new ArrayList<>(Collections.nCopies(1, 0));
         cpuPosition = new ArrayList<>(Collections.nCopies(1, 0));
         counter = 0;
+        
     }
 
-    public static String[] getCurrentGameStateStr() {
+   /* public static String[] getCurrentGameStateStr() {
         String[] str = new String[2];
         str[0] = "";
         str[1] = "";
@@ -190,5 +191,6 @@ public class AiLibrary {
                 str[1] += pos + ",";
         }
         return str;
-    }
+    }*/
+    
 }

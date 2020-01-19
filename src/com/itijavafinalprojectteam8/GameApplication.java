@@ -127,7 +127,8 @@ public class GameApplication extends Application implements GameAppView {
     public void switchToGameWithOtherPlayerScreen() {
         try {
 
-            if (playWithPlayerPane == null) {
+            if (playWithPlayerPane == null)
+            {
                 playWithPlayerPane = FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/gamewithplayer/playwithotherpalyer.fxml"));
                 panes.add(playWithPlayerPane);
             }

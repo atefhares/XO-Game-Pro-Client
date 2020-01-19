@@ -10,4 +10,7 @@ public interface GameWithPlayerView {
     public void setGamecord(int gamecord);
 
     void pauseGame();
+
+    public void handelGameResume(String textFromServer);
+
 }

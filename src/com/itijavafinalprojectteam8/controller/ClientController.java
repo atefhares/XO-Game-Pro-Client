@@ -112,6 +112,11 @@ public class ClientController {
                 if (mGameWithPlayerView != null)
                     mGameWithPlayerView.pauseGame();
                 break;
+                
+                 case Constants.ConnectionTypes.TYPE_GAME_RESUME:
+                if (mGameWithPlayerView != null)
+                    mGameWithPlayerView.handelGameResume(textFromServer);
+                break;
         }
     }
 
@@ -121,6 +126,7 @@ public class ClientController {
             mGameWithPlayerView.setGamecord(JsonOperations.parseGameCord(jsonText));
 
     }
+   
 
 
     private static void handleInvitationReturnback(String jsonText) {
