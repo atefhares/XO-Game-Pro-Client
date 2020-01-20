@@ -6,6 +6,8 @@ import com.itijavafinalprojectteam8.controller.ClientController;
 import com.itijavafinalprojectteam8.controller.JsonOperations;
 import com.itijavafinalprojectteam8.controller.Props;
 import com.itijavafinalprojectteam8.model.Player;
+import com.itijavafinalprojectteam8.view.chat.ChatUIController;
+import com.itijavafinalprojectteam8.view.interfaces.ChatScreenView;
 import com.itijavafinalprojectteam8.view.interfaces.GameAppView;
 import com.itijavafinalprojectteam8.view.interfaces.GameWithPlayerView;
 import javafx.application.Platform;
@@ -13,8 +15,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -23,6 +27,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -87,6 +92,13 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
 
     public static void setAppInterface(GameAppView view) {
         mApplicationCallback = view;
+    }
+
+    private Stage mChatStage;
+    private static ChatScreenView mChatScreenView;
+
+    public static void setChatScreenView(ChatScreenView view) {
+        mChatScreenView = view;
     }
 
     @Override
@@ -490,6 +502,7 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
 
     /*=======================================================================*/
 
+
     public void onPauseGameClicked(ActionEvent actionEvent) {
         if (!isGameStarted) {
             System.out.println("[onPauseGameClicked] game not started! ---> return");
@@ -618,6 +631,11 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
 
     /*=======================================================================*/
 
+    public void onChatBtnClicked(ActionEvent actionEvent) {
+        createOrShowChatStage();
+    }
+    /*=======================================================================*/
+
     @Override
     public void onGetAllPlayers(String response) {
         fillTableData(response);
@@ -657,5 +675,36 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
         });
 
 
+    }
+
+
+    @Override
+    public void onNewMessageReceived(String message) {
+        System.out.println("[onNewMessageReceived] msg: " + message);
+        Platform.runLater(() -> {
+            createOrShowChatStage();
+            if (mChatScreenView != null) {
+                mChatScreenView.onNewMessageReceived(message);
+            }
+        });
+
+    }
+
+    private void createOrShowChatStage() {
+        if (mChatStage == null) {
+            try {
+                mChatStage = new Stage();
+                ChatUIController.setUserEmail(oppsiteEmail);
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/com/itijavafinalprojectteam8/view/chat/chatUI.fxml")));
+                mChatStage.setScene(scene);
+                mChatStage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (!mChatStage.isShowing()) {
+                mChatStage.show();
+            }
+        }
     }
 }

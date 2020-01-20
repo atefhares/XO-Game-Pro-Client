@@ -19,6 +19,7 @@ public class Constants {
         public static final String TYPE_GAME_OVER = "9";
         public static final String TYPE_GAME_RESUME = "10";
         public static final String TYPE_PLAYER_IS_ONLINE = "11";
+        public static final String TYPE_CHAT = "12";
     }
 
     public static class JsonKeys {
@@ -34,7 +35,7 @@ public class Constants {
         public static final String KEY_INVITATION_RESULT = "10";
         public static final String KEY_GAME_CORD = "11";
         public static final String KEY_GAME_STATE = "12";
-        //public static final String KEY_GAME_RESUME = "13";
+        public static final String KEY_MSG = "13";
 
     }
 

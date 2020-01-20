@@ -1,6 +1,7 @@
 package com.itijavafinalprojectteam8.controller;
 
 import com.itijavafinalprojectteam8.Constants;
+import com.itijavafinalprojectteam8.view.interfaces.ChatScreenView;
 import com.itijavafinalprojectteam8.view.interfaces.GameWithPlayerView;
 import com.itijavafinalprojectteam8.view.interfaces.LoginView;
 import com.itijavafinalprojectteam8.view.interfaces.SignUpView;
@@ -29,7 +30,6 @@ public class ClientController {
     private static LoginView mLoginScreenViewCallback;
     private static SignUpView mSignUpScreenViewCallback;
     private static GameWithPlayerView mGameWithPlayerView;
-
     public static void setGameUiController(GameWithPlayerView view) {
         mGameWithPlayerView = view;
     }
@@ -121,13 +121,22 @@ public class ClientController {
             case Constants.ConnectionTypes.TYPE_PLAYER_IS_ONLINE:
                 handleNewPlayerIsOnline(textFromServer);
 
+            case Constants.ConnectionTypes.TYPE_CHAT:
+                handleChatMessage(textFromServer);
+        }
+    }
+
+    private static void handleChatMessage(String textFromServer) {
+        String message = JsonOperations.parseChatMessage(textFromServer);
+        if (mGameWithPlayerView != null) {
+            mGameWithPlayerView.onNewMessageReceived(message);
         }
     }
 
     private static void handleNewPlayerIsOnline(String textFromServer) {
         String playerName = JsonOperations.parseName(textFromServer);
         String playerEmail = JsonOperations.parseEmail(textFromServer);
-        if (mGameWithPlayerView != null){
+        if (mGameWithPlayerView != null) {
             mGameWithPlayerView.onNewPlayerOnline(playerName, playerEmail);
         }
     }
@@ -138,7 +147,6 @@ public class ClientController {
             mGameWithPlayerView.onGamePlayMoveReceived(JsonOperations.parseGameCord(jsonText));
 
     }
-
 
     private static void handleInvitationReturnBack(String jsonText) {
 

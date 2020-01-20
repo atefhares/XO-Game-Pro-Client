@@ -130,29 +130,27 @@ public class JsonOperations {
         return jsonObject.toString();
     }
 
-
     public static String createUpdatePlayerPointsJson() {
         JSONObject object = new JSONObject();
         object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_UPDATE_PLAYER_POINTS);
         return object.toString();
     }
 
-    public static String createPauseGameJson(String oppsiteEmail, String[] gameStateString) {
-        JSONObject object = new JSONObject();
-        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_PAUSE_GAME);
-        object.put(Constants.JsonKeys.KEY_USER_NAME, oppsiteEmail);
-
-        JSONObject object1 = new JSONObject();
-        object1.put(Props.mCurrentPlayer.getPlayer_Email(), gameStateString[0]);
-        object1.put(oppsiteEmail, gameStateString[1]);
-
-        object.put(Constants.JsonKeys.KEY_GAME_STATE, object1);
-
-        return object.toString();
-    }
-
     public static String parseResumeGameResponse(String textFromServer) {
         JSONObject object = new JSONObject(textFromServer);
         return object.optString(Constants.JsonKeys.KEY_GAME_STATE);
+    }
+
+    public static String createSendNewMsgJson(String userEmail, String msg) {
+        JSONObject object = new JSONObject();
+        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_CHAT);
+        object.put(Constants.JsonKeys.KEY_USER_EMAIL, userEmail);
+        object.put(Constants.JsonKeys.KEY_MSG, msg);
+        return object.toString();
+    }
+
+    public static String parseChatMessage(String textFromServer) {
+        JSONObject object = new JSONObject(textFromServer);
+        return object.getString(Constants.JsonKeys.KEY_MSG);
     }
 }

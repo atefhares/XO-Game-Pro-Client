@@ -138,6 +138,20 @@
             </Button>
 
 
+            <Button fx:id="onChatBtn" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="100.0" maxHeight="30"
+                    maxWidth="200" mnemonicParsing="false" onAction="#onChatBtnClicked" prefHeight="175"
+                    prefWidth="215" style="-fx-background-color: rgb(255,255,255); -fx-border-radius: 10px;"
+                    text="Chat">
+                <effect>
+                    <DropShadow radius="8.4825" width="14.93"/>
+                </effect>
+
+                <font>
+                    <Font size="16.0"/>
+                </font>
+            </Button>
+
+
             <AnchorPane fx:id="gameOverPane" style="-fx-background-color: rgba(224,224,224,0.4);" visible="true"
                         AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                         AnchorPane.topAnchor="0.0">
