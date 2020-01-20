@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -44,8 +45,8 @@ public class GameApplication extends Application implements GameAppView {
     private static final int WIDTH = 1200;
     private static final int HEIGHT = 650;
     private Stage applicationStage;
-    /*=====================================================================*/
 
+    /*=====================================================================*/
     @Override
     public void init() throws Exception {
         super.init();
@@ -60,6 +61,7 @@ public class GameApplication extends Application implements GameAppView {
         // init app scene
         mRootPane = new StackPane();
         mMainScene = new Scene(mRootPane, WIDTH, HEIGHT);
+
     }
 
     @Override
@@ -175,6 +177,22 @@ public class GameApplication extends Application implements GameAppView {
                     Toast.makeText(applicationStage, text, 2000, 500, 500);
                 }
             });
+    }
+
+    @Override
+    public void showSystemNotification(String text) {
+        showToastMessage(text);
+
+        AudioClip clip = new AudioClip("com/itijavafinalprojectteam8/view/resources/eventually.ogg");
+        clip.play();
+
+//        NotificationType notification = NotificationType.SUCCESS;
+//        TrayNotification tray = new TrayNotification();
+//        tray.setTitle(text);
+//        tray.setMessage(text);
+//        tray.setRectangleFill(Paint.valueOf("#2A9A84"));
+//        tray.setAnimationType(AnimationType.POPUP);
+//        tray.showAndDismiss(Duration.seconds(2));
     }
 
     /*=========================================================================================*/

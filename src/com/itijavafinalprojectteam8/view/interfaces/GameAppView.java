@@ -16,4 +16,5 @@ public interface GameAppView {
 
     void switchToGameChooser();
 
+    void showSystemNotification(String text);
 }

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--        maxHeight="Infinity" maxWidth="Infinity" prefHeight="Infinity" prefWidth="Infinity"-->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.*?>
+<AnchorPane
+        style="-fx-background-color: #2ec2a0; -fx-border-radius: 5px;" xmlns="http://javafx.com/javafx/8.0.202-ea"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.itijavafinalprojectteam8.view.gamewithcpu.GameWithCpuController">
+
+    <Text fill="#b11010" strokeType="OUTSIDE" strokeWidth="0.0" text="Play with cpu" AnchorPane.rightAnchor="10"
+          AnchorPane.topAnchor="10">
+        <effect>
+            <Glow/>
+        </effect>
+        <font>
+            <Font name="Yu Gothic Medium" size="20.0"/>
+        </font>
+    </Text>
+
+    <Label fx:id="playerDetails" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="10">
+        <font>
+            <Font name="Yu Gothic Medium" size="12.0"/>
+        </font>
+    </Label>
+
+    <Button fx:id="b1" maxHeight="175" maxWidth="205" mnemonicParsing="false" onAction="#clickButton" prefHeight="175"
+            prefWidth="205" style="-fx-background-color: none;" AnchorPane.leftAnchor="30" AnchorPane.topAnchor="60">
+        <font>
+            <Font size="92.0"/>
+        </font>
+    </Button>
+    <Button fx:id="b2" maxHeight="175" maxWidth="215" mnemonicParsing="false" onAction="#clickButton" prefHeight="175"
+            prefWidth="215" style="-fx-background-color: none;" AnchorPane.leftAnchor="260" AnchorPane.topAnchor="60">
+        <font>
+            <Font size="92.0"/>
+        </font>
+    </Button>
+    <Button fx:id="b3" maxHeight="175" maxWidth="215" mnemonicParsing="false" onAction="#clickButton" prefHeight="175"
+            prefWidth="215" style="-fx-background-color: none;" AnchorPane.leftAnchor="500" AnchorPane.topAnchor="60">
+        <font>
+            <Font size="92.0"/>
+        </font>
+    </Button>
+
+    <Button fx:id="b4" maxHeight="175" maxWidth="205" mnemonicParsing="false" onAction="#clickButton" prefHeight="175"
+            prefWidth="205" style="-fx-background-color: none;" AnchorPane.leftAnchor="30" AnchorPane.topAnchor="260">
+        <font>
+            <Font size="92.0"/>
+        </font>
+    </Button>
+    <Button fx:id="b5" maxHeight="175" maxWidth="215" mnemonicParsing="false" onAction="#clickButton" prefHeight="175"
+            prefWidth="215" style="-fx-background-color: none;" AnchorPane.leftAnchor="260" AnchorPane.topAnchor="260">
+        <font>
+            <Font size="92.0"/>
+        </font>
+    </Button>
+    <Button fx:id="b6" maxHeight="175" maxWidth="215" mnemonicParsing="false" onAction="#clickButton" prefHeight="175"
+            prefWidth="215" style="-fx-background-color: none;" AnchorPane.leftAnchor="500" AnchorPane.topAnchor="260">
+        <font>
+            <Font size="92.0"/>
+        </font>
+    </Button>
+
+    <Button fx:id="b7" maxHeight="175" maxWidth="205" mnemonicParsing="false" onAction="#clickButton" prefHeight="175"
+            prefWidth="205" style="-fx-background-color: none;" AnchorPane.leftAnchor="30" AnchorPane.topAnchor="460">
+        <font>
+            <Font size="92.0"/>
+        </font>
+    </Button>
+    <Button fx:id="b8" maxHeight="175" maxWidth="215" mnemonicParsing="false" onAction="#clickButton" prefHeight="175"
+            prefWidth="215" style="-fx-background-color: none;" AnchorPane.leftAnchor="260" AnchorPane.topAnchor="460">
+        <font>
+            <Font size="92.0"/>
+        </font>
+    </Button>
+    <Button fx:id="b9" maxHeight="175" maxWidth="215" mnemonicParsing="false" onAction="#clickButton" prefHeight="175"
+            prefWidth="215" style="-fx-background-color: none;" AnchorPane.leftAnchor="500" AnchorPane.topAnchor="460">
+        <font>
+            <Font size="92.0"/>
+        </font>
+    </Button>
+
+    <Line endX="700.0" startX="20.0" stroke="white" strokeLineCap="ROUND" strokeWidth="15.2" AnchorPane.leftAnchor="30"
+          AnchorPane.topAnchor="240.0"/>
+    <Line endX="700.0" startX="20.0" stroke="white" strokeLineCap="ROUND" strokeWidth="15.2" AnchorPane.leftAnchor="30"
+          AnchorPane.topAnchor="440.0"/>
+    <Line endY="550.0" startY="10.0" stroke="WHITE" strokeLineCap="ROUND" strokeWidth="15.2"
+          AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="240" AnchorPane.topAnchor="60.0"/>
+    <Line endY="550.0" startY="10.0" stroke="WHITE" strokeLineCap="ROUND" strokeWidth="15.2"
+          AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="480" AnchorPane.topAnchor="60.0"/>
+
+
+    <AnchorPane fx:id="gameOverPane" style="-fx-background-color: rgba(224,224,224,0.4);" visible="true"
+                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0">
+
+        <Label fx:id="winnerLabel" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="113.0"
+               layoutY="182.0" prefHeight="50.0" prefWidth="500"
+               style="-fx-background-color: rgb(255,255,255); -fx-border-radius: 10px;"
+               text="No game started!" textAlignment="CENTER" textFill="#ffe208">
+            <font>
+                <Font size="24.0"/>
+            </font>
+            <effect>
+                <DropShadow radius="8.4825" width="14.93"/>
+            </effect>
+        </Label>
+        <Button fx:id="changeMode" layoutX="113.0" layoutY="374.0" maxHeight="30" maxWidth="200" mnemonicParsing="false"
+                onAction="#onChangeModeBtnClicked" prefHeight="175" prefWidth="215"
+                style="-fx-background-color: rgb(255,255,255); -fx-border-radius: 10px;" text="Exit">
+            <effect>
+                <DropShadow radius="8.4825" width="14.93"/>
+            </effect>
+
+            <font>
+                <Font size="24.0"/>
+            </font>
+        </Button>
+        <Button fx:id="playAgain" layoutX="413.0" layoutY="374.0" maxHeight="30" maxWidth="200" mnemonicParsing="false"
+                onAction="#onPlayAgainClicked" prefHeight="175" prefWidth="215"
+                style="-fx-background-color: rgb(255,255,255); -fx-border-radius: 10px;" text="Play again">
+            <effect>
+                <DropShadow radius="8.4825" width="14.93"/>
+            </effect>
+
+            <font>
+                <Font size="24.0"/>
+            </font>
+        </Button>
+
+    </AnchorPane>
+
+</AnchorPane>

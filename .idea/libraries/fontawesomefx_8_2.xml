@@ -1,21 +1,9 @@
 <component name="libraryTable">
   <library name="fontawesomefx-8.2">
-    <ANNOTATIONS>
-      <root url="jar://$PROJECT_DIR$/libs/fontawesomefx-8.2.jar!/" />
-    </ANNOTATIONS>
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/libs/fontawesomefx-8.2.jar!/" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/libs/fontawesomefx-8.2.jar!/" />
-    </JAVADOC>
-    <NATIVE>
-      <root url="jar://$PROJECT_DIR$/libs/fontawesomefx-8.2.jar!/" />
-    </NATIVE>
-    <SOURCES>
-      <root url="jar://$PROJECT_DIR$/libs/fontawesomefx-8.2.jar!/" />
-    </SOURCES>
-    <jarDirectory url="jar://$PROJECT_DIR$/libs/fontawesomefx-8.2.jar!/" recursive="false" />
-    <jarDirectory url="jar://$PROJECT_DIR$/libs/fontawesomefx-8.2.jar!/" recursive="false" type="SOURCES" />
+    <JAVADOC />
+    <SOURCES />
   </library>
 </component>

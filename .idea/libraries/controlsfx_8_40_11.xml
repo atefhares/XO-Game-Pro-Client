@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="controlsfx-8.40.11">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/controlsfx-8.40.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/fontawesomefx-8.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jfoenix-8.0.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/json-20190722.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

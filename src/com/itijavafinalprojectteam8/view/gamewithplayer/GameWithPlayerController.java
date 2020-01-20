@@ -611,6 +611,14 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
     /*=======================================================================*/
 
     @Override
+    public void onNewPlayerOnline(String playerName, String playerEmail) {
+        if (mApplicationCallback != null)
+            mApplicationCallback.showSystemNotification(playerName + "(" + playerEmail + ")" + " is now online!");
+    }
+
+    /*=======================================================================*/
+
+    @Override
     public void onGetAllPlayers(String response) {
         fillTableData(response);
     }

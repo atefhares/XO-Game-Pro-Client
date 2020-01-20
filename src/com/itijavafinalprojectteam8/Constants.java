@@ -17,10 +17,8 @@ public class Constants {
         public static final String TYPE_UPDATE_PLAYER_POINTS = "7";
         public static final String TYPE_PAUSE_GAME = "8";
         public static final String TYPE_GAME_OVER = "9";
-        
         public static final String TYPE_GAME_RESUME = "10";
-
-
+        public static final String TYPE_PLAYER_IS_ONLINE = "11";
     }
 
     public static class JsonKeys {

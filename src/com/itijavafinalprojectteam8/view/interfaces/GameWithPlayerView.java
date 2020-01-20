@@ -13,4 +13,5 @@ public interface GameWithPlayerView {
 
     public void handelGameResume(String textFromServer);
 
+    void onNewPlayerOnline(String playerName, String playerEmail);
 }

@@ -117,6 +117,18 @@ public class ClientController {
                 if (mGameWithPlayerView != null)
                     mGameWithPlayerView.handelGameResume(JsonOperations.parseResumeGameResponse(textFromServer));
                 break;
+
+            case Constants.ConnectionTypes.TYPE_PLAYER_IS_ONLINE:
+                handleNewPlayerIsOnline(textFromServer);
+
+        }
+    }
+
+    private static void handleNewPlayerIsOnline(String textFromServer) {
+        String playerName = JsonOperations.parseName(textFromServer);
+        String playerEmail = JsonOperations.parseEmail(textFromServer);
+        if (mGameWithPlayerView != null){
+            mGameWithPlayerView.onNewPlayerOnline(playerName, playerEmail);
         }
     }
 

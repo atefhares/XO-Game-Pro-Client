@@ -7,9 +7,6 @@ import org.json.JSONObject;
 
 import java.security.NoSuchAlgorithmException;
 
-import static com.itijavafinalprojectteam8.controller.AiLibrary.cpuPosition;
-import static com.itijavafinalprojectteam8.controller.AiLibrary.playerPosition;
-
 /**
  * @author ahares
  */
@@ -42,6 +39,16 @@ public class JsonOperations {
     public static int parseGameCord(String cord) {
         JSONObject jsonObject = new JSONObject(cord);
         return jsonObject.getInt(Constants.JsonKeys.KEY_GAME_CORD);
+    }
+
+    public static String parseEmail(String json) {
+        JSONObject jsonObject = new JSONObject(json);
+        return jsonObject.getString(Constants.JsonKeys.KEY_USER_EMAIL);
+    }
+
+    public static String parseName(String json) {
+        JSONObject jsonObject = new JSONObject(json);
+        return jsonObject.getString(Constants.JsonKeys.KEY_USER_NAME);
     }
 
     public static boolean parseInvitationResponse(String jsonText) {
