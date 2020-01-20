@@ -498,7 +498,6 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
         String gameState = createGameState();
         try {
             ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail, gameState));
-            ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
             resetGame(true);
         } catch (Exception e) {
             e.printStackTrace();
