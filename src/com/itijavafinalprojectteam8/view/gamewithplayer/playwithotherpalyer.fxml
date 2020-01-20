@@ -183,8 +183,9 @@
                 </Text>
                 <TableView fx:id="table" layoutY="71.0" prefHeight="780.0" prefWidth="290.0">
                     <columns>
-                        <TableColumn fx:id="images" prefWidth="88.0" text="Status"/>
-                        <TableColumn fx:id="Player_Name" prefWidth="198.0" text="Player"/>
+                        <TableColumn fx:id="images" prefWidth="40.0" text=""/>
+                        <TableColumn fx:id="Player_Name" prefWidth="200.0" text=""/>
+                        <TableColumn fx:id="playerPoints" prefWidth="20.0" text=""/>
                     </columns>
                 </TableView>
             </children>

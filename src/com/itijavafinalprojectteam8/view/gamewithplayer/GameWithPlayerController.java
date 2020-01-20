@@ -43,6 +43,8 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
     private TableColumn<Player, String> images;
     @FXML
     private TableColumn<Player, String> Player_Name;
+    @FXML
+    private TableColumn<Player, String> playerPoints;
 
     public ObservableList<Player> list = FXCollections.observableArrayList();
 
@@ -95,6 +97,7 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
 
             images.setCellValueFactory(new PropertyValueFactory<>("images"));
             Player_Name.setCellValueFactory(new PropertyValueFactory<Player, String>("Player_Name"));
+            playerPoints.setCellValueFactory(new PropertyValueFactory<Player, String>("Player_Points"));
 
             ClientController.sendToServer(JsonOperations.createGetAllPlayersJson());
             ClientController.setGameUiController(this);
