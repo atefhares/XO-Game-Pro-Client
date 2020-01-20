@@ -14,11 +14,12 @@ public class Player {
     public Player() {
     }
 
-    public Player(ImageView images, String Player_Name, int stat) {
+    public Player(ImageView images, String Player_Name, int stat, int player_Points) {
         this.Player_Name.setValue(Player_Name);
         // this.player_status = new  SimpleStringProperty (player_status);
         this.images = images;
         this.Player_Status = stat;
+        this.Player_Points = player_Points;
 
     }
 

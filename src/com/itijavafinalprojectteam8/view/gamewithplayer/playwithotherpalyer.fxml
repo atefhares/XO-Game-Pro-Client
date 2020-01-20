@@ -170,25 +170,23 @@
             </AnchorPane>
         </AnchorPane>
 
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="837.0" prefWidth="250.0">
-            <children>
-                <Text fill="#b11010" fontSmoothingType="LCD" layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE"
-                      strokeWidth="0.0" text="Players">
-                    <effect>
-                        <Glow/>
-                    </effect>
-                    <font>
-                        <Font name="Comic Sans MS" size="36.0"/>
-                    </font>
-                </Text>
-                <TableView fx:id="table" layoutY="71.0" prefHeight="780.0" prefWidth="290.0">
-                    <columns>
-                        <TableColumn fx:id="images" prefWidth="40.0" text=""/>
-                        <TableColumn fx:id="Player_Name" prefWidth="200.0" text=""/>
-                        <TableColumn fx:id="playerPoints" prefWidth="20.0" text=""/>
-                    </columns>
-                </TableView>
-            </children>
+        <AnchorPane>
+            <Text fill="#b11010" fontSmoothingType="LCD" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="100"
+                  strokeType="OUTSIDE" strokeWidth="0.0" text="Players">
+                <effect>
+                    <Glow/>
+                </effect>
+                <font>
+                    <Font name="Comic Sans MS" size="36.0"/>
+                </font>
+            </Text>
+            <TableView fx:id="table" AnchorPane.topAnchor="80" AnchorPane.bottomAnchor="0">
+                <columns>
+                    <TableColumn resizable="false" sortable="false" fx:id="images" prefWidth="40.0" text=""/>
+                    <TableColumn resizable="false" sortable="false" fx:id="Player_Name" prefWidth="200.0" text="email"/>
+                    <TableColumn resizable="false" sortable="false" fx:id="playerPoints" prefWidth="80.0" text=""/>
+                </columns>
+            </TableView>
         </AnchorPane>
     </items>
 

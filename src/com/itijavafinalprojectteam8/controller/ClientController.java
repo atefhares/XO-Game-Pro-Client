@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author ahares
  */
 public class ClientController {
-    private static final String SERVER_ADDRESS = "7.7.7.52";
+    private static final String SERVER_ADDRESS = "7.7.7.44";
 
     private static final int SERVER_PORT = 8000;
 

@@ -92,6 +92,8 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+
+            table.setEditable(false);
             table.setColumnResizePolicy(resizeFeatures -> true);
             table.setSortPolicy(playerTableView -> true);
 
@@ -103,7 +105,7 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
             ClientController.setGameUiController(this);
 
             table.setOnMouseClicked((MouseEvent event) -> {
-                if(event.getButton().equals(MouseButton.PRIMARY)){
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
                     showAlertWithHeaderText(table.getSelectionModel().getSelectedItem().getPlayer_Email(), table.getSelectionModel().getSelectedItem().getPlayer_Status());
                 }
             });
@@ -496,6 +498,7 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
         String gameState = createGameState();
         try {
             ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail, gameState));
+            ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
             resetGame(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -631,11 +634,12 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                     int stat = dataArray.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_STATUS);
                     Player player;
                     if (stat == 1 || stat == 2) {
-                        player = new Player(onlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL), stat);
+                        player = new Player(onlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL), stat, dataArray.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_POINTS));
                     } else {
-                        player = new Player(offlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL), stat);
+                        player = new Player(offlineImageView, dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL), stat, dataArray.getJSONObject(i).getInt(Constants.JsonKeys.KEY_USER_POINTS));
                     }
                     player.setPlayer_Email(dataArray.getJSONObject(i).getString(Constants.JsonKeys.KEY_USER_EMAIL));
+                    System.out.println("player: " + player.toString());
                     list.add(player);
                 }
             }
