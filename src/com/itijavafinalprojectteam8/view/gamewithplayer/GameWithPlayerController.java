@@ -19,6 +19,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import org.json.JSONArray;
@@ -97,11 +99,29 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
             ClientController.sendToServer(JsonOperations.createGetAllPlayersJson());
             ClientController.setGameUiController(this);
 
-            table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            table.setOnMouseClicked((MouseEvent event) -> {
+                if(event.getButton().equals(MouseButton.PRIMARY)){
+                    showAlertWithHeaderText(table.getSelectionModel().getSelectedItem().getPlayer_Email(), table.getSelectionModel().getSelectedItem().getPlayer_Status());
+                }
+            });
+
+            /*table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                if (oldSelection == null) {
+                    System.out.println("oldSelection is null");
+                } else {
+                    System.out.println("oldSelection: " + oldSelection);
+                }
+
+                if (newSelection == null) {
+                    System.out.println("newSelection is null");
+                } else {
+                    System.out.println("newSelection: " + newSelection);
+                }
+
                 if (newSelection != null) {
                     showAlertWithHeaderText(newSelection.getPlayer_Email(), newSelection.getPlayer_Status());
                 }
-            });
+            });*/
 
             resetGame(true);
 
@@ -111,7 +131,7 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
     }
 
     private void showAlertWithHeaderText(String email, int status) {
-        System.out.println("status is   " + status);
+        System.out.println("[showAlertWithHeaderText] status is   " + status);
         if (status == Constants.PlayerStatus.ONLINE_NOT_IN_GAME) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
