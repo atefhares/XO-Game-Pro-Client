@@ -42,21 +42,21 @@
                                 onAction="#onGameBtnClicked"
                                 prefHeight="146.0" prefWidth="200.0" style="-fx-background-color: none;">
                             <font>
-                                <Font size="92.0"/>
+                                <Font size="80.0"/>
                             </font>
                         </Button>
                         <Button fx:id="b2" layoutX="227.0" layoutY="11.0" mnemonicParsing="false"
                                 onAction="#onGameBtnClicked" prefHeight="146.0" prefWidth="200.0"
                                 style="-fx-background-color: none;">
                             <font>
-                                <Font size="92.0"/>
+                                <Font size="80.0"/>
                             </font>
                         </Button>
                         <Button fx:id="b3" layoutX="427.0" layoutY="10.0" mnemonicParsing="false"
                                 onAction="#onGameBtnClicked" prefHeight="146.0" prefWidth="192.0"
                                 style="-fx-background-color: none;">
                             <font>
-                                <Font size="92.0"/>
+                                <Font size="80.0"/>
                             </font>
                         </Button>
                     </children>
@@ -68,21 +68,21 @@
                                 onAction="#onGameBtnClicked"
                                 prefHeight="153.0" prefWidth="200.0" style="-fx-background-color: none;">
                             <font>
-                                <Font size="92.0"/>
+                                <Font size="80.0"/>
                             </font>
                         </Button>
                         <Button fx:id="b5" alignment="CENTER" layoutX="227.0" layoutY="4.0" mnemonicParsing="false"
                                 onAction="#onGameBtnClicked" prefHeight="153.0" prefWidth="200.0"
                                 style="-fx-background-color: none;">
                             <font>
-                                <Font size="92.0"/>
+                                <Font size="80.0"/>
                             </font>
                         </Button>
                         <Button fx:id="b6" layoutX="439.0" layoutY="4.0" mnemonicParsing="false"
                                 onAction="#onGameBtnClicked"
                                 prefHeight="153.0" prefWidth="192.0" style="-fx-background-color: none;">
                             <font>
-                                <Font size="92.0"/>
+                                <Font size="80.0"/>
                             </font>
                         </Button>
                         <Line endX="504.0" layoutX="142.0" startX="-137.0" stroke="WHITE" strokeLineCap="ROUND"
@@ -96,21 +96,21 @@
                                 onAction="#onGameBtnClicked"
                                 prefHeight="146.0" prefWidth="200.0" style="-fx-background-color: none;">
                             <font>
-                                <Font size="92.0"/>
+                                <Font size="80.0"/>
                             </font>
                         </Button>
                         <Button fx:id="b8" layoutX="227.0" layoutY="8.0" mnemonicParsing="false"
                                 onAction="#onGameBtnClicked"
                                 prefHeight="146.0" prefWidth="200.0" style="-fx-background-color: none;">
                             <font>
-                                <Font size="92.0"/>
+                                <Font size="80.0"/>
                             </font>
                         </Button>
                         <Button fx:id="b9" layoutX="441.0" layoutY="8.0" mnemonicParsing="false"
                                 onAction="#onGameBtnClicked"
                                 prefHeight="146.0" prefWidth="192.0" style="-fx-background-color: none;">
                             <font>
-                                <Font size="92.0"/>
+                                <Font size="80.0"/>
                             </font>
                         </Button>
                         <Line endX="413.0" endY="-11.0" layoutX="233.0" layoutY="11.0" startX="-233.0" startY="-11.0"

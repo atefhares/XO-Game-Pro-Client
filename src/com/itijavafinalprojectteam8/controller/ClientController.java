@@ -170,6 +170,8 @@ public class ClientController {
                 break;
 
             case Constants.ResponseCodes.RESPONSE_SUCCESS:
+                Props.mCurrentPlayer = JsonOperations.parseCurrentPlayer(textFromServer);
+
                 if (mSignUpScreenViewCallback != null) {
                     mSignUpScreenViewCallback.onSuccessResponse();
                 }
