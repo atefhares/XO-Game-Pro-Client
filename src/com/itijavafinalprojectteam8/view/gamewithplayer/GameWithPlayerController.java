@@ -22,13 +22,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class GameWithPlayerController implements Initializable, GameWithPlayerView {
 
@@ -65,13 +64,16 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
     private Button b9;
 
     @FXML
+    private Label whoIsTurn;
+
+    @FXML
     private Pane gameOverPane;
 
     @FXML
     private Label playerDetails;
 
-    private static boolean menuisGameStarted = true;
     private boolean isGameStarted = false;
+    private boolean shouldWaitForNextPlayerMove = false;
 
     public static String oppsiteEmail;
     public static String ch = "X";
@@ -96,26 +98,21 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
             ClientController.setGameUiController(this);
 
             table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-                if (newSelection != null && menuisGameStarted) {
-                    System.out.println("hihihi");
-
+                if (newSelection != null) {
                     showAlertWithHeaderText(newSelection.getPlayer_Email(), newSelection.getPlayer_Status());
                 }
             });
 
-            resetGame();
+            resetGame(true);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
-    // Show a Information Alert with header Text
     private void showAlertWithHeaderText(String email, int status) {
         System.out.println("status is   " + status);
-        if (status == 1) {
+        if (status == Constants.PlayerStatus.ONLINE_NOT_IN_GAME) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
             alert.setHeaderText("Send game invitation");
@@ -125,29 +122,47 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
 
             if (result.get() == javafx.scene.control.ButtonType.OK) {
                 //oke button is pressed
-                System.out.println("pressed ok");
+                System.out.println("pressed ok... sending game invitation");
                 try {
-                    String emailPlayer = JsonOperations.createInvitationJson(email);
-                    ClientController.sendToServer(emailPlayer);
+                    ClientController.sendToServer(JsonOperations.createInvitationJson(email));
                     oppsiteEmail = email;
-                    menuisGameStarted = false;
-
-
                 } catch (Exception e) {
-
                     e.printStackTrace();
                 }
-
                 alert.close();
             } else if (result.get() == ButtonType.CANCEL) {
                 // cancel button is pressed
+                System.out.println("pressed cancel.... nothing");
                 alert.close();
             }
-
         }
     }
 
-    // Show a Information Alert with header Text
+    @Override
+    public void onGameInvitationResponse(boolean response) {
+        System.out.println("[onGameInvitationResponse] response" + response);
+        if (response) {
+            Platform.runLater(() -> {
+                if (mApplicationCallback != null)
+                    mApplicationCallback.showToastMessage("Player Accepted your invitation");
+            });
+
+            resetGame(true);
+
+            startGame(true);
+
+        } else {
+            Platform.runLater(() -> {
+                if (mApplicationCallback != null)
+                    mApplicationCallback.showToastMessage("Player Rejected your invitation");
+            });
+
+            resetGame(true);
+            isGameStarted = false;
+        }
+
+    }
+
     @Override
     public void onGameInvitationRequest(String Email) {
         Platform.runLater(() -> {
@@ -162,21 +177,13 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
                 System.out.println("pressed ok");
                 try {
                     ClientController.sendToServer(JsonOperations.createInvitationResponseJson(Email, true));
-                    // resetGame();
 
-                    isGameStarted = true;
+                    resetGame(true);
                     oppsiteEmail = Email;
-                    if (ch.equals("o")) {
-                        ch = "o";
-                        opch = "X";
-                    } else {
-                        ch = "X";
-                        opch = "o";
-                    }
-                    gameOverPane.setVisible(false);
+
+                    startGame(false);
 
                 } catch (Exception e) {
-
                     e.printStackTrace();
                 }
             } else if (result.get() == ButtonType.CANCEL) {
@@ -192,30 +199,110 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
 
     }
 
+    private void startGame(boolean isCurrentPlayerTheStarter) {
+        System.out.println("[startGame] called");
+        System.out.println("[startGame] isCurrentPlayerTheStarter: " + isCurrentPlayerTheStarter);
+
+        if (isCurrentPlayerTheStarter) {
+            shouldWaitForNextPlayerMove = false;
+            ch = "X";
+            opch = "O";
+
+            Platform.runLater(() -> {
+                whoIsTurn.setVisible(true);
+                whoIsTurn.setText("Your turn");
+            });
+
+        } else {
+            shouldWaitForNextPlayerMove = true;
+            ch = "O";
+            opch = "X";
+            Platform.runLater(() -> {
+                whoIsTurn.setVisible(true);
+                whoIsTurn.setText("Not your turn");
+            });
+        }
+
+        isGameStarted = true;
+
+        Platform.runLater(() -> {
+            gameOverPane.setVisible(false);
+        });
+
+        Props.mCurrentPlayer.setPlayer_Status(Constants.PlayerStatus.ONLINE_IN_GAME);
+
+        AiLibrary.reset();
+    }
+
+    private void resetGame(boolean setWinnerLabelToDefault) {
+        System.out.println("[resetGame] called");
+
+        Props.mCurrentPlayer.setPlayer_Status(Constants.PlayerStatus.ONLINE_NOT_IN_GAME);
+        isGameStarted = false;
+        shouldWaitForNextPlayerMove = false;
+        AiLibrary.reset();
+        ch = "";
+        opch = "";
+
+        Platform.runLater(() -> {
+            b1.setText("");
+            b2.setText("");
+            b3.setText("");
+            b4.setText("");
+            b5.setText("");
+            b6.setText("");
+            b7.setText("");
+            b8.setText("");
+            b9.setText("");
+
+            playerDetails.setText(Props.mCurrentPlayer.toString());
+
+            if (setWinnerLabelToDefault)
+                winnerLabel.setText("No game started");
+
+            gameOverPane.setVisible(true);
+
+            whoIsTurn.setVisible(false);
+            whoIsTurn.setText("");
+        });
+
+    }
+
+    /*===============================================================================*/
+
     @FXML
-    public void clickButton(ActionEvent event) throws IOException {
+    public void onGameBtnClicked(ActionEvent event) {
         try {
-            final Node source = (Node) event.getSource();
-            String id = source.getId();
+            System.out.println("[onGameBtnClicked] oppsiteEmail: " + oppsiteEmail);
+            System.out.println("[onGameBtnClicked] isGameStarted: " + isGameStarted);
+            System.out.println("[onGameBtnClicked] shouldWaitForNextPlayerMove: " + shouldWaitForNextPlayerMove);
 
-            char c = id.charAt(id.length() - 1);
-            int idnum = Character.getNumericValue(c);
-            System.out.println("isGameStarted is " + isGameStarted);
+            if (!isGameStarted) {
+                System.out.println("[onGameBtnClicked] Game not started... return");
+                return;
+            }
 
-            if (!(AiLibrary.playerPosition.contains(idnum) || AiLibrary.cpuPosition.contains(idnum)) && isGameStarted) {
-                AiLibrary.onPlayerMove(idnum);
+            if (shouldWaitForNextPlayerMove) {
+                System.out.println("[onGameBtnClicked] shouldWaitForNextPlayerMove is TRUE... return");
+                return;
+            }
 
-                drawInGui(idnum, ch, Color.YELLOW);
-                isGameStarted = false;
-                System.out.println("oppsite email is " + oppsiteEmail);
-                ClientController.sendToServer(JsonOperations.createSendGameCordJson(oppsiteEmail, idnum));
-                int result = AiLibrary.getWinner();
-                System.out.println("result is " + result);
+            int clickedPos = getClickedPosition(event);
 
-                handleGameResult(result);
+            if (!AiLibrary.playerPosition.contains(clickedPos) && !AiLibrary.cpuPosition.contains(clickedPos)) {
+
+                shouldWaitForNextPlayerMove = true;
+
+                ClientController.sendToServer(JsonOperations.createSendGameCordJson(oppsiteEmail, clickedPos));
+
+                AiLibrary.onPlayerMove(clickedPos);
+                drawInGui(clickedPos, ch, Color.YELLOW);
+
+                //check game result
+                checkGameResult();
 
             } else {
-                System.out.println("this is the error");
+                System.out.println("[onGameBtnClicked] position already taken");
             }
         } catch (Exception ex) {
             ex.getMessage();
@@ -224,8 +311,24 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
 
     }
 
-    public void drawInGui(int pos, String c, Color color) {
+    private int getClickedPosition(ActionEvent event) {
+        final Node source = (Node) event.getSource();
+        String id = source.getId();
 
+        char c = id.charAt(id.length() - 1);
+        int idnum = Character.getNumericValue(c);
+
+        System.out.println("[getClickedPosition] pos: " + idnum);
+        return idnum;
+    }
+
+    public void drawInGui(int pos, String c, Color color) {
+        whoIsTurn.setVisible(true);
+        if (shouldWaitForNextPlayerMove) {
+            whoIsTurn.setText("Not your turn");
+        } else {
+            whoIsTurn.setText("Your turn");
+        }
         switch (pos) {
             case 1:
                 b1.setText(c);
@@ -277,6 +380,216 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
         }
     }
 
+    @Override
+    public void onGamePlayMoveReceived(int gamecord) {
+        Platform.runLater(() -> {
+
+            System.out.println("[onGamePlayMoveReceived] oppsiteEmail: " + oppsiteEmail);
+            System.out.println("[onGamePlayMoveReceived] isGameStarted: " + isGameStarted);
+            System.out.println("[onGamePlayMoveReceived] shouldWaitForNextPlayerMove: " + shouldWaitForNextPlayerMove);
+            System.out.println("[onGamePlayMoveReceived] gamecord: " + gamecord);
+            System.out.println("[onGamePlayMoveReceived] AiLibrary.playerPosition.size() + AiLibrary.cpuPosition.size(): " +
+                    (AiLibrary.playerPosition.size() + AiLibrary.cpuPosition.size())
+            );
+
+            if (!isGameStarted) {
+                System.out.println("[onGamePlayMoveReceived] Game not started... return");
+                return;
+            }
+
+            shouldWaitForNextPlayerMove = false;
+
+            if (AiLibrary.playerPosition.size() + AiLibrary.cpuPosition.size() < 11) {
+                AiLibrary.onPlayer2Move(gamecord);
+
+                drawInGui(gamecord, opch, Color.RED);
+                //check game result
+                checkGameResult();
+            } else {
+                System.out.println("playerPosition.size + cpuPosition.size < 11 --> nothing to do");
+            }
+
+        });
+    }
+
+    private void checkGameResult() {
+        int result = AiLibrary.getWinner();
+        System.out.println("[checkGameResult] result is " + result);
+
+        switch (result) {
+            case 0:
+                //player won
+                winnerLabel.setText("Congratulation! You won....");
+                Props.mCurrentPlayer.Player_Points += 10;
+                resetGame(false);
+
+                try {
+                    ClientController.sendToServer(JsonOperations.createUpdatePlayerPointsJson());
+                    ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 1:
+                //cpu won
+                winnerLabel.setText("You Lost!");
+                resetGame(false);
+                try {
+                    ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 2:
+                // draw
+                winnerLabel.setText("OH !! NO Its a Draw");
+                resetGame(false);
+                try {
+                    ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
+        }
+    }
+
+    /*=======================================================================*/
+
+    public void onChangeModeBtnClicked(ActionEvent actionEvent) {
+        if (mApplicationCallback != null) {
+            mApplicationCallback.switchToGameChooser();
+        }
+    }
+
+    /*=======================================================================*/
+
+    public void onPauseGameClicked(ActionEvent actionEvent) {
+        if (!isGameStarted) {
+            System.out.println("[onPauseGameClicked] game not started! ---> return");
+            return;
+        }
+        String gameState = createGameState();
+        try {
+            ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail, gameState));
+            resetGame(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String createGameState() {
+        JSONObject object = new JSONObject();
+
+        String otherPlayerPositions = "";
+        for (int i : AiLibrary.cpuPosition) {
+            otherPlayerPositions += i;
+        }
+        object.put(oppsiteEmail, otherPlayerPositions);
+
+        String playerPositions = "";
+        for (int i : AiLibrary.playerPosition) {
+            playerPositions += i;
+        }
+        object.put(Props.mCurrentPlayer.getPlayer_Email(), playerPositions);
+
+        if (ch.equals("X"))
+            object.put("X", Props.mCurrentPlayer.getPlayer_Email());
+        else
+            object.put("X", oppsiteEmail);
+
+
+        if (shouldWaitForNextPlayerMove) {
+            // this is other player's turn
+            object.put("pt", oppsiteEmail);
+        } else {
+            object.put("pt", Props.mCurrentPlayer.getPlayer_Email());
+        }
+
+        return object.toString();
+    }
+
+    @Override
+    public void onGamePaused() {
+        resetGame(true);
+    }
+
+    @Override
+    public void handelGameResume(String jsonStr) {
+        try {
+            System.out.println("[handelGameResume] jsonStr: " + jsonStr);
+
+            shouldWaitForNextPlayerMove = true;
+            AiLibrary.reset();
+
+            JSONObject object = new JSONObject(jsonStr);
+
+            String otherPlayerPositions = object.getString(oppsiteEmail);
+            String myPositions = object.getString(Props.mCurrentPlayer.getPlayer_Email());
+            String playerWithXLetter = object.getString("X");
+
+            String playerWithTurnEmail = object.getString("pt");
+
+            if (playerWithTurnEmail.equals(Props.mCurrentPlayer.getPlayer_Email())) {
+                shouldWaitForNextPlayerMove = false;
+            } else {
+                shouldWaitForNextPlayerMove = true;
+            }
+
+            System.out.println("[handelGameResume] otherPlayerPositions: " + otherPlayerPositions);
+            System.out.println("[handelGameResume] myPositions: " + myPositions);
+            System.out.println("[handelGameResume] playerWithXLetter: " + playerWithXLetter);
+            System.out.println("[handelGameResume] shouldWaitForNextPlayerMove: " + shouldWaitForNextPlayerMove);
+
+            if (playerWithXLetter.equals(Props.mCurrentPlayer.getPlayer_Email())) {
+                ch = "X";
+                opch = "O";
+            } else {
+                ch = "O";
+                opch = "X";
+            }
+
+            for (char c : otherPlayerPositions.toCharArray()) {
+                System.out.println("[handelGameResume] loop1 ---> c: " + c);
+
+                int pos = Integer.parseInt(c + "");
+
+                if (pos == 0)
+                    continue;
+
+                AiLibrary.onPlayer2Move(pos);
+
+
+                Platform.runLater(() -> {
+                    drawInGui(pos, opch, Color.RED);
+                });
+            }
+
+            for (char c : myPositions.toCharArray()) {
+                System.out.println("[handelGameResume] loop2 ---> c: " + c);
+
+                int pos = Integer.parseInt(c + "");
+                if (pos == 0)
+                    continue;
+
+                AiLibrary.onPlayerMove(pos);
+                Platform.runLater(() -> {
+                    drawInGui(pos, ch, Color.YELLOW);
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*=======================================================================*/
+
+    @Override
+    public void onGetAllPlayers(String response) {
+        fillTableData(response);
+    }
+
     public void fillTableData(String text) {
 
         Platform.runLater(() -> {
@@ -311,224 +624,4 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
 
 
     }
-
-    @Override
-    public void confirmToast(boolean response) {
-
-        Platform.runLater(() -> {
-            System.out.println("response" + response);
-            if (response) {
-                if (mApplicationCallback != null)
-
-                    mApplicationCallback.showToastMessage("Player Accepted your invitation");
-                //resetGame();
-
-                isGameStarted = true;
-                if (ch.equals("X")) {
-                    ch = "X";
-                    opch = "o";
-                } else {
-                    ch = "o";
-                    opch = "X";
-                }
-                menuisGameStarted = false;
-
-
-                gameOverPane.setVisible(false);
-
-            } else {
-                if (mApplicationCallback != null)
-                    mApplicationCallback.showToastMessage("Player Rejected your invitation");
-
-                resetGame();
-
-
-                menuisGameStarted = true;
-                isGameStarted = false;
-            }
-        });
-
-
-    }
-
-    @Override
-    public void onGetAllPlayers(String response) {
-        fillTableData(response);
-    }
-
-    @Override
-    public void setGamecord(int gamecord) {
-        System.out.println("this is inside the game  " + gamecord + " isGameStarted is " + isGameStarted);
-        Platform.runLater(() -> {
-            if (AiLibrary.playerPosition.size() + AiLibrary.cpuPosition.size() < 11) {
-                int cpuPosition = gamecord;
-                AiLibrary.onPlayer2Move(gamecord);
-                drawInGui(cpuPosition, opch, Color.RED);
-                isGameStarted = true;
-                int result = AiLibrary.getWinner();
-                System.out.println("result is " + result);
-
-
-                try {
-                    handleGameResult(result);
-                } catch (IOException ex) {
-                    Logger.getLogger(GameWithPlayerController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                try {
-                    handleGameResult(result);
-                } catch (IOException ex) {
-                    Logger.getLogger(GameWithPlayerController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-    }
-
-    public void onChangeModeBtnClicked(ActionEvent actionEvent) {
-        if (mApplicationCallback != null) {
-            mApplicationCallback.switchToGameChooser();
-        }
-    }
-
-
-    private void handleGameResult(int result) throws IOException {
-
-        switch (result) {
-            case 0:
-                //player won
-                gameOverPane.setVisible(true);
-                winnerLabel.setText("Congratulation! You won....");
-
-                resetGame();
-
-                try {
-                    ClientController.sendToServer(JsonOperations.createUpdatePlayerPointsJson());
-                    Props.mCurrentPlayer.Player_Points += 10;
-                    playerDetails.setText(Props.mCurrentPlayer.toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
-
-
-                break;
-            case 1:
-                //cpu won
-                gameOverPane.setVisible(true);
-                winnerLabel.setText("You Lost!");
-                resetGame();
-
-                ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
-
-                break;
-            case 2:
-                // draw
-                gameOverPane.setVisible(true);
-                winnerLabel.setText("OH !! NO Its a Draw");
-                resetGame();
-                ClientController.sendToServer(JsonOperations.gameEnded(oppsiteEmail));
-
-                break;
-
-        }
-    }
-
-    private void resetGame() {
-        Platform.runLater(() -> {
-            b1.setText("");
-            b2.setText("");
-            b3.setText("");
-            b4.setText("");
-            b5.setText("");
-            b6.setText("");
-            b7.setText("");
-            b8.setText("");
-            b9.setText("");
-            isGameStarted = false;
-            menuisGameStarted = true;
-            gameOverPane.setVisible(true);
-            winnerLabel.setText("No game started");
-            AiLibrary.reset();
-
-            playerDetails.setText(Props.mCurrentPlayer.toString());
-        });
-
-    }
-
-    public void onPauseGameClicked(ActionEvent actionEvent) {
-        {
-            try {
-                if (isGameStarted == true) {
-                    if (ch.equals("X"))
-                        ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail, 1, Props.mCurrentPlayer.getPlayer_Email()));
-                    else
-                        ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail, 1, oppsiteEmail));
-                    resetGame();
-                } else {
-                    if (ch.equals("X"))
-                        ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail, 2, Props.mCurrentPlayer.getPlayer_Email()));
-                    else
-                        ClientController.sendToServer(JsonOperations.sendGamePause(oppsiteEmail, 2, oppsiteEmail));
-                    resetGame();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-    @Override
-    public void pauseGame() {
-
-        resetGame();
-
-    }
-
-    @Override
-    public void handelGameResume(String jsontext) {
-
-        Platform.runLater(() -> {
-
-            String rolePlayer = JsonOperations.parseGameResume(jsontext);
-            String Arr[] = rolePlayer.split(":");
-
-            if (Arr[1].equals(Props.mCurrentPlayer.getPlayer_Email())) {
-                if (ch.equals("X")) {
-                    ch = "X";
-                    opch = "o";
-                } else {
-                    ch = "o";
-                    opch = "X";
-                }
-            } else {
-                if (ch.equals("o")) {
-                    ch = "o";
-                    opch = "X";
-                } else {
-                    ch = "X";
-                    opch = "o";
-                }
-            }
-            for (int i = 0; i < AiLibrary.cpuPosition.size(); i++) {
-                drawInGui(AiLibrary.cpuPosition.get(i), opch, Color.RED);
-
-            }
-            for (int i = 0; i < AiLibrary.playerPosition.size(); i++) {
-                drawInGui(AiLibrary.playerPosition.get(i), ch, Color.YELLOW);
-
-            }
-
-            if (Arr[0].trim().equals(Props.mCurrentPlayer.getPlayer_Email())) {
-                isGameStarted = true;
-            } else {
-                isGameStarted = false;
-            }
-
-
-        });
-
-    }
-
 }

@@ -100,7 +100,7 @@ public class ClientController {
 
             case Constants.ConnectionTypes.TYPE_INVITATION_RESULT:
                 System.out.println("TYPE_IVITATION_RESULT");
-                handleInvitationReturnback(textFromServer);
+                handleInvitationReturnBack(textFromServer);
                 break;
 
             case Constants.ConnectionTypes.TYPE_GAME:
@@ -110,12 +110,12 @@ public class ClientController {
 
             case Constants.ConnectionTypes.TYPE_PAUSE_GAME:
                 if (mGameWithPlayerView != null)
-                    mGameWithPlayerView.pauseGame();
+                    mGameWithPlayerView.onGamePaused();
                 break;
-                
-                 case Constants.ConnectionTypes.TYPE_GAME_RESUME:
+
+            case Constants.ConnectionTypes.TYPE_GAME_RESUME:
                 if (mGameWithPlayerView != null)
-                    mGameWithPlayerView.handelGameResume(textFromServer);
+                    mGameWithPlayerView.handelGameResume(JsonOperations.parseResumeGameResponse(textFromServer));
                 break;
         }
     }
@@ -123,13 +123,12 @@ public class ClientController {
     private static void handleGameCord(String jsonText) {
         System.out.println("this is inside the game controller  ");
         if (mGameWithPlayerView != null)
-            mGameWithPlayerView.setGamecord(JsonOperations.parseGameCord(jsonText));
+            mGameWithPlayerView.onGamePlayMoveReceived(JsonOperations.parseGameCord(jsonText));
 
     }
-   
 
 
-    private static void handleInvitationReturnback(String jsonText) {
+    private static void handleInvitationReturnBack(String jsonText) {
 
         int responseCode = JsonOperations.parseResponseCode(jsonText);
         switch (responseCode) {
@@ -138,7 +137,7 @@ public class ClientController {
 
             case Constants.ResponseCodes.RESPONSE_SUCCESS:
                 if (mGameWithPlayerView != null)
-                    mGameWithPlayerView.confirmToast(JsonOperations.parseInvitationResponse(jsonText));
+                    mGameWithPlayerView.onGameInvitationResponse(JsonOperations.parseInvitationResponse(jsonText));
                 break;
         }
 

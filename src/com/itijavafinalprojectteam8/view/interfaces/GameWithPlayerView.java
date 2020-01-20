@@ -5,11 +5,11 @@ public interface GameWithPlayerView {
 
     void onGameInvitationRequest(String email);
 
-    public void confirmToast(boolean parseInvitationResponse);
+    public void onGameInvitationResponse(boolean parseInvitationResponse);
 
-    public void setGamecord(int gamecord);
+    public void onGamePlayMoveReceived(int gamecord);
 
-    void pauseGame();
+    void onGamePaused();
 
     public void handelGameResume(String textFromServer);
 

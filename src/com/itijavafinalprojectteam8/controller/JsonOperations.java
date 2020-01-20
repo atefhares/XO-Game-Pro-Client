@@ -109,64 +109,17 @@ public class JsonOperations {
 
     public static String gameEnded(String Email) {
         JSONObject object = new JSONObject();
-        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GAME_ENDED);
+        object.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_GAME_OVER);
         object.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
 
         return object.toString();
     }
 
-    public static String parseGameResume(String jsonText) {
-        JSONObject jsonObject = new JSONObject(jsonText);
-        // String playerEmail=jsonObject.getString(Constants.JsonKeys.KEY_USER_EMAIL);
-        String Arr[] = jsonObject.getString(Constants.JsonKeys.KEY_GAME_STATE).split(":");
-
-        AiLibrary.reset();
-
-
-        String replace = Arr[0].replace("[", "");
-        System.out.println(replace);
-        String replace1 = replace.replace("]", "");
-        System.out.println(replace1);
-        String playerList[] = replace1.split(",");
-
-        for (int fi = 0; fi < playerList.length; fi++) {
-            int tmp = Integer.parseInt(playerList[fi].trim());
-            System.out.println("elemnt is " + Integer.parseInt(playerList[fi].trim()));
-            if (!playerPosition.contains(tmp))
-                // AiLibrary.playerPosition.add(tmp);
-                if (tmp != 0)
-                    AiLibrary.onPlayerMove(tmp);
-            System.out.println("player" + AiLibrary.playerPosition.toString());
-        }
-
-        replace = Arr[1].replace("[", "");
-        System.out.println(replace);
-        replace1 = replace.replace("]", "");
-        System.out.println(replace1);
-        playerList = replace1.split(",");
-
-
-        for (int fi = 0; fi < playerList.length; fi++) {
-            int tmp = Integer.parseInt(playerList[fi].trim());
-            System.out.println("elemnt is " + Integer.parseInt(playerList[fi].trim()));
-
-            if (!cpuPosition.contains(tmp))
-                // AiLibrary.cpuPosition.add(tmp);
-                if (tmp != 0)
-                    AiLibrary.onPlayer2Move(tmp);
-            System.out.println("cpu" + AiLibrary.cpuPosition.toString());
-        }
-
-
-        return Arr[2] + ":" + Arr[3];
-    }
-
-    public static String sendGamePause(String Email, int role, String Email2) {
+    public static String sendGamePause(String otherPlayerEmail, String gameState) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(Constants.JsonKeys.KEY_REQUEST_TYPE, Constants.ConnectionTypes.TYPE_PAUSE_GAME);
-        String Line = AiLibrary.playerPosition.toString() + ":" + AiLibrary.cpuPosition.toString() + ":" + Email + ":" + Email2;
-        jsonObject.put(Constants.JsonKeys.KEY_USER_EMAIL, Email);
-        jsonObject.put(Constants.JsonKeys.KEY_GAME_STATE, Line);
+        jsonObject.put(Constants.JsonKeys.KEY_USER_EMAIL, otherPlayerEmail);
+        jsonObject.put(Constants.JsonKeys.KEY_GAME_STATE, gameState);
         return jsonObject.toString();
     }
 
@@ -189,5 +142,10 @@ public class JsonOperations {
         object.put(Constants.JsonKeys.KEY_GAME_STATE, object1);
 
         return object.toString();
+    }
+
+    public static String parseResumeGameResponse(String textFromServer) {
+        JSONObject object = new JSONObject(textFromServer);
+        return object.optString(Constants.JsonKeys.KEY_GAME_STATE);
     }
 }

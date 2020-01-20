@@ -13,8 +13,7 @@
                     style="-fx-background-color: #2ec2a0; -fx-border-radius: 5px;" visible="true">
             <children>
                 <Text fill="#b11010" strokeType="OUTSIDE" strokeWidth="0.0" text="Play with other player"
-                      AnchorPane.rightAnchor="10"
-                      AnchorPane.topAnchor="10">
+                      AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
                     <effect>
                         <Glow/>
                     </effect>
@@ -22,6 +21,14 @@
                         <Font name="Yu Gothic Medium" size="20.0"/>
                     </font>
                 </Text>
+                <Label style="-fx-padding: 2px; -fx-background-color: rgb(255,255,255); -fx-border-radius: 10px;"
+                       fx:id="whoIsTurn" AnchorPane.rightAnchor="400" AnchorPane.topAnchor="15"
+                       textAlignment="CENTER" textFill="#ffe208" visible="false">
+                    <font>
+                        <Font name="Yu Gothic Medium" size="16.0"/>
+                    </font>
+                </Label>
+
 
                 <Label fx:id="playerDetails" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="10">
                     <font>
@@ -31,21 +38,22 @@
 
                 <Pane layoutX="26.0" layoutY="59.0" prefHeight="166.0" prefWidth="654.0">
                     <children>
-                        <Button fx:id="b1" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#clickButton"
+                        <Button fx:id="b1" layoutX="14.0" layoutY="11.0" mnemonicParsing="false"
+                                onAction="#onGameBtnClicked"
                                 prefHeight="146.0" prefWidth="200.0" style="-fx-background-color: none;">
                             <font>
                                 <Font size="92.0"/>
                             </font>
                         </Button>
                         <Button fx:id="b2" layoutX="227.0" layoutY="11.0" mnemonicParsing="false"
-                                onAction="#clickButton" prefHeight="146.0" prefWidth="200.0"
+                                onAction="#onGameBtnClicked" prefHeight="146.0" prefWidth="200.0"
                                 style="-fx-background-color: none;">
                             <font>
                                 <Font size="92.0"/>
                             </font>
                         </Button>
                         <Button fx:id="b3" layoutX="427.0" layoutY="10.0" mnemonicParsing="false"
-                                onAction="#clickButton" prefHeight="146.0" prefWidth="192.0"
+                                onAction="#onGameBtnClicked" prefHeight="146.0" prefWidth="192.0"
                                 style="-fx-background-color: none;">
                             <font>
                                 <Font size="92.0"/>
@@ -56,20 +64,22 @@
                 <Pane layoutX="26.0" layoutY="225.0" prefHeight="166.0" prefWidth="654.0">
 
                     <children>
-                        <Button fx:id="b4" layoutX="14.0" layoutY="3.0" mnemonicParsing="false" onAction="#clickButton"
+                        <Button fx:id="b4" layoutX="14.0" layoutY="3.0" mnemonicParsing="false"
+                                onAction="#onGameBtnClicked"
                                 prefHeight="153.0" prefWidth="200.0" style="-fx-background-color: none;">
                             <font>
                                 <Font size="92.0"/>
                             </font>
                         </Button>
                         <Button fx:id="b5" alignment="CENTER" layoutX="227.0" layoutY="4.0" mnemonicParsing="false"
-                                onAction="#clickButton" prefHeight="153.0" prefWidth="200.0"
+                                onAction="#onGameBtnClicked" prefHeight="153.0" prefWidth="200.0"
                                 style="-fx-background-color: none;">
                             <font>
                                 <Font size="92.0"/>
                             </font>
                         </Button>
-                        <Button fx:id="b6" layoutX="439.0" layoutY="4.0" mnemonicParsing="false" onAction="#clickButton"
+                        <Button fx:id="b6" layoutX="439.0" layoutY="4.0" mnemonicParsing="false"
+                                onAction="#onGameBtnClicked"
                                 prefHeight="153.0" prefWidth="192.0" style="-fx-background-color: none;">
                             <font>
                                 <Font size="92.0"/>
@@ -82,19 +92,22 @@
                 </Pane>
                 <Pane layoutX="26.0" layoutY="391.0" prefHeight="175.0" prefWidth="654.0">
                     <children>
-                        <Button fx:id="b7" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" onAction="#clickButton"
+                        <Button fx:id="b7" layoutX="14.0" layoutY="8.0" mnemonicParsing="false"
+                                onAction="#onGameBtnClicked"
                                 prefHeight="146.0" prefWidth="200.0" style="-fx-background-color: none;">
                             <font>
                                 <Font size="92.0"/>
                             </font>
                         </Button>
-                        <Button fx:id="b8" layoutX="227.0" layoutY="8.0" mnemonicParsing="false" onAction="#clickButton"
+                        <Button fx:id="b8" layoutX="227.0" layoutY="8.0" mnemonicParsing="false"
+                                onAction="#onGameBtnClicked"
                                 prefHeight="146.0" prefWidth="200.0" style="-fx-background-color: none;">
                             <font>
                                 <Font size="92.0"/>
                             </font>
                         </Button>
-                        <Button fx:id="b9" layoutX="441.0" layoutY="8.0" mnemonicParsing="false" onAction="#clickButton"
+                        <Button fx:id="b9" layoutX="441.0" layoutY="8.0" mnemonicParsing="false"
+                                onAction="#onGameBtnClicked"
                                 prefHeight="146.0" prefWidth="192.0" style="-fx-background-color: none;">
                             <font>
                                 <Font size="92.0"/>
@@ -111,7 +124,7 @@
 
             </children>
 
-            <Button fx:id="pauseGame" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" maxHeight="30"
+            <Button fx:id="onGamePaused" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" maxHeight="30"
                     maxWidth="200" mnemonicParsing="false" onAction="#onPauseGameClicked" prefHeight="175"
                     prefWidth="215" style="-fx-background-color: rgb(255,255,255); -fx-border-radius: 10px;"
                     text="Pause">
@@ -123,6 +136,7 @@
                     <Font size="16.0"/>
                 </font>
             </Button>
+
 
             <AnchorPane fx:id="gameOverPane" style="-fx-background-color: rgba(224,224,224,0.4);" visible="true"
                         AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
