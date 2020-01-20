@@ -1,7 +1,6 @@
 package com.itijavafinalprojectteam8.controller;
 
 import com.itijavafinalprojectteam8.Constants;
-import com.itijavafinalprojectteam8.view.interfaces.ChatScreenView;
 import com.itijavafinalprojectteam8.view.interfaces.GameWithPlayerView;
 import com.itijavafinalprojectteam8.view.interfaces.LoginView;
 import com.itijavafinalprojectteam8.view.interfaces.SignUpView;
@@ -17,7 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author ahares
  */
 public class ClientController {
-    private static final String SERVER_ADDRESS = "7.7.7.44";
+    private static final String SERVER_ADDRESS = "127.0.0.1";
 
     private static final int SERVER_PORT = 8000;
 
@@ -30,6 +29,7 @@ public class ClientController {
     private static LoginView mLoginScreenViewCallback;
     private static SignUpView mSignUpScreenViewCallback;
     private static GameWithPlayerView mGameWithPlayerView;
+
     public static void setGameUiController(GameWithPlayerView view) {
         mGameWithPlayerView = view;
     }

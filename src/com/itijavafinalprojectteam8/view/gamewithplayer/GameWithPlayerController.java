@@ -638,7 +638,12 @@ public class GameWithPlayerController implements Initializable, GameWithPlayerVi
 
     @Override
     public void onGetAllPlayers(String response) {
-        fillTableData(response);
+        System.out.println("[onGetAllPlayers] response: " + response);
+        try {
+            fillTableData(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void fillTableData(String text) {
